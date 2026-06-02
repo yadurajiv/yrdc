@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vellum | Minimalist Invoicing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Fraunces:opsz,wght@9,400;9,600;9,700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --vellum-bg: #fdfaf6;
+            --vellum-accent: #e8f0e9;
+            --vellum-text: #2d2d2d;
+            --font-mono: 'IBM Plex Mono', monospace;
+            --font-serif: 'Fraunces', serif;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--vellum-bg);
+            color: var(--vellum-text);
+            transition: background-color 0.3s ease;
+        }
+
+        .mono { font-family: var(--font-mono); }
+        .serif { font-family: var(--font-serif); }
+
+        .vellum-logo { cursor: pointer; }
+
+        .invoice-canvas {
+            font-family: var(--font-serif);
+            background: white;
+            border: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.02);
+            transition: transform 0.2s ease;
+        }
+
+        @media print {
+            @page {
+                size: A4;
+                margin: 10mm 6mm;
+            }
+
+            .no-print { display: none !important; }
+            html, body {
+                background: white;
+                width: 210mm;
+            }
+
+            main {
+                max-width: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+
+            #view-editor {
+                display: block !important;
+            }
+
+            .invoice-canvas { 
+                box-shadow: none; 
+                border: none;
+                margin: 0 auto !important; 
+                padding: 6mm !important; 
+                min-height: auto !important;
+                width: 198mm !important;
+                max-width: 198mm !important;
+                box-sizing: border-box;
+            }
+
+            #invoice-printable {
+                overflow: visible !important;
+                font-size: 12px;
+                line-height: 1.35;
+            }
+
+            #invoice-printable,
+            #invoice-printable * {
+                overflow-wrap: anywhere;
+                word-break: break-word;
+                max-width: 100%;
+            }
+
+            #invoice-header {
+                display: flex !important;
+                flex-direction: row !important;
+                justify-content: space-between !important;
+                align-items: flex-start !important;
+                gap: 1.2rem !important;
+            }
+
+            #invoice-company-block {
+                width: 58% !important;
+                max-width: none !important;
+            }
+
+            #invoice-meta-block {
+                width: 40% !important;
+                max-width: 40% !important;
+                text-align: right !important;
+            }
+
+            #invoice-meta-title {
+                text-align: right !important;
+                margin-bottom: 0.55rem !important;
+            }
+
+            #invoice-meta-block .meta-row {
+                justify-content: flex-end !important;
+                gap: 0.75rem !important;
+            }
+
+            #invoice-meta-block .meta-value {
+                width: 7.2rem !important;
+                text-align: right !important;
+            }
+
+            #invoice-cleared-seal {
+                display: none !important;
+            }
+
+            #recipient-block {
+                width: 100% !important;
+                max-width: none !important;
+            }
+
+            #invoice-printable table,
+            #invoice-printable tr,
+            #invoice-printable td,
+            #invoice-printable th {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            table {
+                table-layout: fixed;
+            }
+
+            .input-minimal, textarea, input {
+                border: none !important;
+                outline: none !important;
+                box-shadow: none !important;
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+                resize: none !important;
+            }
+        }
+
+        /* Burning Animation */
+        /* Subtle Burning Animation */
+        @keyframes burn-out {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0.98) translateY(-8px); opacity: 0; }
+        }
+
+        .burning {
+            animation: burn-out 0.6s forwards ease-in;
+            pointer-events: none;
+            z-index: 50;
+        }
+
+        .input-minimal {
+            border: none;
+            background: transparent;
+            outline: none;
+            width: 100%;
+            transition: opacity 0.2s;
+        }
+
+        .input-minimal:hover { opacity: 0.7; }
+        .input-minimal:focus { opacity: 1; border-bottom: 1px dashed #ccc; }
+
+        .btn-pastel {
+            background-color: var(--vellum-accent);
+            color: #4a5d4c;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .logo-container-wrap {
+            position: relative;
+            display: inline-block;
+        }
+
+        .remove-logo-btn {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ff6b6b;
+            color: white;
+            border-radius: 50%;
+            padding: 4px;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .logo-container-wrap:hover .remove-logo-btn {
+            opacity: 1;
+        }
+
+        .logo-placeholder {
+            border: 2px dashed #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            overflow: hidden;
+            border-radius: 4px;
+            min-width: 80px;
+            min-height: 80px;
+        }
+
+        .logo-placeholder img {
+            max-width: 150px;
+            max-height: 100px;
+            object-fit: contain;
+        }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--vellum-bg); }
+        ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 10px; }
+
+        .archive-input,
+        .archive-select {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid transparent;
+            color: #6b7280;
+            transition: border-color 0.2s ease, color 0.2s ease;
+        }
+
+        .archive-input:hover,
+        .archive-select:hover {
+            border-bottom-color: rgba(0, 0, 0, 0.12);
+        }
+
+        .archive-input:focus,
+        .archive-select:focus {
+            outline: none;
+            border-bottom-color: rgba(0, 0, 0, 0.24);
+            color: #2d2d2d;
+        }
+
+        .archive-view-toggle {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid transparent;
+            color: #9ca3af;
+            transition: color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .archive-view-toggle:hover {
+            color: #4b5563;
+        }
+
+        .archive-view-toggle.active {
+            color: #2d2d2d;
+            border-bottom-color: rgba(0, 0, 0, 0.18);
+        }
+
+        .cleared-seal {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid rgba(17, 24, 39, 0.28);
+            color: rgba(17, 24, 39, 0.5);
+            border-radius: 999px;
+            padding: 0.75rem 1.5rem;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            transform: rotate(-8deg);
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .cleared-seal.is-active {
+            border-color: rgba(22, 101, 52, 0.7);
+            color: rgba(22, 101, 52, 0.9);
+            background: rgba(22, 101, 52, 0.05);
+            box-shadow: 0 0 0 2px rgba(22, 101, 52, 0.12) inset;
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-20">
+
+    <nav class="no-print border-b border-black/5 px-4 mb-6 sticky top-0 bg-white/80 backdrop-blur-md z-50">
+        <div class="max-w-4xl mx-auto flex justify-between items-center h-14">
+            <div class="flex items-center gap-3">
+                <span class="serif font-bold text-xl tracking-tight vellum-logo"><a onclick="switchTab('dashboard')">Vellum.</a></span>
+                <div class="h-4 w-[1px] bg-gray-300"></div>
+                <span class="mono text-[10px] uppercase tracking-widest text-gray-400">Ledger</span>
+            </div>
+            
+            <div class="flex gap-6 h-full items-center">
+                <button onclick="switchTab('dashboard')" id="tab-dashboard" class="mono text-xs hover:text-black transition-colors">Archive</button>
+                <button onclick="switchTab('editor')" id="tab-editor" class="mono text-xs hover:text-black transition-colors">Draft</button>
+                <button onclick="switchTab('about')" id="tab-about" class="mono text-xs hover:text-black transition-colors text-gray-400">?</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto px-4">
+        
+        <!-- DASHBOARD TAB -->
+        <section id="view-dashboard" class="tab-view">
+            <div class="flex flex-col gap-5 mb-8">
+                <div class="flex flex-col gap-4 md:flex-row md:justify-between md:items-center">
+                    <div>
+                        <h2 class="serif text-2xl font-semibold">Your Archive</h2>
+                        <p id="archive-summary" class="mono text-[10px] uppercase tracking-[0.28em] text-gray-400 mt-2">Ready when you are</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="createNewInvoice()" class="btn-pastel px-4 py-2 text-xs font-semibold flex items-center gap-2">
+                            <i data-lucide="plus" class="w-3 h-3"></i> New Entry
+                        </button>
+                        <button onclick="triggerInvoiceImport()" class="p-2 border rounded-lg hover:bg-white transition-colors" title="Import Backup">
+                            <i data-lucide="upload" class="w-4 h-4"></i>
+                        </button>
+                        <button onclick="exportAllInvoices()" class="p-2 border rounded-lg hover:bg-white transition-colors" title="Export Backup">
+                            <i data-lucide="download" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <input type="file" id="backup-import-input" class="hidden" accept=".json,application/json" onchange="handleInvoiceImport(event)">
+
+                <div class="flex flex-col gap-3 border-t border-black/5 pt-3 md:flex-row md:items-center md:justify-between">
+                    <div class="flex flex-col gap-2 md:flex-row md:items-center md:gap-4 md:flex-1">
+                        <label class="relative flex-1 min-w-[220px] max-w-sm">
+                            <i data-lucide="search" class="w-3 h-3 text-gray-300 absolute left-0.5 top-1/2 -translate-y-1/2"></i>
+                            <input id="archive-search" type="search" placeholder="Search title, ref, client" class="archive-input w-full pl-5 pr-1 py-1.5 text-[11px] mono uppercase tracking-[0.22em] placeholder:text-gray-300" oninput="updateDashboardPreference('search', this.value)">
+                        </label>
+                        <div class="flex flex-wrap gap-3 items-center">
+                            <select id="archive-filter" class="archive-select px-0.5 py-1 text-[10px] mono uppercase tracking-[0.22em]" onchange="updateDashboardPreference('filter', this.value)">
+                                <option value="all">All entries</option>
+                                <option value="with-client">With client</option>
+                                <option value="untitled">Untitled</option>
+                                <option value="with-balance">With balance</option>
+                                    <option value="paid">Cleared</option>
+                                    <option value="unpaid">Unpaid / Open</option>
+                            </select>
+                            <select id="archive-sort" class="archive-select px-0.5 py-1 text-[10px] mono uppercase tracking-[0.22em]" onchange="updateDashboardPreference('sort', this.value)">
+                                <option value="newest">Newest first</option>
+                                <option value="oldest">Oldest first</option>
+                                <option value="title">Title</option>
+                                <option value="client">Client</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 self-start md:self-auto">
+                        <span class="mono text-[10px] uppercase tracking-[0.22em] text-gray-300">View</span>
+                        <div class="flex gap-3">
+                            <button id="view-toggle-cards" class="archive-view-toggle px-0.5 py-1 mono text-[10px] uppercase tracking-[0.22em]" onclick="updateDashboardPreference('layout', 'cards')">Cards</button>
+                            <button id="view-toggle-list" class="archive-view-toggle px-0.5 py-1 mono text-[10px] uppercase tracking-[0.22em]" onclick="updateDashboardPreference('layout', 'list')">List</button>
+                            <button id="view-toggle-grouped" class="archive-view-toggle px-0.5 py-1 mono text-[10px] uppercase tracking-[0.22em]" onclick="updateDashboardPreference('layout', 'grouped')">Grouped</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="invoice-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Invoices injected by JS -->
+            </div>
+        </section>
+
+        <section id="view-editor" class="tab-view hidden">
+            <div class="no-print flex justify-between items-center mb-6 text-xs mono">
+                <div class="flex items-center gap-4">
+                    <button onclick="switchTab('dashboard')" class="text-gray-400 hover:text-black">← Back</button>
+                    <div class="flex items-center gap-2 text-gray-400">
+                        <span>Label:</span>
+                        <input type="text" id="invoice-title-meta" class="bg-transparent border-b border-transparent focus:border-gray-200 outline-none font-medium text-black" placeholder="Internal name..." oninput="saveCurrentInvoice()">
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <button onclick="printInvoice()" class="hover:underline">Print / PDF</button>
+                    <button onclick="exportDocx()" class="hover:underline">Word</button>
+                </div>
+            </div>
+
+            <div id="invoice-printable" class="invoice-canvas mx-auto p-8 md:p-14 min-h-[1000px] relative text-[#1a1a1a]">
+                
+                <!-- Header: Logo & Company Info -->
+                <div id="invoice-header" class="flex flex-col md:flex-row justify-between items-start gap-8 mb-16">
+                    <div id="invoice-company-block" class="w-full md:w-1/2">
+                        <!-- Logo Section -->
+                        <div class="mb-6 no-print">
+                            <div class="logo-container-wrap">
+                                <label class="logo-placeholder bg-gray-50 hover:bg-gray-100 transition-colors" id="logo-container" onclick="triggerLogoUpload()">
+                                    <div id="logo-prompt" class="text-center p-2">
+                                        <i data-lucide="image" class="w-6 h-6 mx-auto mb-1 text-gray-300"></i>
+                                        <span class="text-[10px] mono text-gray-400">Logo</span>
+                                    </div>
+                                    <img id="logo-img" class="hidden" alt="Logo">
+                                </label>
+                                <button id="logo-remover" onclick="removeLogo(event)" class="remove-logo-btn hidden" title="Remove Logo">
+                                    <i data-lucide="x" class="w-3 h-3"></i>
+                                </button>
+                            </div>
+                            <input type="file" id="logo-input" class="hidden" accept="image/*" onchange="handleLogoUpload(event)">
+                        </div>
+                        
+                        <!-- Print-only Logo -->
+                        <div id="print-logo-wrap" class="hidden print:block mb-6">
+                            <img id="logo-img-print" class="max-w-[150px] max-h-[100px] object-contain hidden" alt="Logo">
+                        </div>
+
+                        <textarea id="inv-my-company" rows="1" class="serif text-4xl font-bold mb-2 input-minimal leading-tight" placeholder="Your Agency" oninput="autoResize(this); saveCurrentInvoice()"></textarea>
+                        <textarea id="inv-my-address" data-optional-field="true" rows="3" class="text-base text-gray-500 leading-relaxed input-minimal" placeholder="Street, City&#10;Country&#10;Contact info" oninput="autoResize(this); saveCurrentInvoice()"></textarea>
+                    </div>
+
+                    <div id="invoice-meta-block" class="w-full md:w-1/3 text-left md:text-right">
+                        <h1 id="invoice-meta-title" class="serif text-6xl font-light tracking-tighter mb-8 opacity-10 uppercase">Invoice</h1>
+                        <div class="mono text-[11px] space-y-2 uppercase tracking-wider text-gray-400">
+                            <div class="meta-row flex justify-between md:justify-end gap-4">
+                                <span>Issued</span>
+                                <input type="text" id="inv-date" class="meta-value input-minimal text-right w-28 text-black" oninput="saveCurrentInvoice()">
+                            </div>
+                            <div class="meta-row flex justify-between md:justify-end gap-4">
+                                <span>Ref #</span>
+                                <input type="text" id="inv-number" class="meta-value input-minimal text-right w-28 text-black font-medium" oninput="saveCurrentInvoice()">
+                            </div>
+                            <div class="meta-row flex justify-between md:justify-end gap-4 no-print">
+                                <span>Currency</span>
+                                <select id="inv-currency" class="meta-value input-minimal text-right w-28 text-black" onchange="saveCurrentInvoice()"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-12">
+                    <div id="recipient-block" class="w-full md:w-3/5">
+                        <span class="mono text-[11px] uppercase text-gray-400 mb-2 block tracking-widest">Recipient</span>
+                        <input type="text" id="inv-client-name" class="serif text-2xl font-semibold input-minimal mb-1" placeholder="Client Name" oninput="saveCurrentInvoice()">
+                        <textarea id="inv-client-address" data-optional-field="true" rows="2" class="text-base text-gray-500 input-minimal" placeholder="Client Address / PO Box" oninput="autoResize(this); saveCurrentInvoice()"></textarea>
+                    </div>
+                </div>
+
+                <textarea id="inv-greeting" data-optional-field="true" rows="2" class="serif text-xl leading-relaxed mb-10 italic border-l-2 border-sage-100 pl-6 outline-none w-full" placeholder="A brief note on the project scope..." oninput="autoResize(this); saveCurrentInvoice()"></textarea>
+
+                <table class="w-full mb-8 text-base">
+                    <thead>
+                        <tr class="mono text-[11px] uppercase tracking-widest text-gray-400 border-b border-gray-100">
+                            <th class="py-3 text-left font-normal w-12">#</th>
+                            <th class="py-3 text-left font-normal">Service Description</th>
+                            <th class="py-3 text-right font-normal w-20">Qty</th>
+                            <th class="py-3 text-right font-normal w-32">Rate</th>
+                            <th class="py-3 text-right font-normal w-32">Total</th>
+                            <th class="w-8 no-print"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="line-items" class="serif">
+                        <!-- Items injected here -->
+                    </tbody>
+                </table>
+                
+                <button onclick="addLineItem()" class="no-print mb-12 mono text-[11px] uppercase tracking-widest text-gray-400 hover:text-black transition-colors flex items-center gap-2">
+                    <i data-lucide="plus" class="w-3 h-3"></i> New Line
+                </button>
+
+                <div class="flex justify-end mb-16">
+                    <div class="w-full md:w-64 space-y-2 mono text-sm uppercase tracking-wider">
+                        <div class="flex justify-between py-2 border-b border-gray-50 text-gray-400">
+                            <span>Subtotal</span>
+                            <span id="display-subtotal" class="text-black">0.00</span>
+                        </div>
+                        <div class="flex justify-between py-2 border-b border-gray-50 text-gray-400">
+                            <div class="flex items-center gap-1">
+                                <span>Tax (%)</span>
+                                <input type="number" id="inv-tax-rate" class="w-8 bg-transparent text-black" value="0" oninput="calculateTotals(); saveCurrentInvoice()">
+                            </div>
+                            <span id="display-tax-amount" class="text-black">0.00</span>
+                        </div>
+                        <div class="flex justify-between py-4 text-base font-bold">
+                            <span class="serif lowercase italic font-normal text-xl">Total</span>
+                            <span id="display-total" class="text-xl">0.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-12 border-t border-gray-50 text-base text-gray-400 serif">
+                    <textarea id="inv-closing" data-optional-field="true" rows="1" class="input-minimal italic mb-4" placeholder="Terms: Please remit payment via bank transfer." oninput="autoResize(this); saveCurrentInvoice()"></textarea>
+                    <div class="mono text-[10px] uppercase tracking-widest mb-6" data-optional-block="true" data-optional-source="inv-payment-terms">
+                        <span class="block mb-2 text-gray-300">Payment Conditions</span>
+                        <textarea id="inv-payment-terms" data-optional-field="true" rows="2" class="input-minimal text-black leading-relaxed" placeholder="e.g. Net 30 days" oninput="autoResize(this); saveCurrentInvoice()"></textarea>
+                    </div>
+                    <div class="mono text-[10px] uppercase tracking-widest" data-optional-block="true" data-optional-source="inv-bank-details">
+                        <span class="block mb-2 text-gray-300">Bank Details</span>
+                        <textarea id="inv-bank-details" data-optional-field="true" rows="3" class="input-minimal text-black leading-relaxed" placeholder="Bank Name&#10;Account Holder&#10;Account Number / IBAN&#10;Sort Code / Routing Number" oninput="autoResize(this); saveCurrentInvoice()"></textarea>
+                    </div>
+                </div>
+
+                <div class="mt-10 flex justify-end">
+                    <label id="invoice-cleared-seal" class="cleared-seal cursor-pointer">
+                        <input type="checkbox" id="invoice-cleared-meta" class="hidden" onchange="saveCurrentInvoice(); updateClearedSeal()">
+                        <span>Cleared</span>
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT TAB -->
+        <section id="view-about" class="tab-view hidden">
+            <div class="max-w-xl mx-auto py-12 serif text-center">
+                <h2 class="text-4xl font-bold mb-6 italic">Vellum.</h2>
+                <div class="space-y-6 text-gray-600 leading-relaxed">
+                    <p>Minimalist ledger for focused professionals.</p>
+                    <div class="p-8 bg-white border rounded-xl mono text-xs text-left leading-loose">
+                        <p class="mb-4 font-bold text-black uppercase tracking-widest border-b pb-2">Technical Note</p>
+                        <p>All data is stored purely in your browser's <code>localStorage</code>. No servers, no cookies, no tracking. If you clear your browser cache without a JSON backup, your data will be permanently removed.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        let state = {
+            invoices: [],
+            activeId: null,
+            activeTab: 'dashboard',
+            dashboard: {
+                search: '',
+                filter: 'all',
+                sort: 'newest',
+                layout: 'cards'
+            }
+        };
+
+        const STORAGE_KEY = 'vellum_ledger_v2';
+        const DASHBOARD_PREFS_KEY = 'vellum_dashboard_prefs_v1';
+        const LAST_USED_CURRENCY_KEY = 'vellum_last_currency_v1';
+        const DEFAULT_CURRENCY = 'USD';
+        const SUPPORTED_CURRENCIES = ['USD', 'EUR', 'GBP', 'INR', 'AUD', 'CAD', 'SGD', 'JPY', 'AED'];
+
+        function normalizeCurrency(code) {
+            const candidate = String(code || '').toUpperCase().trim();
+            return SUPPORTED_CURRENCIES.includes(candidate) ? candidate : DEFAULT_CURRENCY;
+        }
+
+        function getStoredDefaultCurrency() {
+            return normalizeCurrency(localStorage.getItem(LAST_USED_CURRENCY_KEY));
+        }
+
+        function getInvoiceCurrency(invoice) {
+            return normalizeCurrency(invoice?.currency || getStoredDefaultCurrency());
+        }
+
+        function formatMoney(amount, currency) {
+            const safeCurrency = normalizeCurrency(currency);
+            const numericAmount = Number(amount) || 0;
+            try {
+                return new Intl.NumberFormat(undefined, {
+                    style: 'currency',
+                    currency: safeCurrency,
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                }).format(numericAmount);
+            } catch (error) {
+                return `${safeCurrency} ${numericAmount.toFixed(2)}`;
+            }
+        }
+
+        function populateCurrencyOptions(selectedCurrency) {
+            const currencySelect = document.getElementById('inv-currency');
+            if (!currencySelect) return;
+
+            const resolvedCurrency = normalizeCurrency(selectedCurrency);
+            currencySelect.innerHTML = SUPPORTED_CURRENCIES.map(code => `<option value="${code}">${code}</option>`).join('');
+            currencySelect.value = resolvedCurrency;
+        }
+
+        const createEmptyInvoice = () => {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const dateStamp = `${year}${month}${day}`;
+            
+            // Filter invoices created today to determine the next sequence number
+            const todayPrefix = `INV-${dateStamp}-`;
+            const invoicesToday = state.invoices.filter(inv => inv.number && inv.number.startsWith(todayPrefix));
+            
+            let sequence = 1;
+            if (invoicesToday.length > 0) {
+                // Extract the suffixes and find the maximum to ensure the next one is unique and sequential
+                const suffixes = invoicesToday.map(inv => {
+                    const parts = inv.number.split('-');
+                    return parseInt(parts[parts.length - 1]) || 0;
+                });
+                sequence = Math.max(...suffixes) + 1;
+            }
+            
+            const sequenceFormatted = String(sequence).padStart(2, '0');
+
+            return {
+                id: Date.now().toString(),
+                title: 'Unlabeled Entry',
+                paid: false,
+                currency: getStoredDefaultCurrency(),
+                logo: null,
+                myCompany: '',
+                myAddress: '',
+                date: now.toLocaleDateString('en-US', { day:'numeric', month:'short', year:'numeric' }),
+                number: `${todayPrefix}${sequenceFormatted}`,
+                clientName: '',
+                clientAddress: '',
+                greeting: '',
+                items: [{ id: Date.now() + 1, desc: '', qty: 1, price: 0 }],
+                taxRate: 0,
+                closing: "It's been a pleasure working together! Looking forward to our next collaboration.",
+                paymentTerms: 'Payment is due within 7 days.',
+                bankDetails: ''
+            };
+        };
+
+        window.onload = () => {
+            loadState();
+            renderDashboard();
+            lucide.createIcons();
+            
+            const savedTab = localStorage.getItem('v_active_tab') || 'dashboard';
+            const savedId = localStorage.getItem('v_active_id');
+            if (savedId && state.invoices.find(i => i.id === savedId)) state.activeId = savedId;
+            switchTab(savedTab);
+        };
+
+        function saveState() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state.invoices));
+            localStorage.setItem('v_active_tab', state.activeTab);
+            localStorage.setItem('v_active_id', state.activeId);
+        }
+
+        function loadState() {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (raw) state.invoices = JSON.parse(raw);
+
+            const dashboardPrefs = localStorage.getItem(DASHBOARD_PREFS_KEY);
+            if (dashboardPrefs) {
+                state.dashboard = {
+                    ...state.dashboard,
+                    ...JSON.parse(dashboardPrefs)
+                };
+            }
+        }
+
+        function updateDashboardPreference(key, value) {
+            state.dashboard[key] = value;
+            localStorage.setItem(DASHBOARD_PREFS_KEY, JSON.stringify(state.dashboard));
+            renderDashboard();
+        }
+
+        function escapeHtml(value) {
+            return String(value ?? '').replace(/[&<>"']/g, char => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+            }[char]));
+        }
+
+        function getInvoiceTotal(invoice) {
+            const subtotal = (invoice.items || []).reduce((sum, item) => sum + ((Number(item.qty) || 0) * (Number(item.price) || 0)), 0);
+            const taxRate = Number(invoice.taxRate) || 0;
+            return subtotal + (subtotal * taxRate / 100);
+        }
+
+        function parseInvoiceDate(invoice) {
+            const timestamp = Date.parse(invoice.date || '');
+            return Number.isNaN(timestamp) ? 0 : timestamp;
+        }
+
+        function formatArchiveMonth(invoice) {
+            const parsed = parseInvoiceDate(invoice);
+            if (!parsed) return 'Undated';
+            return new Date(parsed).toLocaleDateString('en-US', {
+                month: 'long',
+                year: 'numeric'
+            });
+        }
+
+        function getFilteredInvoices() {
+            const searchTerm = state.dashboard.search.trim().toLowerCase();
+            const filtered = state.invoices.filter(invoice => {
+                const matchesSearch = !searchTerm || [invoice.title, invoice.number, invoice.clientName, invoice.myCompany]
+                    .some(field => String(field || '').toLowerCase().includes(searchTerm));
+
+                if (!matchesSearch) return false;
+
+                if (state.dashboard.filter === 'with-client') return Boolean((invoice.clientName || '').trim());
+                if (state.dashboard.filter === 'untitled') return !invoice.title || invoice.title === 'Unlabeled Entry';
+                if (state.dashboard.filter === 'with-balance') return getInvoiceTotal(invoice) > 0;
+                if (state.dashboard.filter === 'paid') return Boolean(invoice.paid);
+                if (state.dashboard.filter === 'unpaid') return !invoice.paid;
+                return true;
+            });
+
+            const sorted = [...filtered];
+            sorted.sort((left, right) => {
+                if (state.dashboard.sort === 'oldest') return parseInvoiceDate(left) - parseInvoiceDate(right);
+                if (state.dashboard.sort === 'title') return String(left.title || '').localeCompare(String(right.title || ''));
+                if (state.dashboard.sort === 'client') return String(left.clientName || '').localeCompare(String(right.clientName || ''));
+                return parseInvoiceDate(right) - parseInvoiceDate(left);
+            });
+
+            return sorted;
+        }
+
+        function renderArchiveCard(invoice, compact = false) {
+            const total = formatMoney(getInvoiceTotal(invoice), getInvoiceCurrency(invoice));
+            const title = escapeHtml(invoice.title || 'Unlabeled Entry');
+            const client = escapeHtml(invoice.clientName || 'Private Client');
+            const number = escapeHtml(invoice.number || 'Draft');
+            const date = escapeHtml(invoice.date || 'Undated');
+            const statusLabel = invoice.paid ? 'Cleared' : 'Open';
+            const statusClasses = invoice.paid
+                ? 'text-emerald-700 bg-emerald-50 border-emerald-100'
+                : 'text-amber-700 bg-amber-50 border-amber-100';
+            const cardClasses = compact
+                ? 'bg-white/90 px-4 py-4 border border-black/5 hover:border-black/20 transition-all group rounded-2xl flex flex-col gap-4'
+                : 'bg-white p-6 border border-black/5 hover:border-black/20 transition-all group flex flex-col justify-between rounded-lg';
+
+            return `
+                <div id="card-${invoice.id}" class="${cardClasses}">
+                    <div class="cursor-pointer" onclick="loadInvoiceIntoEditor('${invoice.id}'); switchTab('editor')">
+                        <div class="flex justify-between items-start gap-4 mb-4">
+                            <span class="mono text-[10px] text-gray-400">${number}</span>
+                            <div class="text-right">
+                                <span class="mono text-[10px] text-gray-400 block">${date}</span>
+                                <span class="inline-flex items-center justify-center border rounded-full px-2 py-0.5 mono text-[9px] uppercase tracking-[0.18em] mt-2 ${statusClasses}">${statusLabel}</span>
+                                <span class="mono text-[10px] text-gray-300 block mt-1">${total}</span>
+                            </div>
+                        </div>
+                        <h3 class="serif ${compact ? 'text-lg' : 'text-xl'} font-bold mb-1">${title}</h3>
+                        <p class="serif italic text-sm text-gray-500">${client}</p>
+                    </div>
+                    <div class="flex gap-4 mt-2 ${compact ? '' : 'pt-4 border-t border-gray-50'} opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button onclick="duplicateInvoice('${invoice.id}')" class="mono text-[9px] uppercase tracking-widest hover:text-black text-gray-400">Copy</button>
+                        <button onclick="deleteInvoice('${invoice.id}')" class="mono text-[9px] uppercase tracking-widest hover:text-red-500 text-gray-400">Burn</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderArchiveListRow(invoice) {
+            const total = formatMoney(getInvoiceTotal(invoice), getInvoiceCurrency(invoice));
+            const statusLabel = invoice.paid ? 'Cleared' : 'Open';
+            const statusClasses = invoice.paid
+                ? 'text-emerald-700 bg-emerald-50 border-emerald-100'
+                : 'text-amber-700 bg-amber-50 border-amber-100';
+            return `
+                <div id="card-${invoice.id}" class="group rounded-2xl border border-black/5 bg-white/90 px-4 py-4 grid grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_auto] gap-4 items-center">
+                    <button class="text-left min-w-0" onclick="loadInvoiceIntoEditor('${invoice.id}'); switchTab('editor')">
+                        <span class="block serif text-lg font-semibold truncate">${escapeHtml(invoice.title || 'Unlabeled Entry')}</span>
+                        <span class="block mono text-[10px] uppercase tracking-[0.24em] text-gray-400 mt-1 truncate">${escapeHtml(invoice.number || 'Draft')}</span>
+                    </button>
+                    <div class="min-w-0">
+                        <span class="block serif italic text-sm text-gray-500 truncate">${escapeHtml(invoice.clientName || 'Private Client')}</span>
+                        <span class="block mono text-[10px] uppercase tracking-[0.24em] text-gray-300 mt-1">${escapeHtml(invoice.date || 'Undated')}</span>
+                    </div>
+                    <div class="flex items-center gap-4 justify-end">
+                        <span class="inline-flex items-center justify-center border rounded-full px-2 py-0.5 mono text-[9px] uppercase tracking-[0.18em] ${statusClasses}">${statusLabel}</span>
+                        <span class="mono text-[11px] text-gray-500">${total}</span>
+                        <button onclick="duplicateInvoice('${invoice.id}')" class="mono text-[9px] uppercase tracking-widest hover:text-black text-gray-400">Copy</button>
+                        <button onclick="deleteInvoice('${invoice.id}')" class="mono text-[9px] uppercase tracking-widest hover:text-red-500 text-gray-400">Burn</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function syncDashboardControls(resultCount) {
+            const search = document.getElementById('archive-search');
+            const filter = document.getElementById('archive-filter');
+            const sort = document.getElementById('archive-sort');
+            const summary = document.getElementById('archive-summary');
+
+            if (search) search.value = state.dashboard.search;
+            if (filter) filter.value = state.dashboard.filter;
+            if (sort) sort.value = state.dashboard.sort;
+
+            ['cards', 'list', 'grouped'].forEach(layout => {
+                const button = document.getElementById(`view-toggle-${layout}`);
+                if (button) button.classList.toggle('active', state.dashboard.layout === layout);
+            });
+
+            if (summary) {
+                const paidCount = state.invoices.filter(invoice => invoice.paid).length;
+                const unpaidCount = Math.max(0, state.invoices.length - paidCount);
+                const noun = resultCount === 1 ? 'entry' : 'entries';
+                const filterText = state.dashboard.filter === 'all' ? 'all entries' : state.dashboard.filter.replace('-', ' ');
+                summary.textContent = `${resultCount} ${noun} in ${filterText} • ${paidCount} paid • ${unpaidCount} unpaid`;
+            }
+        }
+
+        function switchTab(tab) {
+            state.activeTab = tab;
+            document.querySelectorAll('.tab-view').forEach(v => v.classList.add('hidden'));
+            document.getElementById(`view-${tab}`).classList.remove('hidden');
+            
+            document.querySelectorAll('[id^="tab-"]').forEach(t => t.style.color = '#9ca3af');
+            document.getElementById(`tab-${tab}`).style.color = '#000';
+
+            if (tab === 'dashboard') renderDashboard();
+            if (tab === 'editor') {
+                if (!state.activeId && state.invoices.length > 0) loadInvoiceIntoEditor(state.invoices[0].id);
+                else if (!state.activeId) createNewInvoice();
+                else loadInvoiceIntoEditor(state.activeId);
+            }
+            saveState();
+        }
+
+        function renderDashboard() {
+            const list = document.getElementById('invoice-list');
+            const visibleInvoices = getFilteredInvoices();
+
+            syncDashboardControls(visibleInvoices.length);
+
+            if (state.invoices.length === 0) {
+                list.className = 'grid grid-cols-1 md:grid-cols-2 gap-4';
+                list.innerHTML = `<div class="col-span-full py-20 text-center mono text-xs uppercase tracking-widest text-gray-300">Archive is empty</div>`;
+            } else if (visibleInvoices.length === 0) {
+                list.className = 'grid grid-cols-1 gap-4';
+                list.innerHTML = `<div class="col-span-full rounded-3xl border border-dashed border-black/10 bg-white/50 px-6 py-16 text-center"><p class="serif text-xl text-gray-500">Nothing matches this view.</p><p class="mono text-[10px] uppercase tracking-[0.28em] text-gray-300 mt-3">Try another search or filter</p></div>`;
+            } else if (state.dashboard.layout === 'list') {
+                list.className = 'flex flex-col gap-3';
+                list.innerHTML = visibleInvoices.map(invoice => renderArchiveListRow(invoice)).join('');
+            } else if (state.dashboard.layout === 'grouped') {
+                list.className = 'flex flex-col gap-6';
+                const groups = visibleInvoices.reduce((collection, invoice) => {
+                    const label = formatArchiveMonth(invoice);
+                    if (!collection[label]) collection[label] = [];
+                    collection[label].push(invoice);
+                    return collection;
+                }, {});
+
+                list.innerHTML = Object.entries(groups).map(([label, invoices]) => `
+                    <section>
+                        <div class="flex items-center justify-between mb-3 px-1">
+                            <h3 class="serif text-lg font-semibold">${escapeHtml(label)}</h3>
+                            <span class="mono text-[10px] uppercase tracking-[0.28em] text-gray-300">${invoices.length} ${invoices.length === 1 ? 'entry' : 'entries'}</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            ${invoices.map(invoice => renderArchiveCard(invoice, true)).join('')}
+                        </div>
+                    </section>
+                `).join('');
+            } else {
+                list.className = 'grid grid-cols-1 md:grid-cols-2 gap-4';
+                list.innerHTML = visibleInvoices.map(invoice => renderArchiveCard(invoice)).join('');
+            }
+            lucide.createIcons();
+        }
+
+        function createNewInvoice() {
+            const newInv = createEmptyInvoice();
+            state.invoices.unshift(newInv);
+            state.activeId = newInv.id;
+            saveState();
+            switchTab('editor');
+        }
+
+        function duplicateInvoice(id) {
+            const original = state.invoices.find(i => i.id === id);
+            const copy = JSON.parse(JSON.stringify(original));
+            copy.id = Date.now().toString();
+            copy.title += " (Copy)";
+            state.invoices.unshift(copy);
+            saveState();
+            renderDashboard();
+        }
+
+        function deleteInvoice(id) {
+            const card = document.getElementById(`card-${id}`);
+            if (card) {
+                card.classList.add('burning');
+                setTimeout(() => {
+                    state.invoices = state.invoices.filter(i => i.id !== id);
+                    if (state.activeId === id) state.activeId = null;
+                    saveState();
+                    renderDashboard();
+                }, 600);
+            }
+        }
+
+        function loadInvoiceIntoEditor(id) {
+            const inv = state.invoices.find(i => i.id === id);
+            if (!inv) return;
+            state.activeId = id;
+            inv.currency = getInvoiceCurrency(inv);
+            
+            document.getElementById('invoice-title-meta').value = inv.title;
+            document.getElementById('inv-my-company').value = inv.myCompany;
+            document.getElementById('inv-my-address').value = inv.myAddress;
+            document.getElementById('inv-date').value = inv.date;
+            document.getElementById('inv-number').value = inv.number;
+            populateCurrencyOptions(inv.currency);
+            document.getElementById('inv-client-name').value = inv.clientName;
+            document.getElementById('inv-client-address').value = inv.clientAddress;
+            document.getElementById('inv-greeting').value = inv.greeting;
+            document.getElementById('inv-tax-rate').value = inv.taxRate;
+            document.getElementById('inv-closing').value = inv.closing;
+            document.getElementById('inv-payment-terms').value = inv.paymentTerms;
+            document.getElementById('inv-bank-details').value = inv.bankDetails || '';
+            document.getElementById('invoice-cleared-meta').checked = Boolean(inv.paid);
+
+            updateLogoUI(inv.logo);
+            updateClearedSeal();
+            renderLineItems(inv.items, inv.currency);
+            calculateTotals();
+            setTimeout(() => document.querySelectorAll('textarea').forEach(ta => autoResize(ta)), 0);
+        }
+
+        function updateClearedSeal() {
+            const clearedToggle = document.getElementById('invoice-cleared-meta');
+            const clearedSeal = document.getElementById('invoice-cleared-seal');
+            if (!clearedToggle || !clearedSeal) return;
+            clearedSeal.classList.toggle('is-active', Boolean(clearedToggle.checked));
+        }
+
+        function updateLogoUI(logoData) {
+            const img = document.getElementById('logo-img');
+            const printImg = document.getElementById('logo-img-print');
+            const printWrap = document.getElementById('print-logo-wrap');
+            const prompt = document.getElementById('logo-prompt');
+            const remover = document.getElementById('logo-remover');
+
+            if (logoData) {
+                img.src = logoData;
+                img.classList.remove('hidden');
+                printImg.src = logoData;
+                printImg.classList.remove('hidden');
+                printWrap.style.display = '';
+                prompt.classList.add('hidden');
+                remover.classList.remove('hidden');
+            } else {
+                img.classList.add('hidden');
+                printImg.classList.add('hidden');
+                printWrap.style.display = 'none';
+                prompt.classList.remove('hidden');
+                remover.classList.add('hidden');
+            }
+        }
+
+        function removeLogo(e) {
+            e.stopPropagation();
+            const inv = state.invoices.find(i => i.id === state.activeId);
+            inv.logo = null;
+            updateLogoUI(null);
+            saveState();
+        }
+
+        function triggerLogoUpload() { document.getElementById('logo-input').click(); }
+
+        function handleLogoUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const inv = state.invoices.find(i => i.id === state.activeId);
+                inv.logo = e.target.result;
+                updateLogoUI(inv.logo);
+                saveState();
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function renderLineItems(items, currency = getStoredDefaultCurrency()) {
+            const container = document.getElementById('line-items');
+            container.innerHTML = items.map((item, index) => `
+                <tr class="border-b border-gray-50/50">
+                    <td class="py-4 text-[10px] mono text-gray-300 align-top">${index + 1}</td>
+                    <td class="py-4 align-top">
+                        <textarea class="input-minimal text-black leading-tight" oninput="autoResize(this); updateLineItem(${item.id}, 'desc', this.value)" placeholder="..."> ${item.desc}</textarea>
+                    </td>
+                    <td class="py-4 align-top">
+                        <input type="number" class="input-minimal text-right mono text-xs" value="${item.qty}" oninput="updateLineItem(${item.id}, 'qty', this.value)">
+                    </td>
+                    <td class="py-4 align-top">
+                        <input type="number" class="input-minimal text-right mono text-xs" value="${item.price}" oninput="updateLineItem(${item.id}, 'price', this.value)">
+                    </td>
+                    <td class="py-4 align-top text-right font-semibold">
+                        ${formatMoney(item.qty * item.price, currency)}
+                    </td>
+                    <td class="py-4 text-right no-print align-top">
+                        <button onclick="removeLineItem(${item.id})" class="text-gray-200 hover:text-black"><i data-lucide="x" class="w-3 h-3"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+            lucide.createIcons();
+            container.querySelectorAll('textarea').forEach(ta => autoResize(ta));
+        }
+
+        function addLineItem() {
+            const inv = state.invoices.find(i => i.id === state.activeId);
+            inv.items.push({ id: Date.now(), desc: '', qty: 1, price: 0 });
+            renderLineItems(inv.items, getInvoiceCurrency(inv));
+            saveCurrentInvoice();
+        }
+
+        function removeLineItem(id) {
+            const inv = state.invoices.find(i => i.id === state.activeId);
+            inv.items = inv.items.filter(item => item.id !== id);
+            renderLineItems(inv.items, getInvoiceCurrency(inv));
+            calculateTotals();
+            saveCurrentInvoice();
+        }
+
+        function updateLineItem(id, field, value) {
+            const inv = state.invoices.find(i => i.id === state.activeId);
+            const item = inv.items.find(it => it.id === id);
+            if (field === 'qty' || field === 'price') value = parseFloat(value) || 0;
+            item[field] = value;
+            calculateTotals();
+            saveCurrentInvoice();
+            if (field === 'qty' || field === 'price') {
+                const row = event.target.closest('tr');
+                row.querySelector('td:nth-last-child(2)').innerText = formatMoney(item.qty * item.price, getInvoiceCurrency(inv));
+            }
+        }
+
+        function calculateTotals() {
+            const inv = state.invoices.find(i => i.id === state.activeId);
+            if (!inv) return;
+            const currency = getInvoiceCurrency(inv);
+            const subtotal = inv.items.reduce((sum, it) => sum + (it.qty * it.price), 0);
+            const taxRate = parseFloat(document.getElementById('inv-tax-rate').value) || 0;
+            const taxAmount = subtotal * (taxRate / 100);
+            const total = subtotal + taxAmount;
+            document.getElementById('display-subtotal').innerText = formatMoney(subtotal, currency);
+            document.getElementById('display-tax-amount').innerText = formatMoney(taxAmount, currency);
+            document.getElementById('display-total').innerText = formatMoney(total, currency);
+            inv.taxRate = taxRate;
+        }
+
+        function saveCurrentInvoice() {
+            const inv = state.invoices.find(i => i.id === state.activeId);
+            if (!inv) return;
+            const previousCurrency = getInvoiceCurrency(inv);
+            const selectedCurrency = normalizeCurrency(document.getElementById('inv-currency')?.value || inv.currency);
+            inv.title = document.getElementById('invoice-title-meta').value;
+            inv.paid = document.getElementById('invoice-cleared-meta').checked;
+            inv.currency = selectedCurrency;
+            inv.myCompany = document.getElementById('inv-my-company').value;
+            inv.myAddress = document.getElementById('inv-my-address').value;
+            inv.date = document.getElementById('inv-date').value;
+            inv.number = document.getElementById('inv-number').value;
+            inv.clientName = document.getElementById('inv-client-name').value;
+            inv.clientAddress = document.getElementById('inv-client-address').value;
+            inv.greeting = document.getElementById('inv-greeting').value;
+            inv.closing = document.getElementById('inv-closing').value;
+            inv.paymentTerms = document.getElementById('inv-payment-terms').value;
+            inv.bankDetails = document.getElementById('inv-bank-details').value;
+            localStorage.setItem(LAST_USED_CURRENCY_KEY, selectedCurrency);
+            if (selectedCurrency !== previousCurrency) {
+                renderLineItems(inv.items, selectedCurrency);
+            }
+            calculateTotals();
+            saveState();
+            renderDashboard();
+        }
+
+        function exportAllInvoices() {
+            const blob = new Blob([JSON.stringify(state.invoices, null, 2)], { type: 'application/json' });
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = `vellum-ledger-backup.json`;
+            a.click();
+        }
+
+        function triggerInvoiceImport() {
+            const input = document.getElementById('backup-import-input');
+            if (!input) return;
+            input.value = '';
+            input.click();
+        }
+
+        function createImportedUniqueId(existingIds) {
+            let id = '';
+            do {
+                id = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+            } while (existingIds.has(id));
+            return id;
+        }
+
+        function normalizeImportedInvoices(payload) {
+            if (Array.isArray(payload)) return payload;
+            if (payload && typeof payload === 'object' && Array.isArray(payload.invoices)) return payload.invoices;
+            return null;
+        }
+
+        function sanitizeImportedInvoice(rawInvoice, existingIds) {
+            if (!rawInvoice || typeof rawInvoice !== 'object') return null;
+
+            const imported = JSON.parse(JSON.stringify(rawInvoice));
+            const safeItems = Array.isArray(imported.items) && imported.items.length > 0
+                ? imported.items
+                    .filter(item => item && typeof item === 'object')
+                    .map(item => ({
+                        id: Number(item.id) || Date.now() + Math.floor(Math.random() * 1000),
+                        desc: String(item.desc || ''),
+                        qty: Number(item.qty) || 0,
+                        price: Number(item.price) || 0
+                    }))
+                : [{ id: Date.now() + Math.floor(Math.random() * 1000), desc: '', qty: 1, price: 0 }];
+
+            let id = String(imported.id || '').trim();
+            if (!id || existingIds.has(id)) id = createImportedUniqueId(existingIds);
+            existingIds.add(id);
+
+            return {
+                id,
+                title: String(imported.title || 'Unlabeled Entry'),
+                paid: Boolean(imported.paid),
+                currency: normalizeCurrency(imported.currency || getStoredDefaultCurrency()),
+                logo: imported.logo || null,
+                myCompany: String(imported.myCompany || ''),
+                myAddress: String(imported.myAddress || ''),
+                date: String(imported.date || ''),
+                number: String(imported.number || ''),
+                clientName: String(imported.clientName || ''),
+                clientAddress: String(imported.clientAddress || ''),
+                greeting: String(imported.greeting || ''),
+                items: safeItems,
+                taxRate: Number(imported.taxRate) || 0,
+                closing: String(imported.closing || ''),
+                paymentTerms: String(imported.paymentTerms || ''),
+                bankDetails: String(imported.bankDetails || '')
+            };
+        }
+
+        function applyImportedInvoices(importedInvoices, mode) {
+            const existingIds = new Set(mode === 'replace' ? [] : state.invoices.map(inv => String(inv.id)));
+            const normalized = importedInvoices
+                .map(invoice => sanitizeImportedInvoice(invoice, existingIds))
+                .filter(Boolean);
+
+            if (normalized.length === 0) return 0;
+
+            if (mode === 'replace') {
+                state.invoices = normalized;
+            } else {
+                state.invoices = [...normalized, ...state.invoices];
+            }
+
+            if (!state.activeId || !state.invoices.some(inv => inv.id === state.activeId)) {
+                state.activeId = state.invoices[0]?.id || null;
+            }
+
+            saveState();
+            renderDashboard();
+            return normalized.length;
+        }
+
+        function handleInvoiceImport(event) {
+            const file = event?.target?.files?.[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (loadEvent) => {
+                try {
+                    const text = String(loadEvent?.target?.result || '');
+                    const parsed = JSON.parse(text);
+                    const importedInvoices = normalizeImportedInvoices(parsed);
+                    if (!importedInvoices) {
+                        alert('Import failed: expected a JSON array of invoices.');
+                        return;
+                    }
+
+                    const shouldMerge = confirm('Merge imported entries with your current archive?\n\nOK = Merge\nCancel = Replace');
+                    let mode = 'merge';
+
+                    if (!shouldMerge) {
+                        const shouldReplace = confirm('Replace current archive with imported entries?\n\nThis cannot be undone unless you exported a backup first.');
+                        if (!shouldReplace) return;
+                        mode = 'replace';
+                    }
+
+                    const addedCount = applyImportedInvoices(importedInvoices, mode);
+                    if (addedCount === 0) {
+                        alert('No valid invoices were found in this file.');
+                        return;
+                    }
+
+                    alert(`Import complete: ${addedCount} ${addedCount === 1 ? 'invoice' : 'invoices'} ${mode === 'merge' ? 'merged' : 'restored'}.`);
+                } catch (error) {
+                    alert('Import failed: invalid JSON file.');
+                }
+            };
+
+            reader.readAsText(file);
+        }
+
+        function getFieldValue(el) {
+            if (!el) return '';
+            if ('value' in el) return String(el.value || '').trim();
+            return String(el.textContent || '').trim();
+        }
+
+        function sanitizeInvoiceContentForOutput(root, options = {}) {
+            const { flattenControls = false } = options;
+
+            root.querySelectorAll('.no-print').forEach(el => el.remove());
+
+            root.querySelectorAll('input, textarea').forEach(field => {
+                if (field.hasAttribute('placeholder')) field.removeAttribute('placeholder');
+            });
+
+            root.querySelectorAll('[data-optional-field="true"]').forEach(field => {
+                if (!getFieldValue(field)) field.style.display = 'none';
+            });
+
+            root.querySelectorAll('[data-optional-block="true"]').forEach(block => {
+                const sourceId = block.getAttribute('data-optional-source');
+                const source = sourceId ? root.querySelector(`#${sourceId}`) : block.querySelector('input, textarea');
+                if (!getFieldValue(source)) block.style.display = 'none';
+            });
+
+            root.querySelectorAll('#line-items tr').forEach(row => {
+                const descField = row.querySelector('textarea');
+                const rateField = row.querySelector('td:nth-child(4) input');
+                const desc = getFieldValue(descField);
+                const rate = parseFloat(getFieldValue(rateField)) || 0;
+                if (!desc && rate === 0) row.style.display = 'none';
+            });
+
+            if (flattenControls) {
+                root.querySelectorAll('textarea, input').forEach(control => {
+                    const value = getFieldValue(control);
+                    const textNode = document.createElement(control.tagName === 'TEXTAREA' ? 'div' : 'span');
+                    textNode.className = control.className;
+                    textNode.style.whiteSpace = 'pre-wrap';
+                    textNode.textContent = value;
+                    if (!value) textNode.style.display = 'none';
+                    control.replaceWith(textNode);
+                });
+            }
+        }
+
+        function printInvoice() {
+            const printable = document.getElementById('invoice-printable');
+            const snapshot = printable.cloneNode(true);
+            let restored = false;
+
+            sanitizeInvoiceContentForOutput(printable);
+
+            // Auto-fit long invoices to one A4 page by scaling only when needed.
+            const pageHeightPx = Math.floor(((297 - 20) * 96) / 25.4);
+            const contentHeight = printable.scrollHeight;
+            if (contentHeight > pageHeightPx) {
+                const scale = Math.max(0.74, pageHeightPx / contentHeight);
+                printable.style.zoom = String(scale);
+            }
+
+            const restore = () => {
+                if (restored) return;
+                restored = true;
+                printable.replaceWith(snapshot);
+                snapshot.id = 'invoice-printable';
+                window.removeEventListener('afterprint', restore);
+            };
+
+            window.addEventListener('afterprint', restore);
+            window.print();
+            setTimeout(restore, 1500);
+        }
+
+        function exportDocx() {
+            const content = document.getElementById('invoice-printable').cloneNode(true);
+            sanitizeInvoiceContentForOutput(content, { flattenControls: true });
+            const header = `<html><head><meta charset='utf-8'><style>body{font-family:serif;padding:20px;} table{width:100%;border-collapse:collapse;} td{padding:10px; border-bottom:1px solid #eee;}</style></head><body>`;
+            const blob = new Blob([header + content.innerHTML + "</body></html>"], { type: 'application/msword' });
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = `Invoice-${state.activeId}.doc`;
+            a.click();
+        }
+
+        function autoResize(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = textarea.scrollHeight + 'px';
+        }
+    </script>
+</body>
+</html>
