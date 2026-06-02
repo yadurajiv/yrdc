@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: https://yadurajiv.github.io/yrdc/sitemap.xml
