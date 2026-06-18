@@ -1,0 +1,342 @@
+.vellum-nav {
+    backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.8);
+    border-bottom: 1px solid var(--vellum-hairline);
+    margin-bottom: 1.5rem;
+    padding: 0 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.vellum-nav-inner {
+    align-items: center;
+    display: flex;
+    height: 3.5rem;
+    justify-content: space-between;
+    margin: 0 auto;
+    max-width: 56rem;
+}
+
+.vellum-archive-toolbar {
+    border-top: 1px solid var(--vellum-hairline);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding-top: 0.75rem;
+}
+
+@media (min-width: 768px) {
+    .vellum-archive-toolbar {
+        align-items: center;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
+
+.vellum-document {
+    background: #ffffff;
+    border: 1px solid var(--vellum-hairline);
+    box-shadow: var(--vellum-shadow-paper);
+    color: var(--vellum-ink);
+    font-family: var(--vellum-font-serif);
+    margin: 0 auto;
+    min-height: 1000px;
+    padding: 2rem;
+    position: relative;
+    transition: transform 0.2s ease;
+}
+
+@media (min-width: 768px) {
+    .vellum-document {
+        padding: 3.5rem;
+    }
+}
+
+.vellum-card-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+    .vellum-card-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+.vellum-card,
+.vellum-card-compact {
+    background: #ffffff;
+    border: 1px solid var(--vellum-hairline);
+    transition: all 0.2s ease;
+}
+
+.vellum-card {
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1.5rem;
+}
+
+.vellum-card-compact {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+.vellum-card:hover,
+.vellum-card-compact:hover,
+.vellum-list-row:hover {
+    border-color: var(--vellum-card-hover);
+}
+
+.vellum-list-row {
+    align-items: center;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid var(--vellum-hairline);
+    border-radius: 1rem;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) auto;
+    padding: 1rem;
+}
+
+.vellum-card-actions {
+    border-top: 1px solid var(--vellum-rule);
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    opacity: 1;
+    padding-top: 1rem;
+    transition: opacity 0.2s ease;
+}
+
+@media (min-width: 768px) {
+    .vellum-card-actions {
+        opacity: 0;
+    }
+
+    .vellum-card:hover .vellum-card-actions,
+    .vellum-card-compact:hover .vellum-card-actions {
+        opacity: 1;
+    }
+}
+
+.vellum-archive-card-title {
+    font-family: var(--vellum-font-serif);
+    font-size: 1.125rem;
+    font-weight: 700;
+    line-height: 1.75rem;
+    margin: 0 0 0.25rem;
+}
+
+.vellum-card:not(.vellum-card-compact) .vellum-archive-card-title {
+    font-size: 1.25rem;
+}
+
+.vellum-archive-card-client {
+    color: #6b7280;
+    font-family: var(--vellum-font-serif);
+    font-size: 0.875rem;
+    font-style: italic;
+    line-height: 1.25rem;
+    margin: 0;
+}
+
+.vellum-archive-ref,
+.vellum-archive-date {
+    color: #9ca3af;
+    font-family: var(--vellum-font-mono);
+    font-size: 0.625rem;
+    line-height: 1rem;
+}
+
+.vellum-archive-total {
+    color: #d1d5db;
+    display: block;
+    font-family: var(--vellum-font-mono);
+    font-size: 0.625rem;
+    line-height: 1rem;
+    margin-top: 0.25rem;
+}
+
+.vellum-empty-state {
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px dashed rgba(0, 0, 0, 0.1);
+    border-radius: 1.5rem;
+    padding: 4rem 1.5rem;
+    text-align: center;
+}
+
+.vellum-table {
+    border-collapse: collapse;
+    font-family: var(--vellum-font-serif);
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+.vellum-table th {
+    border-bottom: 1px solid var(--vellum-rule);
+    color: var(--vellum-faint);
+    font-family: var(--vellum-font-mono);
+    font-size: 0.6875rem;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    padding: 0.75rem 0;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.vellum-table-head-row {
+    border-bottom: 1px solid #f3f4f6;
+    color: #9ca3af;
+    font-family: var(--vellum-font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.vellum-table-head-row th {
+    font-weight: 400;
+    padding-bottom: 0.75rem;
+    padding-top: 0.75rem;
+}
+
+.vellum-table td {
+    border-bottom: 1px solid rgba(243, 244, 246, 0.5);
+    padding: 1rem 0;
+    vertical-align: top;
+}
+
+.vellum-total-panel {
+    font-family: var(--vellum-font-mono);
+    font-size: 0.875rem;
+    letter-spacing: 0.05em;
+    margin-left: auto;
+    max-width: 16rem;
+    text-transform: uppercase;
+}
+
+.vellum-total-row strong {
+    color: var(--vellum-ink);
+}
+
+.vellum-total-label {
+    color: #9ca3af;
+}
+
+.vellum-total-value {
+    color: #000000;
+}
+
+.vellum-total-final-label {
+    font-family: var(--vellum-font-serif);
+    font-size: 1.25rem;
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1.75rem;
+    text-transform: lowercase;
+}
+
+.vellum-total-final-value {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+}
+
+.vellum-footer-note {
+    border-top: 1px solid #f9fafb;
+    color: #9ca3af;
+    font-family: var(--vellum-font-serif);
+    font-size: 1rem;
+    padding-top: 3rem;
+}
+
+.vellum-footer-section {
+    font-family: var(--vellum-font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.1em;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+}
+
+.vellum-footer-label {
+    color: #d1d5db;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.vellum-footer-value {
+    color: #000000;
+    line-height: 1.625;
+}
+
+.vellum-logo-placeholder {
+    align-items: center;
+    border: 2px dashed var(--vellum-logo-dash);
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    min-height: 80px;
+    min-width: 80px;
+    overflow: hidden;
+}
+
+.vellum-logo-placeholder img {
+    max-height: 100px;
+    max-width: 150px;
+    object-fit: contain;
+}
+
+.vellum-remove-button {
+    align-items: center;
+    background: var(--vellum-danger);
+    border: 0;
+    border-radius: 999px;
+    box-shadow: var(--vellum-shadow-remove);
+    color: #ffffff;
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    opacity: 0;
+    padding: 4px;
+    position: absolute;
+    right: -8px;
+    top: -8px;
+    transition: opacity 0.2s ease;
+}
+
+.vellum-logo-wrap:hover .vellum-remove-button {
+    opacity: 1;
+}
+
+.vellum-seal {
+    align-items: center;
+    border: 3px solid rgba(17, 24, 39, 0.28);
+    border-radius: 999px;
+    color: rgba(17, 24, 39, 0.5);
+    display: inline-flex;
+    font-family: var(--vellum-font-mono);
+    font-size: 13px;
+    justify-content: center;
+    letter-spacing: 0.3em;
+    padding: 0.75rem 1.5rem;
+    text-transform: uppercase;
+    transform: rotate(-8deg);
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.vellum-seal.is-active {
+    background: rgba(22, 101, 52, 0.05);
+    border-color: rgba(22, 101, 52, 0.7);
+    box-shadow: 0 0 0 2px rgba(22, 101, 52, 0.12) inset;
+    color: rgba(22, 101, 52, 0.9);
+}

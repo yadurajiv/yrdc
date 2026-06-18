@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Game Design Circle | Interactive Workspace</title>
+    <script>
+        window.APP_VERSION = '1.3';
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.8/dist/purify.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lz-string@1.5.0/libs/lz-string.min.js"></script>
+    <link rel="stylesheet" href="css/vellum-system/vellum.css">
+    <link rel="stylesheet" href="css/style.css?v=1.3">
+</head>
+<body class="vellum h-screen flex flex-col overflow-hidden">
+
+    <header class="dc-header vellum-no-print print-hidden">
+        <div class="vellum-brand-cluster">
+            <button onclick="toggleSidebar()" class="vellum-icon-button lg:hidden" aria-label="Open sidebar">
+                <i data-lucide="menu" class="w-5 h-5"></i>
+            </button>
+            <div class="vellum-brand-cluster">
+                <div class="dc-mark" aria-hidden="true">
+                    <i data-lucide="radar" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                </div>
+                <h1 class="vellum-brand dc-brand-title">Design Circle</h1>
+            </div>
+        </div>
+
+        <nav class="vellum-view-toggle-row dc-view-toggle" aria-label="Workspace views">
+            <button onclick="switchTab('workspace')" id="tab-workspace" class="vellum-view-toggle is-active" aria-pressed="true">
+                <i data-lucide="edit-3" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
+                <span class="hidden sm:inline">Workspace</span>
+            </button>
+            <button onclick="switchTab('handout')" id="tab-handout" class="vellum-view-toggle" aria-pressed="false">
+                <i data-lucide="book-open" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
+                <span class="hidden sm:inline">Handout</span>
+            </button>
+        </nav>
+
+        <div class="vellum-action-cluster">
+            <label class="sr-only" for="projectSelector">Current project</label>
+            <select id="projectSelector" onchange="loadProject(this.value)" class="vellum-quiet-select vellum-archive-select dc-project-select">
+            </select>
+            <button onclick="createNewProject()" class="vellum-button-pastel dc-new-project" title="New Project" aria-label="New project">
+                <i data-lucide="plus" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+            </button>
+            <span class="vellum-divider" aria-hidden="true"></span>
+            <button onclick="showHelp()" class="vellum-icon-button" title="Help" aria-label="Help">
+                <i data-lucide="help-circle" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+            </button>
+
+            <input type="file" id="importInput" accept=".json" class="hidden" onchange="importFromJSON(this)">
+            <input type="file" id="importSheetInput" accept=".json" class="hidden" onchange="importSingleSheet(this)">
+        </div>
+    </header>
+
+    <div class="flex flex-1 pt-16 h-full overflow-hidden">
+        <aside id="sidebar" class="dc-sidebar fixed top-16 bottom-0 left-0 z-40 w-72 flex flex-col gap-6 lg:translate-x-0 closed vellum-no-print print-hidden">
+            <div class="space-y-6 flex flex-col h-full overflow-hidden">
+                <section class="shrink-0">
+                    <label class="vellum-kicker" for="projectNameInput">Current Project</label>
+                    <input type="text" id="projectNameInput" oninput="updateProjectName(this.value)" class="vellum-input-minimal dc-project-name" placeholder="Game Title...">
+                </section>
+
+                <div class="dc-sidebar-scroll flex-1 overflow-y-auto custom-scrollbar space-y-6">
+                    <div>
+                        <span class="vellum-kicker dc-sidebar-label">Quick Navigation</span>
+                        <div class="grid grid-cols-2 gap-2" id="nav-links">
+                        </div>
+                    </div>
+
+                    <div class="dc-panel space-y-5">
+                        <div>
+                            <span class="vellum-kicker dc-sidebar-label">Individual Sheet</span>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button onclick="exportSingleProject()" class="dc-tile-action">
+                                    <i data-lucide="file-down" class="w-4 h-4 mb-1"></i> Save Sheet
+                                </button>
+                                <button onclick="triggerSheetImport()" class="dc-tile-action">
+                                    <i data-lucide="file-up" class="w-4 h-4 mb-1"></i> Load Sheet
+                                </button>
+                                <button onclick="shareCurrentProject()" class="dc-tile-action dc-tile-action-wide col-span-2">
+                                    <i data-lucide="share-2" class="w-4 h-4"></i> Share Sheet
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="dc-panel-section">
+                            <span class="vellum-kicker dc-sidebar-label">Full Workspace Archive</span>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button onclick="exportToJSON()" class="dc-tile-action">
+                                    <i data-lucide="hard-drive-download" class="w-4 h-4 mb-1"></i> Backup All
+                                </button>
+                                <button onclick="triggerImport()" class="dc-tile-action">
+                                    <i data-lucide="hard-drive-upload" class="w-4 h-4 mb-1"></i> Restore All
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dc-sidebar-footer space-y-3 shrink-0">
+                    <div class="dc-note">
+                        <strong>Stability Rule:</strong> The circle is stable when you can walk in any direction without contradiction.
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <button onclick="window.print()" class="vellum-button-pastel dc-primary-wide">
+                            <i data-lucide="printer" class="w-4 h-4"></i> Print Design
+                        </button>
+                        <button onclick="deleteCurrentProject()" class="vellum-card-action vellum-card-action-danger dc-danger-wide">
+                            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Delete Sheet
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <main id="main-content" class="dc-main flex-1 overflow-y-auto lg:ml-72 transition-all custom-scrollbar flex flex-col p-4 sm:p-8">
+            <div id="view-workspace" class="max-w-3xl mx-auto w-full space-y-6 pb-20">
+                <div class="hidden print-block mb-8">
+                    <h1 class="vellum-company-name dc-print-title">The Game Design Circle</h1>
+                    <h2 class="vellum-archive-summary" id="print-project-name">Design Worksheet</h2>
+                </div>
+                <div id="node-editor-container" class="space-y-6">
+                </div>
+                <div class="dc-print-footer hidden print-block text-center mt-12 pt-8">
+                    <p class="dc-print-signoff">Walk the Circle. Iterate Until It Clicks.</p>
+                    <p class="vellum-kicker">A Design Circle Output</p>
+                </div>
+            </div>
+
+            <div id="view-handout" class="hidden w-full space-y-8 pb-20">
+                <div class="card dc-handout-card vellum-document">
+                    <div class="dc-handout-header">
+                        <h1 class="vellum-company-name">The Game Design Circle</h1>
+                        <p class="vellum-kicker">Side A: Components of Meaning</p>
+                    </div>
+                    <div class="space-y-2 flex-1" id="handout-nodes">
+                    </div>
+                    <div class="dc-handout-rule">
+                        <p class="vellum-kicker">The Stability Rule</p>
+                        The circle is stable when you can walk in <b>any direction</b> without contradiction. Resonance between nodes indicates a deep, intentional system.
+                    </div>
+                </div>
+
+                <div class="card dc-handout-card vellum-document">
+                    <div class="dc-handout-header">
+                        <h1 class="vellum-company-name">Resonance & Stress</h1>
+                        <p class="vellum-kicker">Side B: Cross-Circle Logic</p>
+                    </div>
+                    <div class="space-y-6 flex-1">
+                        <section>
+                            <h3 class="vellum-kicker dc-section-kicker">Resonance Map</h3>
+                            <div class="dc-map-panel">
+                                <svg viewBox="0 0 340 280" class="absolute inset-0 w-full h-full pointer-events-none">
+                                    <defs>
+                                        <marker id="arr-main" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="3" markerHeight="3" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#d1d5db"/></marker>
+                                        <marker id="arr-res" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="3" markerHeight="3" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#4a5d4c"/></marker>
+                                    </defs>
+                                    <line x1="170" y1="45" x2="170" y2="60" stroke="#d1d5db" stroke-width="2" marker-start="url(#arr-main)" marker-end="url(#arr-main)" />
+                                    <line x1="100" y1="105" x2="100" y2="120" stroke="#d1d5db" stroke-width="2" marker-start="url(#arr-main)" marker-end="url(#arr-main)" />
+                                    <line x1="240" y1="105" x2="240" y2="120" stroke="#d1d5db" stroke-width="2" marker-start="url(#arr-main)" marker-end="url(#arr-main)" />
+                                    <line x1="100" y1="155" x2="100" y2="175" stroke="#d1d5db" stroke-width="2" marker-start="url(#arr-main)" marker-end="url(#arr-main)" />
+                                    <line x1="240" y1="155" x2="240" y2="175" stroke="#d1d5db" stroke-width="2" marker-start="url(#arr-main)" marker-end="url(#arr-main)" />
+                                    <line x1="170" y1="210" x2="170" y2="230" stroke="#d1d5db" stroke-width="2" marker-start="url(#arr-main)" marker-end="url(#arr-main)" />
+                                    <line x1="135" y1="83" x2="205" y2="83" stroke="#4a5d4c" stroke-width="1.5" stroke-dasharray="3,3" marker-start="url(#arr-res)" marker-end="url(#arr-res)" />
+                                    <line x1="135" y1="138" x2="205" y2="138" stroke="#4a5d4c" stroke-width="1.5" stroke-dasharray="3,3" marker-start="url(#arr-res)" marker-end="url(#arr-res)" />
+                                    <line x1="135" y1="193" x2="205" y2="193" stroke="#4a5d4c" stroke-width="1.5" stroke-dasharray="3,3" marker-start="url(#arr-res)" marker-end="url(#arr-res)" />
+                                    <g><rect x="130" y="20" width="80" height="25" rx="4" fill="#e8f0e9" stroke="#4a5d4c" stroke-width="1" /><text x="170" y="37" text-anchor="middle" fill="#4a5d4c" font-size="9" font-weight="900">THEME</text></g>
+                                    <g><rect x="55" y="70" width="90" height="25" rx="4" fill="white" stroke="#e5e7eb" stroke-width="1" /><text x="100" y="86" text-anchor="middle" fill="#1a1a1a" font-size="8" font-weight="800">EMOTION</text></g>
+                                    <g><rect x="195" y="70" width="90" height="25" rx="4" fill="white" stroke="#e5e7eb" stroke-width="1" /><text x="240" y="86" text-anchor="middle" fill="#1a1a1a" font-size="8" font-weight="800">FANTASY</text></g>
+                                    <g><rect x="55" y="125" width="90" height="25" rx="4" fill="white" stroke="#e5e7eb" stroke-width="1" /><text x="100" y="141" text-anchor="middle" fill="#1a1a1a" font-size="8" font-weight="800">TENSION</text></g>
+                                    <g><rect x="195" y="125" width="90" height="25" rx="4" fill="white" stroke="#e5e7eb" stroke-width="1" /><text x="240" y="141" text-anchor="middle" fill="#1a1a1a" font-size="8" font-weight="800">VERBS</text></g>
+                                    <g><rect x="55" y="180" width="90" height="25" rx="4" fill="white" stroke="#e5e7eb" stroke-width="1" /><text x="100" y="196" text-anchor="middle" fill="#1a1a1a" font-size="8" font-weight="800">RULES</text></g>
+                                    <g><rect x="195" y="180" width="90" height="25" rx="4" fill="white" stroke="#e5e7eb" stroke-width="1" /><text x="240" y="196" text-anchor="middle" fill="#1a1a1a" font-size="8" font-weight="800">CORE LOOP</text></g>
+                                    <g><rect x="130" y="235" width="80" height="25" rx="4" fill="white" stroke="#e5e7eb" stroke-width="1" /><text x="170" y="251" text-anchor="middle" fill="#1a1a1a" font-size="8" font-weight="900">FEEDBACK</text></g>
+                                </svg>
+                            </div>
+                            <p class="dc-caption">Double-sided resonance indicates cohesion. Systems align pairs to reinforce meaning.</p>
+                        </section>
+                        <section class="space-y-4">
+                            <div>
+                                <h4 class="vellum-kicker dc-section-kicker">Stability Test</h4>
+                                <ul class="dc-mini-list">
+                                    <li><span>&#8635;</span> <b>Clockwise:</b> Theme drives Fantasy? Verbs drive Loop?</li>
+                                    <li><span>&#8634;</span> <b>Counter:</b> Rules create Tension for intended Emotion?</li>
+                                    <li><span>&#8596;</span> <b>Parallel:</b> Is Tension resolved through Verbs?</li>
+                                </ul>
+                            </div>
+                            <div class="dc-quote">
+                                "Shift one node. If the system remains static, the connections are weak. Deep systems ripple across the circle."
+                            </div>
+                        </section>
+                    </div>
+                    <div class="dc-handout-footer">
+                        <span>Thinking Device</span>
+                        <span>Iterate Until It Clicks</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="help-modal" class="dc-modal-backdrop hidden">
+        <div class="dc-modal vellum-document">
+            <div class="dc-modal-header">
+                <div class="vellum-brand-cluster">
+                    <div class="dc-mark" aria-hidden="true">
+                        <i data-lucide="info" class="w-5 h-5"></i>
+                    </div>
+                    <h2 class="vellum-archive-title">The Design Circle</h2>
+                </div>
+                <button onclick="hideHelp()" class="vellum-icon-button" aria-label="Close help">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+
+            <div class="p-8 space-y-8">
+                <section>
+                    <h3 class="vellum-kicker dc-section-kicker">Philosophy</h3>
+                    <p class="dc-copy">
+                        Game design is <strong>non-linear</strong>. Ideas rarely start at the theme and end at the loop. The Circle is a <em>thinking device</em> that allows you to enter the process anywhere; be it a core loop, a specific rule, or an intended emotion. This way of questioning works both for specific features to large games.
+                    </p>
+                    <div class="dc-quote dc-quote-large">
+                        "A game is stable when you can walk the circle in any direction without finding a contradiction."
+                    </div>
+                </section>
+
+                <section>
+                    <h3 class="vellum-kicker dc-section-kicker">How to Use This Tool</h3>
+                    <ul class="dc-help-list">
+                        <li>
+                            <span class="vellum-status vellum-status-success">01</span>
+                            <span><strong>Workspace:</strong> This is your drafting table. Expand each node and document your thoughts. Use the jump-links in the sidebar to navigate quickly.</span>
+                        </li>
+                        <li>
+                            <span class="vellum-status vellum-status-success">02</span>
+                            <span><strong>Management:</strong> Use the sidebar to save/load individual sheets or backup your entire library. All data is stored locally in your browser.</span>
+                        </li>
+                        <li>
+                            <span class="vellum-status vellum-status-success">03</span>
+                            <span><strong>Print:</strong> Use the "Print Design" button in the sidebar to generate a clean PDF or paper copy of your current view.</span>
+                        </li>
+                    </ul>
+                </section>
+
+                <button onclick="hideHelp()" class="vellum-button-pastel dc-primary-wide">
+                    Got it, let's design
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast-container" class="print-hidden" aria-live="polite" aria-atomic="true"></div>
+    <div id="sidebar-overlay" onclick="toggleSidebar()" class="dc-overlay hidden lg:hidden"></div>
+
+    <script src="js/config.js?v=1.3"></script>
+    <script src="js/app.js?v=1.3"></script>
+</body>
+</html>

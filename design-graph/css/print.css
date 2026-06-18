@@ -1,0 +1,89 @@
+@media print {
+    html, body {
+        height: auto !important;
+        overflow: visible !important;
+        background: white !important;
+    }
+    .h-screen {
+        height: auto !important;
+        overflow: visible !important;
+    }
+    .flex {
+        display: block !important;
+    }
+    .print-hidden,
+    header,
+    aside,
+    #sidebar-overlay,
+    #help-modal,
+    nav,
+    button,
+    select,
+    summary i {
+        display: none !important;
+    }
+    main {
+        margin-left: 0 !important;
+        padding: 0 !important;
+        height: auto !important;
+        overflow: visible !important;
+        display: block !important;
+    }
+    #main-content {
+        margin-left: 0 !important;
+        padding: 0 !important;
+        height: auto !important;
+        overflow: visible !important;
+    }
+    #view-workspace {
+        display: block !important;
+        width: 100% !important;
+        padding: 20px !important;
+    }
+    #graph-viewport,
+    .graph-hud-bottom {
+        display: none !important;
+    }
+    #view-workspace.hidden, #view-handout.hidden {
+        display: none !important;
+    }
+    textarea {
+        display: none !important;
+    }
+    .print-mirror {
+        display: none !important;
+    }
+    .node-display {
+        display: block !important;
+    }
+    details {
+        border: 1px solid #e2e8f0 !important;
+        break-inside: avoid;
+        margin-bottom: 1.5rem !important;
+        display: block !important;
+    }
+    details[open] summary {
+        background-color: #f8fafc !important;
+        border-bottom: 1px solid #e2e8f0 !important;
+    }
+    .print-block {
+        display: block !important;
+    }
+    #view-handout {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+    .card {
+        box-shadow: none !important;
+        border: 2px solid #0ea5e9 !important;
+        break-inside: avoid;
+        margin: 0 auto 20px auto !important;
+        width: 17cm !important;
+        min-height: 24cm !important;
+        page-break-after: always;
+    }
+    svg {
+        overflow: visible !important;
+    }
+}

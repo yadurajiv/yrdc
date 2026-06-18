@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vellum System Sample</title>
+    <link rel="stylesheet" href="vellum.css">
+</head>
+<body class="vellum">
+    <nav class="vellum-nav">
+        <div class="vellum-nav-inner">
+            <div class="vellum-brand-cluster">
+                <span class="vellum-brand">Vellum.</span>
+                <span class="vellum-divider"></span>
+                <span class="vellum-kicker">System</span>
+            </div>
+            <div class="vellum-nav-tabs">
+                <a class="vellum-nav-tab is-active" href="#tokens">Tokens</a>
+                <a class="vellum-nav-tab" href="#atoms">Atoms</a>
+                <a class="vellum-nav-tab" href="#molecules">Molecules</a>
+                <a class="vellum-nav-tab" href="#organisms">Organisms</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="vellum-container">
+        <section class="vellum-sample-intro">
+            <p class="vellum-kicker">Standalone visual system</p>
+            <h1 class="vellum-sample-intro-title">A quiet, paper-first interface language.</h1>
+            <div class="vellum-sample-intro-copy">
+                <p>Vellum System is a portable CSS package for warm, focused interfaces. It is organized into tokens, atoms, molecules, organisms, templates, and pages so humans and agents can compose consistent screens from small, understandable parts.</p>
+                <p>Use one entrypoint: <code>vellum-system/vellum.css</code>. Add <code>class="vellum"</code> to the body or a scoped wrapper, then compose from the layers below.</p>
+            </div>
+        </section>
+
+        <section id="tokens" class="vellum-specimen-section">
+            <header class="vellum-specimen-header">
+                <h2 class="vellum-specimen-title">Tokens</h2>
+                <p class="vellum-specimen-note">Colors, type families, borders, shadows, and interaction values</p>
+            </header>
+            <div class="vellum-token-grid">
+                <article class="vellum-token">
+                    <div class="vellum-token-swatch vellum-token-bg"></div>
+                    <span class="vellum-token-label">Background</span>
+                    <span class="vellum-token-value">--vellum-bg</span>
+                </article>
+                <article class="vellum-token">
+                    <div class="vellum-token-swatch vellum-token-accent"></div>
+                    <span class="vellum-token-label">Accent</span>
+                    <span class="vellum-token-value">--vellum-accent</span>
+                </article>
+                <article class="vellum-token">
+                    <div class="vellum-token-swatch vellum-token-text"></div>
+                    <span class="vellum-token-label">Text</span>
+                    <span class="vellum-token-value">--vellum-text</span>
+                </article>
+                <article class="vellum-token">
+                    <div class="vellum-token-swatch vellum-token-muted"></div>
+                    <span class="vellum-token-label">Muted</span>
+                    <span class="vellum-token-value">--vellum-muted</span>
+                </article>
+            </div>
+        </section>
+
+        <section id="atoms" class="vellum-specimen-section">
+            <header class="vellum-specimen-header">
+                <h2 class="vellum-specimen-title">Atoms</h2>
+                <p class="vellum-specimen-note">Plain HTML elements and single-purpose primitives inside the Vellum scope</p>
+            </header>
+            <div class="vellum-atom-prose">
+                <h1>Testing display of HTML elements</h1>
+                <p>This section checks native HTML atoms. It includes <a href="#internal"><dfn>links and definitions</dfn></a>, <strong>strong text</strong>, <em>emphasis</em>, <small>small text</small>, <abbr title="HyperText Markup Language">HTML</abbr>, <mark>mark text</mark>, <del>deleted text</del>, <ins>inserted text</ins>, subscript H<sub>2</sub>O, superscript x<sup>2</sup>, and inline <code>code</code>.</p>
+
+                <pre><code>&lt;style type="text/css"&gt;
+  selector {
+    property: value
+  }
+&lt;/style&gt;</code></pre>
+
+                <h1>This is 1st level heading</h1>
+                <p>This is a test paragraph.</p>
+                <h2>This is 2nd level heading</h2>
+                <p>This is a test paragraph.</p>
+                <h3>This is 3rd level heading</h3>
+                <p>This is a test paragraph.</p>
+                <h4>This is 4th level heading</h4>
+                <p>This is a test paragraph.</p>
+                <h5>This is 5th level heading</h5>
+                <p>This is a test paragraph.</p>
+                <h6>This is 6th level heading</h6>
+                <p>This is a test paragraph.</p>
+
+                <blockquote>
+                    <p>This is a block quotation containing a single paragraph. It checks serif italics, spacing, and the quiet left rule.</p>
+                </blockquote>
+
+                <hr>
+
+                <h2>Lists</h2>
+                <ul>
+                    <li>One.</li>
+                    <li>Two.</li>
+                    <li>Three. This list item is longer to test wrapping and vertical rhythm.</li>
+                </ul>
+
+                <ol>
+                    <li>One.</li>
+                    <li>Two.</li>
+                    <li>Three. Longer text checks line length and marker spacing.</li>
+                </ol>
+
+                <dl>
+                    <dt>Surface</dt>
+                    <dd>A white, lightly bordered content area for focused work.</dd>
+                    <dt>Metadata</dt>
+                    <dd>Small mono text used for labels, refs, filters, dates, and summaries.</dd>
+                </dl>
+
+                <h2>Media And Data</h2>
+                <figure>
+                    <div class="vellum-token-swatch vellum-token-accent"></div>
+                    <figcaption>A figure with a simple token-backed swatch.</figcaption>
+                </figure>
+
+                <table>
+                    <caption>Plain table atom</caption>
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Status</th>
+                            <th>Detail</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Alpha</td>
+                            <td>Ready</td>
+                            <td>Short supporting text.</td>
+                        </tr>
+                        <tr>
+                            <td>Beta</td>
+                            <td>Review</td>
+                            <td>Another row.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Forms And Disclosure</h2>
+                <form>
+                    <fieldset>
+                        <legend>Native Form</legend>
+                        <label for="sample-text">Text input</label>
+                        <input id="sample-text" type="text" placeholder="Neutral placeholder">
+                        <label for="sample-message">Textarea</label>
+                        <textarea id="sample-message" placeholder="Longer text"></textarea>
+                        <label for="sample-select">Select</label>
+                        <select id="sample-select">
+                            <option>First option</option>
+                            <option>Second option</option>
+                        </select>
+                        <label><input type="checkbox"> Checkbox option</label>
+                        <label><input type="radio" name="sample-radio"> Radio option</label>
+                    </fieldset>
+                    <progress value="64" max="100">64%</progress>
+                    <meter value="0.72">72%</meter>
+                </form>
+
+                <details>
+                    <summary>Expandable details</summary>
+                    <p>Details and summary are native atoms too, styled quietly inside the Vellum scope.</p>
+                </details>
+            </div>
+        </section>
+
+        <section id="molecules" class="vellum-specimen-section">
+            <header class="vellum-specimen-header">
+                <h2 class="vellum-specimen-title">Molecules</h2>
+                <p class="vellum-specimen-note">Small combinations of atoms</p>
+            </header>
+            <div class="vellum-layer-grid">
+                <article class="vellum-token">
+                    <div class="vellum-brand-cluster">
+                        <span class="vellum-brand">Vellum.</span>
+                        <span class="vellum-divider"></span>
+                        <span class="vellum-kicker">Ledger</span>
+                    </div>
+                </article>
+                <article class="vellum-token">
+                    <div class="vellum-view-toggle-row">
+                        <span class="vellum-view-label">View</span>
+                        <button class="vellum-view-toggle is-active">Cards</button>
+                        <button class="vellum-view-toggle">List</button>
+                    </div>
+                </article>
+                <article class="vellum-token">
+                    <div class="vellum-action-cluster">
+                        <button class="vellum-button-pastel">+ New Entry</button>
+                        <button class="vellum-icon-button" aria-label="Upload">&#8593;</button>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section id="organisms" class="vellum-specimen-section">
+            <header class="vellum-specimen-header">
+                <h2 class="vellum-specimen-title">Organisms</h2>
+                <p class="vellum-specimen-note">Larger composed interface regions</p>
+            </header>
+
+            <div class="vellum-archive-header">
+                <div class="vellum-archive-heading-row">
+                    <div>
+                        <h3 class="vellum-archive-title">Your Archive</h3>
+                        <p class="vellum-archive-summary">1 entry in all entries &bull; 0 paid &bull; 1 unpaid</p>
+                    </div>
+                    <div class="vellum-action-cluster">
+                        <button class="vellum-button-pastel"><span aria-hidden="true">+</span> New Entry</button>
+                        <button class="vellum-icon-button" title="Import backup" aria-label="Import backup">&#8593;</button>
+                        <button class="vellum-icon-button" title="Export backup" aria-label="Export backup">&#8595;</button>
+                    </div>
+                </div>
+
+                <div class="vellum-archive-toolbar">
+                    <div class="vellum-filter-row">
+                        <label class="vellum-search-field">
+                            <span class="vellum-search-icon" aria-hidden="true">&#9906;</span>
+                            <input class="vellum-quiet-input vellum-archive-search" type="search" placeholder="Search title, ref, client">
+                        </label>
+                        <select class="vellum-quiet-select vellum-archive-select">
+                            <option>All entries</option>
+                            <option>With client</option>
+                            <option>Untitled</option>
+                        </select>
+                        <select class="vellum-quiet-select vellum-archive-select">
+                            <option>Newest first</option>
+                            <option>Oldest first</option>
+                            <option>Title</option>
+                        </select>
+                    </div>
+                    <div class="vellum-view-toggle-row">
+                        <span class="vellum-view-label">View</span>
+                        <button class="vellum-view-toggle">Cards</button>
+                        <button class="vellum-view-toggle">List</button>
+                        <button class="vellum-view-toggle is-active">Grouped</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="vellum-group-header">
+                <h3 class="vellum-group-title">May 2026</h3>
+                <span class="vellum-group-count">1 entry</span>
+            </div>
+
+            <div class="vellum-card-grid">
+                <article class="vellum-card-compact vellum-sample-archive-card">
+                    <div>
+                        <div class="vellum-card-meta-row">
+                            <span class="vellum-archive-ref">INV-20260514-01</span>
+                            <div class="vellum-card-meta-right">
+                                <span class="vellum-archive-date">May 14, 2026</span>
+                                <span class="vellum-status vellum-status-warning vellum-status-offset">Open</span>
+                                <span class="vellum-archive-total">US$0.00</span>
+                            </div>
+                        </div>
+                        <h3 class="vellum-archive-card-title">Unlabeled Entry</h3>
+                        <p class="vellum-archive-card-client">Private Client</p>
+                    </div>
+                    <div class="vellum-action-row">
+                        <button class="vellum-card-action">Copy</button>
+                        <button class="vellum-card-action vellum-card-action-danger">Burn</button>
+                    </div>
+                </article>
+            </div>
+
+            <div class="vellum-layer-grid">
+                <article class="vellum-empty-state">
+                    <p class="vellum-archive-card-client">Nothing matches this view.</p>
+                    <p class="vellum-group-count">Try another search or filter</p>
+                </article>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

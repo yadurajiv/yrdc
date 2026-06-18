@@ -1,0 +1,5 @@
+{
+	"welcome": "[wave]Hello! :)[/wave]\n\n[rainbow]I hope this finds you well ;)[/rainbow]\n\nThis is a tiny little thing I cooked up over a weekend to get back to doing fun experimental stuff like I used to.\n\n[wheel]Tap on the letter to close and get a new one.[/wheel]\nAll letters are personal notes from real people.\n\nAll the best <3\n(26.12.'23)",
+	"effects": "[wave]This is how [[wave] looks.[/wave]\n[shake]This is how [[shake] looks.[/shake]\n[wobble]This is how [[wobble] looks.[/wobble]\n[pulse]This is how [[pulse] looks.[/pulse]\n[wheel]This is how [[wheel] looks.[/wheel]\n[jitter]This is how [[jitter] looks.[/jitter]\n[blink]This is how [[blink] looks.[/blink]\n[rainbow]This is how [[rainbow] looks.[/rainbow]\n\n[rainbow][wheel][pulse][wobble]Remember, you can combine them as well.[/wobble][/pulse][/wheel][/rainbow]",
+	"about": "[rainbow][wheel]letter[/wheel][/rainbow]\n\nMade with GameMaker Studio by\n\nYadu Rajiv - @yadurajiv"
+}

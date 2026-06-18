@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade 6 Annual Exam Planner</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Roboto:wght@400;500;700&display=swap');
+
+        :root {
+            --primary-color: #4a90e2;
+            --accent-color: #f5f7fa;
+            --text-color: #333;
+            --border-color: #ccc;
+            --success-color: #27ae60;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            background-color: #fff;
+            max-width: 210mm; /* A4 width */
+            margin: 0 auto;
+        }
+
+        /* Print Settings */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+            .no-print {
+                display: none;
+            }
+            .page-break {
+                page-break-before: always;
+            }
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+        }
+
+        h1 {
+            font-family: 'Comic Neue', cursive;
+            margin: 0;
+            color: var(--primary-color);
+            font-size: 2.5rem;
+        }
+
+        h2 {
+            font-size: 1.2rem;
+            margin-top: 5px;
+            color: #666;
+        }
+
+        h3 {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            margin-top: 25px;
+            font-family: 'Comic Neue', cursive;
+            letter-spacing: 1px;
+        }
+
+        /* Master Schedule Table */
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .schedule-table th, .schedule-table td {
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            text-align: left;
+        }
+
+        .schedule-table th {
+            background-color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        .highlight-row {
+            background-color: #fff3cd; /* Light yellow for exam days */
+            font-weight: bold;
+        }
+
+        /* Calendar Grid */
+        .calendar-container {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-bottom: 20px;
+        }
+
+        .day-header {
+            text-align: center;
+            font-weight: bold;
+            background-color: #eee;
+            padding: 5px;
+            border-radius: 4px;
+        }
+
+        .calendar-day {
+            border: 1px solid var(--border-color);
+            min-height: 80px;
+            padding: 5px;
+            position: relative;
+            background-color: #fff;
+        }
+
+        /* Weekend Styling - subtle shading for Sat/Sun */
+        .calendar-container > .calendar-day:nth-child(7n),
+        .calendar-container > .calendar-day:nth-child(7n+1) {
+            background-color: #f5f5f5;
+        }
+
+        .calendar-day.exam-day {
+            background-color: #ffe0b2; /* Orange tint for exams */
+            border: 2px solid #ff9800;
+        }
+
+        .calendar-day.study-holiday {
+            background-color: #e1f5fe; /* Blue tint for study holidays */
+        }
+
+        .date-num {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .event-text {
+            margin-top: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: #d35400;
+            text-align: center;
+        }
+
+        .study-space {
+            margin-top: 15px;
+            border-bottom: 1px dashed #ccc;
+            height: 15px;
+        }
+
+        /* Portion Checklist */
+        .checklist-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .subject-box {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            background-color: #fafafa;
+        }
+
+        .subject-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .topic-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .topic-list li {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .topic-list input[type="checkbox"] {
+            margin-right: 10px;
+            margin-top: 4px;
+            transform: scale(1.2);
+            accent-color: var(--success-color);
+        }
+
+        .note {
+            font-size: 0.8rem;
+            font-style: italic;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .strategy-box {
+            border: 2px dashed var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            background-color: #f0f8ff;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Annual Exam Planner 2025-26</h1>
+        <h2>Grade 6 - Study Roadmap</h2>
+    </header>
+
+    <!-- Strategy Section -->
+    <div class="strategy-box">
+        <strong>🎯 Study Strategy:</strong>
+        <p style="margin: 5px 0;">Use the calendar below to plan backward from your exams.</p>
+        <ul style="margin: 5px 0 0 20px;">
+            <li><strong>Phase 1 (Jan 25 - Feb 28):</strong> First Learning. Read chapters, make notes, clear doubts.</li>
+            <li><strong>Phase 2 (Mar 1 - Mar 15):</strong> Revision Mode. Solve practice problems and memorize definitions.</li>
+            <li><strong>Phase 3 (Exam Days):</strong> Light revision of the next day's subject only.</li>
+        </ul>
+    </div>
+
+    <!-- Jan Calendar Section -->
+    <h3>📅 January 2026 (Final Prep Week)</h3>
+    <div class="calendar-container">
+        <div class="day-header">Sun</div>
+        <div class="day-header">Mon</div>
+        <div class="day-header">Tue</div>
+        <div class="day-header">Wed</div>
+        <div class="day-header">Thu</div>
+        <div class="day-header">Fri</div>
+        <div class="day-header">Sat</div>
+
+        <!-- Jan Last Week -->
+        <div class="calendar-day"><span class="date-num">25</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">26</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">27</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">28</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">29</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">30</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">31</span><div class="study-space"></div></div>
+    </div>
+
+    <!-- Feb Calendar Section -->
+    <h3>📅 February 2026 (Study Month)</h3>
+    <div class="calendar-container">
+        <div class="day-header">Sun</div>
+        <div class="day-header">Mon</div>
+        <div class="day-header">Tue</div>
+        <div class="day-header">Wed</div>
+        <div class="day-header">Thu</div>
+        <div class="day-header">Fri</div>
+        <div class="day-header">Sat</div>
+
+        <!-- Week 1 -->
+        <div class="calendar-day"><span class="date-num">1</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">2</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">3</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">4</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">5</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">6</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">7</span><div class="study-space"></div></div>
+
+        <!-- Week 2 -->
+        <div class="calendar-day"><span class="date-num">8</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">9</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">10</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">11</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">12</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">13</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">14</span><div class="study-space"></div></div>
+
+        <!-- Week 3 -->
+        <div class="calendar-day"><span class="date-num">15</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">16</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">17</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">18</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">19</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">20</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">21</span><div class="study-space"></div></div>
+
+        <!-- Week 4 -->
+        <div class="calendar-day"><span class="date-num">22</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">23</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">24</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">25</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">26</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">27</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">28</span><div class="study-space"></div></div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- March Calendar Section -->
+    <h3>📅 March 2026 (Exam Month)</h3>
+    <div class="calendar-container">
+        <div class="day-header">Sun</div>
+        <div class="day-header">Mon</div>
+        <div class="day-header">Tue</div>
+        <div class="day-header">Wed</div>
+        <div class="day-header">Thu</div>
+        <div class="day-header">Fri</div>
+        <div class="day-header">Sat</div>
+
+        <!-- Week 1 -->
+        <div class="calendar-day"><span class="date-num">1</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">2</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">3</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">4</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">5</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">6</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">7</span><div class="study-space"></div></div>
+
+        <!-- Week 2 -->
+        <div class="calendar-day"><span class="date-num">8</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">9</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">10</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">11</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">12</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">13</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">14</span><div class="study-space"></div></div>
+
+        <!-- Week 3 -->
+        <div class="calendar-day"><span class="date-num">15</span><div class="study-space"></div></div>
+        <div class="calendar-day"><span class="date-num">16</span><div class="study-space"></div><small>Prep for CS</small></div>
+        <div class="calendar-day exam-day">
+            <span class="date-num">17</span>
+            <div class="event-text">💻 Comp Sci</div>
+            <div style="text-align:center; font-size:0.7em;">8:15 - 3:00</div>
+        </div>
+        <div class="calendar-day exam-day">
+            <span class="date-num">18</span>
+            <div class="event-text">🗣️ L3 Lang</div>
+            <div style="text-align:center; font-size:0.7em;">8:15 - 3:00</div>
+        </div>
+        <div class="calendar-day study-holiday">
+            <span class="date-num">19</span>
+            <div class="event-text">📚 Study Holiday</div>
+            <small>Focus: L2</small>
+        </div>
+        <div class="calendar-day exam-day">
+            <span class="date-num">20</span>
+            <div class="event-text">🗣️ L2 Lang</div>
+            <div style="text-align:center; font-size:0.7em;">8:15 - 12:30</div>
+        </div>
+        <div class="calendar-day"><span class="date-num">21</span><small>Focus: Math</small></div>
+
+        <!-- Week 4 -->
+        <div class="calendar-day"><span class="date-num">22</span><div class="study-space"></div></div>
+        <div class="calendar-day exam-day">
+            <span class="date-num">23</span>
+            <div class="event-text">📐 Math</div>
+            <div style="text-align:center; font-size:0.7em;">8:15 - 12:30</div>
+        </div>
+        <div class="calendar-day study-holiday">
+            <span class="date-num">24</span>
+            <div class="event-text">📚 Study Holiday</div>
+            <small>Focus: Science</small>
+        </div>
+        <div class="calendar-day exam-day">
+            <span class="date-num">25</span>
+            <div class="event-text">🔬 Science</div>
+            <div style="text-align:center; font-size:0.7em;">8:15 - 12:30</div>
+        </div>
+        <div class="calendar-day study-holiday">
+            <span class="date-num">26</span>
+            <div class="event-text">📚 Study Holiday</div>
+            <small>Focus: English</small>
+        </div>
+        <div class="calendar-day exam-day">
+            <span class="date-num">27</span>
+            <div class="event-text">📖 English</div>
+            <div style="text-align:center; font-size:0.7em;">8:15 - 12:30</div>
+        </div>
+        <div class="calendar-day"><span class="date-num">28</span><small>Focus: Social</small></div>
+
+        <!-- Week 5 -->
+        <div class="calendar-day"><span class="date-num">29</span><div class="study-space"></div></div>
+        <div class="calendar-day exam-day">
+            <span class="date-num">30</span>
+            <div class="event-text">🌍 Social Sci</div>
+            <div style="text-align:center; font-size:0.7em;">8:15 - 12:30</div>
+        </div>
+        <div class="calendar-day"><span class="date-num">31</span></div>
+        <div class="calendar-day"></div>
+        <div class="calendar-day"></div>
+        <div class="calendar-day"></div>
+        <div class="calendar-day"></div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <h3>✅ Syllabus Checklist</h3>
+    <p>Check the boxes as you finish revising each topic.</p>
+
+    <div class="checklist-grid">
+        <!-- Mathematics -->
+        <div class="subject-box">
+            <div class="subject-title">📐 Mathematics</div>
+            <ul class="topic-list">
+                <li><label><input type="checkbox"> L-6 Integers</label></li>
+                <li><label><input type="checkbox"> L-7 Fractions</label></li>
+                <li><label><input type="checkbox"> L-8 Decimals</label></li>
+                <li><label><input type="checkbox"> L-10 Constructions</label></li>
+                <li><label><input type="checkbox"> L-11 Symmetry</label></li>
+                <li><label><input type="checkbox"> L-12 Perimeter and Area</label></li>
+            </ul>
+        </div>
+
+        <!-- Science -->
+        <div class="subject-box">
+            <div class="subject-title">🔬 Science</div>
+            <ul class="topic-list">
+                <li><label><input type="checkbox"> Journey through states of water</label></li>
+                <li><label><input type="checkbox"> Motion and Measurement</label></li>
+                <li><label><input type="checkbox"> Living creatures & characteristics</label></li>
+                <li><label><input type="checkbox"> Temperature and measurement</label></li>
+                <li><label><input type="checkbox"> Materials around Us</label></li>
+            </ul>
+        </div>
+
+        <!-- Social Science -->
+        <div class="subject-box">
+            <div class="subject-title">🌍 Social Science</div>
+            <ul class="topic-list">
+                <li><strong>History:</strong></li>
+                <li><label><input type="checkbox"> Ch 5: Vedic Period & Chalcolithic</label></li>
+                <li><label><input type="checkbox"> Ch 6: Early States (Janpadas)</label></li>
+                <li><label><input type="checkbox"> Ch 8: First Empire (Ashoka)</label></li>
+                <li style="margin-top:5px;"><strong>Geography:</strong></li>
+                <li><label><input type="checkbox"> Ch 4: Maps</label></li>
+                <li><label><input type="checkbox"> Ch 6: Major Landforms</label></li>
+                <li style="margin-top:5px;"><strong>Political Science:</strong></li>
+                <li><label><input type="checkbox"> Ch 4: Elements of Democracy</label></li>
+                <li><label><input type="checkbox"> Ch 5: Panchayat Raj</label></li>
+            </ul>
+        </div>
+
+        <!-- English -->
+        <div class="subject-box">
+            <div class="subject-title">📖 English</div>
+            <ul class="topic-list">
+                <li><label><input type="checkbox"> <strong>Reading:</strong> Unseen/Seen Passages</label></li>
+                <li><label><input type="checkbox"> <strong>Grammar:</strong> Pronouns, Phrasal Verbs</label></li>
+                <li><label><input type="checkbox"> <strong>Grammar:</strong> Prefix/Suffix, Active/Passive</label></li>
+                <li><label><input type="checkbox"> <strong>Grammar:</strong> Reported Speech, Sentences</label></li>
+                <li><label><input type="checkbox"> <strong>Writing:</strong> Diary Entry, Informal/Formal Letter</label></li>
+                <li><label><input type="checkbox"> <strong>Lit:</strong> Christmas, A Spectacular Debut</label></li>
+                <li><label><input type="checkbox"> <strong>Lit:</strong> Bazaars of Hyderabad, Model Millionaire</label></li>
+            </ul>
+        </div>
+
+        <!-- Computer -->
+        <div class="subject-box">
+            <div class="subject-title">💻 Computer Science</div>
+            <ul class="topic-list">
+                <li><label><input type="checkbox"> Ch 5: Intro to Flash 8</label></li>
+                <li><label><input type="checkbox"> Ch 6: Drawing Tools (Flash)</label></li>
+                <li><label><input type="checkbox"> Ch 7: Animation (Flash)</label></li>
+                <li><label><input type="checkbox"> Ch 8: Fundamentals of QBasic</label></li>
+                <li><label><input type="checkbox"> Ch 10: Computer Viruses</label></li>
+                <li><label><input type="checkbox"> Ch 11: Communication on Internet</label></li>
+                <li><label><input type="checkbox"> <strong>Practical:</strong> Flash & QBasic</label></li>
+            </ul>
+        </div>
+
+        <!-- Languages (L2/L3) -->
+        <div class="subject-box">
+            <div class="subject-title">🗣️ Languages (L2 & L3)</div>
+            <div class="note">Cross out languages you do not take.</div>
+            <ul class="topic-list" style="margin-top:10px;">
+                <li><strong>Hindi:</strong></li>
+                <li><label><input type="checkbox"> L2: Lessons 1-6 & Bal Ram Katha 6-10</label></li>
+                <li><label><input type="checkbox"> L3: Lessons 9-15</label></li>
+                <li><label><input type="checkbox"> Grammar: Muhavare, Sangya, Sarvanam</label></li>
+                
+                <li style="margin-top:5px;"><strong>Kannada:</strong></li>
+                <li><label><input type="checkbox"> L2: Gadya 1-3, Padya 1-3, Supp 1-2</label></li>
+                <li><label><input type="checkbox"> L3: Lessons 7, 8, 9 & Vocab</label></li>
+                
+                <li style="margin-top:5px;"><strong>French (L2):</strong></li>
+                <li><label><input type="checkbox"> Lessons 6-10 (Grammar & Culture)</label></li>
+            </ul>
+        </div>
+    </div>
+
+</body>
+</html>

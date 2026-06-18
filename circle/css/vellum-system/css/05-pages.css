@@ -1,0 +1,122 @@
+.vellum-sample-archive-card {
+    min-height: 15rem;
+}
+
+.vellum-sample-intro {
+    margin-bottom: 3rem;
+    padding-top: 1.5rem;
+}
+
+.vellum-sample-intro-title {
+    font-family: var(--vellum-font-serif);
+    font-size: clamp(2rem, 5vw, 3.75rem);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.05;
+    margin: 0 0 1rem;
+}
+
+.vellum-sample-intro-copy {
+    color: #6b7280;
+    font-size: 1rem;
+    line-height: 1.75;
+    max-width: 42rem;
+}
+
+.vellum-sample-intro-copy p {
+    margin: 0 0 1rem;
+}
+
+.vellum-specimen-section {
+    margin-top: 3rem;
+}
+
+.vellum-specimen-header {
+    border-top: 1px solid var(--vellum-hairline);
+    margin-bottom: 1.5rem;
+    padding-top: 1.25rem;
+}
+
+.vellum-specimen-title {
+    font-family: var(--vellum-font-serif);
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 2rem;
+    margin: 0;
+}
+
+.vellum-specimen-note {
+    color: #9ca3af;
+    font-family: var(--vellum-font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.22em;
+    line-height: 1rem;
+    margin: 0.5rem 0 0;
+    text-transform: uppercase;
+}
+
+.vellum-token-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+}
+
+.vellum-token {
+    background: #ffffff;
+    border: 1px solid var(--vellum-hairline);
+    border-radius: 0.5rem;
+    padding: 1rem;
+}
+
+.vellum-token-swatch {
+    border: 1px solid var(--vellum-hairline);
+    border-radius: 4px;
+    height: 3rem;
+    margin-bottom: 0.75rem;
+}
+
+.vellum-token-bg {
+    background: var(--vellum-bg);
+}
+
+.vellum-token-accent {
+    background: var(--vellum-accent);
+}
+
+.vellum-token-text {
+    background: var(--vellum-text);
+}
+
+.vellum-token-muted {
+    background: var(--vellum-muted);
+}
+
+.vellum-token-label {
+    color: #9ca3af;
+    display: block;
+    font-family: var(--vellum-font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.vellum-token-value {
+    color: var(--vellum-ink);
+    display: block;
+    font-family: var(--vellum-font-mono);
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+}
+
+.vellum-atom-prose {
+    background: #ffffff;
+    border: 1px solid var(--vellum-hairline);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+}
+
+.vellum-layer-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+}

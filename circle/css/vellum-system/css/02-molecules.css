@@ -1,0 +1,134 @@
+.vellum-brand-cluster {
+    align-items: center;
+    display: flex;
+    gap: 0.75rem;
+}
+
+.vellum-nav-tabs {
+    align-items: center;
+    display: flex;
+    gap: 1.5rem;
+    height: 100%;
+}
+
+.vellum-action-cluster {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.vellum-filter-row {
+    align-items: center;
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.vellum-search-field {
+    align-items: center;
+    display: flex;
+    flex: 1;
+    margin: 0;
+    max-width: 24rem;
+    min-width: 220px;
+}
+
+.vellum-search-icon {
+    color: #d1d5db;
+    font-size: 0.75rem;
+    margin-right: 0.25rem;
+}
+
+.vellum-view-toggle-row {
+    align-items: center;
+    display: flex;
+    gap: 0.75rem;
+}
+
+.vellum-group-header {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+    padding: 0 0.25rem;
+}
+
+.vellum-group-title {
+    font-family: var(--vellum-font-serif);
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.75rem;
+    margin: 0;
+}
+
+.vellum-group-count {
+    color: #d1d5db;
+    font-family: var(--vellum-font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.28em;
+    line-height: 1rem;
+    text-transform: uppercase;
+}
+
+.vellum-card-meta-row {
+    align-items: flex-start;
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    margin-bottom: 4.75rem;
+}
+
+.vellum-card-meta-right {
+    text-align: right;
+}
+
+.vellum-action-row {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+    opacity: 1;
+    transition: opacity 0.2s ease;
+}
+
+.vellum-action-row.with-rule {
+    border-top: 1px solid var(--vellum-rule);
+    padding-top: 1rem;
+}
+
+@media (min-width: 768px) {
+    .vellum-action-row {
+        opacity: 0;
+    }
+
+    .vellum-card:hover .vellum-action-row,
+    .vellum-card-compact:hover .vellum-action-row {
+        opacity: 1;
+    }
+}
+
+.vellum-meta-row {
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+@media (min-width: 768px) {
+    .vellum-meta-row {
+        justify-content: flex-end;
+    }
+}
+
+.vellum-total-row {
+    align-items: center;
+    border-bottom: 1px solid var(--vellum-rule);
+    color: var(--vellum-faint);
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+}
+
+.vellum-logo-wrap {
+    display: inline-block;
+    position: relative;
+}

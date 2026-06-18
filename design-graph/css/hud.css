@@ -1,0 +1,73 @@
+.graph-hud-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #0f172a;
+}
+
+.graph-hud-btn:hover {
+    border-color: #38bdf8;
+    color: #0284c7;
+}
+
+.graph-hud-bottom {
+    position: absolute;
+    left: 50%;
+    bottom: 24px;
+    transform: translateX(-50%);
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(226, 232, 240, 0.9);
+    border-radius: 14px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+}
+
+.graph-hud-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.graph-hud-select {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.graph-hud-select select {
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    padding: 6px 8px;
+    font-size: 10px;
+    background: #ffffff;
+    font-weight: 600;
+}
+
+.graph-hud-divider {
+    width: 1px;
+    height: 24px;
+    background: #e2e8f0;
+}
+
+@media (max-width: 1023px) {
+    .graph-hud-bottom {
+        left: 16px;
+        right: 16px;
+        transform: none;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

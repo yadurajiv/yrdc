@@ -1,0 +1,311 @@
+/* Unified Vellum + Quillroom stylesheet */
+:root {
+    --vellum-bg: #fdfaf6;
+    --vellum-accent: #e8f0e9;
+    --vellum-text: #2d2d2d;
+    --vellum-muted: #6b7280;
+    --vellum-line-soft: rgba(0, 0, 0, 0.06);
+    --vellum-line: rgba(0, 0, 0, 0.12);
+    --vellum-line-strong: rgba(0, 0, 0, 0.24);
+    --font-mono: "IBM Plex Mono", "Cascadia Mono", Consolas, monospace;
+    --font-serif: "Fraunces", "Palatino Linotype", "Book Antiqua", serif;
+    --font-sans: "Inter", "Segoe UI", "Aptos", sans-serif;
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: var(--vellum-bg);
+    color: var(--vellum-text);
+    transition: background-color 0.3s ease;
+}
+
+html,
+body {
+    background: var(--vellum-bg) !important;
+}
+
+.mono,
+.markdown-actions button,
+.badge,
+.footer,
+.tiny,
+.archive-input,
+.archive-select,
+.archive-view-toggle {
+    font-family: var(--font-mono);
+}
+
+.serif,
+#doc-title,
+#preview,
+#note-list li,
+button,
+select,
+.button-label {
+    font-family: var(--font-serif);
+}
+
+/* Shared container look */
+.surface,
+.invoice-canvas {
+    background: #ffffff;
+    border: 1px solid var(--vellum-line-soft);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.02);
+}
+
+/* Quillroom top area */
+.topbar {
+    background: color-mix(in oklab, #ffffff 82%, transparent) !important;
+    border-bottom: 1px solid var(--vellum-line-soft) !important;
+    backdrop-filter: none !important;
+}
+
+.brand h1 {
+    color: var(--vellum-text);
+    font-weight: 600;
+}
+
+.badge {
+    color: #9ca3af;
+}
+
+main {
+    max-width: 1320px !important;
+    margin: 0 auto !important;
+    padding: 16px !important;
+}
+
+#layout {
+    min-height: calc(100vh - 92px) !important;
+    gap: 0 !important;
+}
+
+/* Inputs and select controls modelled after Vellum archive controls */
+.archive-input,
+.archive-select,
+#doc-picker,
+#theme-select {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid transparent;
+    color: var(--vellum-muted);
+    border-radius: 0;
+    transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.archive-input:hover,
+.archive-select:hover,
+#doc-picker:hover,
+#theme-select:hover {
+    border-bottom-color: var(--vellum-line);
+}
+
+.archive-input:focus,
+.archive-select:focus,
+#doc-picker:focus,
+#theme-select:focus {
+    outline: none;
+    border-bottom-color: var(--vellum-line-strong);
+    color: var(--vellum-text);
+}
+
+/* Buttons */
+button,
+.button-label {
+    background: transparent;
+    border: 1px solid var(--vellum-line-soft);
+    color: var(--vellum-muted);
+    border-radius: 6px;
+    transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+#editor-nav button,
+#settings-nav button,
+.markdown-actions button,
+.footer,
+.badge {
+    font-family: var(--font-mono) !important;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 10px !important;
+}
+
+#editor-nav button {
+    border-radius: 8px;
+    border-color: var(--vellum-line-soft);
+}
+
+button:hover,
+.button-label:hover {
+    color: #4b5563;
+    border-color: var(--vellum-line);
+    background: rgba(255, 255, 255, 0.72);
+}
+
+.btn-pastel,
+.btn-accent {
+    background-color: var(--vellum-accent);
+    color: #4a5d4c;
+    border-color: transparent;
+}
+
+.btn-pastel:hover,
+.btn-accent:hover {
+    background-color: color-mix(in oklab, var(--vellum-accent) 90%, white);
+    color: #3f4e41;
+}
+
+.icon-btn {
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+}
+
+.icon-btn,
+#editor-nav .icon-btn {
+    background: rgba(255, 255, 255, 0.82) !important;
+}
+
+.icon-btn svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.75;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* Sidebar/list for Quillroom */
+#sidebar.surface {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: 1px solid var(--vellum-line-soft);
+    box-shadow: none;
+}
+
+#sidebar {
+    background: #ffffff !important;
+    width: 320px !important;
+    min-width: 240px !important;
+    max-width: 320px !important;
+    padding: 18px 12px !important;
+}
+
+#editor-view.surface {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+}
+
+#editor-view,
+#settings-view {
+    background: #ffffff !important;
+}
+
+#note-list {
+    margin: 14px 0 0;
+    padding: 0 2px;
+}
+
+#note-list li {
+    padding: 8px 14px;
+    margin-bottom: 4px;
+    border-radius: 8px;
+    color: var(--vellum-muted);
+    background: transparent;
+    transition: background 0.13s, color 0.13s;
+    cursor: pointer;
+}
+
+#note-list li:hover {
+    color: #4b5563;
+    background: rgba(232, 240, 233, 0.5);
+}
+
+#note-list li[aria-current="true"],
+#note-list li.active {
+    background: var(--vellum-accent);
+    color: #3f4e41;
+    font-weight: 600;
+}
+
+#doc-title {
+    font-family: var(--font-serif) !important;
+    font-size: clamp(28px, 3vw, 42px) !important;
+    font-weight: 600 !important;
+    line-height: 1.06;
+    letter-spacing: -0.02em;
+    color: var(--vellum-text) !important;
+}
+
+.editor-header {
+    padding: 18px 20px 14px !important;
+    border-bottom: 1px solid var(--vellum-line-soft) !important;
+}
+
+#editor {
+    background: #ffffff !important;
+    color: var(--vellum-text) !important;
+    font-family: var(--font-mono) !important;
+    font-size: 14px !important;
+    line-height: 1.65;
+}
+
+#preview {
+    background: #ffffff !important;
+    color: var(--vellum-text) !important;
+    font-family: var(--font-serif) !important;
+    line-height: 1.72;
+}
+
+.pane + .pane {
+    border-left: 1px solid var(--vellum-line-soft) !important;
+}
+
+.footer {
+    border-top: 1px solid var(--vellum-line-soft) !important;
+    color: #9ca3af !important;
+}
+
+.settings-card {
+    border: 1px solid var(--vellum-line-soft) !important;
+    background: #ffffff !important;
+}
+
+/* Vellum native controls */
+.archive-view-toggle {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid transparent;
+    color: #9ca3af;
+    border-radius: 0;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.archive-view-toggle:hover {
+    color: #4b5563;
+}
+
+.archive-view-toggle.active {
+    color: var(--vellum-text);
+    border-bottom-color: rgba(0, 0, 0, 0.18);
+}
+
+/* Subtle scrollbar used by Vellum */
+::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--vellum-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 10px;
+}

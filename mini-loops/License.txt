@@ -1,0 +1,146 @@
+End User License Agreement
+
+License Agreement for Users of Yadu Rajiv's Sound Effects Sample Libraries (“Sound Effects”).
+
+IMPORTANT – READ CAREFULLY: This End-User License Agreement (or “EULA" or “Agreement”) is a legal agreement between Licensee (either an individual or a single entity, hereafter referred to as “the Licensee”) and Yadu Rajiv (hereafter referred to as “the Licensor” or “Yadu Rajiv”) for the digital goods and services, mainly in the form of copyrighted Sound Effect Sample Libraries (hereafter referred to as “Sound Effects”) Licensee has licensed from its website www.yadurajiv.com or yadu.itch.io (hereafter referred to as “the Website”) which can be downloaded after paying a license fee, and which is applicable to:
+
+* online, digital and analog (physical) delivery of licensed material (altogether: “Licensed Material”).
+
+By purchasing, downloading, licensing, installing, copying, or otherwise using the Licensed Material, Licensee hereby agree to and are bound by the terms and conditions of this EULA. The Licensee’s use of the Licensed Material is subject to agreeing to the conditions in this License Agreement.
+
+If Licensee do not fully agree to the terms of this EULA, Licensee may not use, copy, keep or store the Licensed Material.
+
+Upon purchasing a Licensed Material from the Website, Yadu Rajiv grants the Licensee a worldwide, non-exclusive, royalty-free synch license to use all or any of the Licensed Material in accordance with the terms and conditions laid out in this Agreement.
+
+This Agreement does not authorize or permit any use of the Licensed Material not expressly set forth herein or to make any other use of the Licensed Material not expressly authorized hereunder. Any use of the Licensed Material other than as authorized under this License or any other law, including, but not limited to Indian copyright law, is prohibited. All rights not expressly granted by Licensor are hereby reserved.
+
+Indian intellectual property laws, including copyright law, and international treaties protect the Licensed Material. The Licensed Material is licensed, not sold, and the rights granted herein are validated by proof of purchase. The rights granted herein are non-transferable or assignable, and all rights not expressly granted to Licensee hereunder are reserved by Yadu Rajiv.
+
+Anyone found breaching this agreement will be subject to criminal and civil penalties and liable for monetary damages.
+
+1. Grant of License
+In consideration of payment of the license fee, Yadu Rajiv grants to the Licensee through this EULA the following limited, non-exclusive, non-assignable, and non-transferable worldwide, perpetual right to use, edit and synchronize the Licensed Material.
+
+2. Rights Granted
+
+The license granted in this Agreement allows Licensee to:
+
+2.1. Use the Licensed Material for the purposes of synchronization or timed relation with other audio and/or audio-visual in commercial and non-commercial broadcast and/or non-broadcast productions (hereinafter referred to as “Project”) the Licensee is involved with, which includes but is not limited to: interactive projects, self-produced radio programs, podcasts, mobile apps, television broadcasts or video program, film soundtrack, motion picture or television productions, music albums, PowerPoint presentations, advertising, multi-media presentations, theatre productions, radio plays, computer and video games, animation, advertisement, CD or DVD-ROM, commercial sound recording, websites, Internet or other media production, software product, personal ringtone, or other media or multimedia production without paying any additional royalties, license fees, any other fees, or giving any acknowledgement to Yadu Rajiv.
+2.2. Publicly perform the Licensed Material in respect of those Projects.
+The Licensed Material under this agreement may be reproduced by Licensee, provided that Licensee’s product contains an additional element: i.e. voice, music, image, etc.
+2.3. Licensee may use the Licensed Material on an unlimited number of projects for the duration of the Term.
+2.4. Licensee may use the Licensed Material for personal and commercial projects without attribution to the original creator.
+2.5. Licensee may migrate the Licensed Material to one local hard drive and also make one additional backup copy for personal use. This license does not allow Licensee to upload the Licensed Material to a network-drive, server or make copies available to other unlicensed users.
+2.6. Licensee may distribute and publicly perform a reproduction of anything contained within the Licensed Material over any form of public or private medium as long as they are synchronized within Licensee’s Project.
+2.7. Licensee may re-record, edit, duplicate and release the Licensed Material as part of Licensee’s or Licensee’s clients’ production in whatever medium Licensee choose.
+
+Furthermore, this Agreement grants the following uses:
+
+2.8. Web. The right to use the Licensed Material as part of a personal or commercial website but only together with images, text, or other visual/audio content, in such a way that Licensed Material is used in a supporting/secondary role, and is not the main Licensed Material of the website (hereinafter “Website Element”); provided, however, that neither the Licensed Material nor any portion thereof may be resold or redistributed, except to the extent permitted under Indian copyright law.
+2.9. Television Broadcast (Laser Drop Sync). The right to include the Licensed Material in local, regional, national, and international terrestrial and cable television broadcast productions, including commercials, programs, PSAs, Infomercials, and Jingles, but only in timed relation or synchronization with sequences, intermissions and visuals contained within the broadcast production in question.
+Radio Broadcast (Laser Drop). The right to include the Licensed Material in terrestrial, Internet streaming, and cable radio broadcast productions including commercials, programs, PSAs, Infomercials, and Jingles, but only in timed relation to other audio production elements (e.g., the Licensed Material can serve as a jingle underscore or background music laser drop but it cannot be used alone as a featured element in a radio broadcast).
+2.10. Film and Videograms. The right to include the Licensed Material in films, videocassettes, DVDs, and CD-ROMs, but only in timed relation or synchronization with sequences, intermissions and visuals contained within the CD-ROM (including console, PC, and handheld games), film, videocassette, or DVD in question.
+2.11. Compact Disc. The right to include the Licensed Material as part of a sound recording and to mechanically reproduce copies of said sound recording in compact disc format or any other similar configuration now known or hereinafter invented; provided, however, that the Licensed Material may only be used in timed relation to other production elements, and may never be used as a featured element (e.g., the Licensed Material can serve as an “underscore” or “bed” for a narration on a Relaxation CD with narration, but it cannot be its own separate music or sound effect track on a compact disc or collected together and exploited on a compact disc with other music tracks or sound effects).
+2.12. Software. The right to use the Licensed Material as part of a software program (including a software based game), provided that (i) the Licensed Material must be synchronized within the software package, and cannot be accessible to the end user as an independent element; and (ii) the Licensed Material cannot be used in software whose sole purpose is creating or editing sound effects (e.g., “sound effect” software that includes the Licensed Material and allows a user to change the Licensed Material requires an additional license from Yadu Rajiv).
+2.13. Ring Tones. The right to use the Licensed Material as a personal ring tone. Notwithstanding the foregoing, the Licensed Material cannot be used as a commercial ring tone or ring back without an additional license agreement with Yadu Rajiv.
+2.14. Podcast. The right to include the Licensed Material as part of a sound recording and to mechanically reproduce copies of said sound recording in a downloadable digital audio file format (e.g., mp3, .wav, WMA) or any other similar configuration now known or hereinafter invented; provided, however, that the Licensed Material may only be used in timed relation to other production elements, and may never be used as a featured element (e.g., the Licensed Material can serve as a “bumper,” “underscore,” or “bed” for a narration of a Podcast, but it cannot be its own separate music or sound effect track on a Podcast or collected together and exploited on a Podcast with other music tracks or sound effects).
+
+3. Restrictions on Uses/Limitations
+
+The license granted in this agreement is personal to Licensee and limited to Licensee’s Projects and as such does not permit Licensee to:
+
+3.1. Transfer, copy, or duplicate the Licensed Material by itself, either in whole or in part, other than in timed-relation with the Projects with the exception that Licensee may make one copy for back-up or archive purposes. Further, the Licensed Material, apart from the Projects, may not be resold, licensed, leased or in any way distributed to any third party without the express written permission of Yadu Rajiv.
+3.2. The Licensee may not distribute the Licensed Material independently of a Production, in that Licensed Material may be synchronized with images as an integral part of a Production, or used as part of an audio production, but are not to be distributed as “standalone” sounds.
+3.3. Licensee may distribute, publicly display, publicly perform, or publicly digitally perform the Licensed Material only under the terms of this License. Licensee may not offer or impose any terms on the Licensed Material that alter or restrict the terms of this License or the recipients’ exercise of the rights granted hereunder.
+3.4. Reproduce the Licensed Material for the purpose of those Projects.
+3.5. The rights under this license are limited and granted to a single user and do not extend to a company.
+3.6. Licensee may not distribute, publicly display, publicly perform, or publicly digitally perform the Licensed Material with any technological measures that control access or use of the Licensed Material in a manner inconsistent with the terms of this License Agreement.
+3.7. The Licensed Material may not be embedded in any hardware circuit or chip set without a separate and specific Agreement with Yadu Rajiv.
+3.8. Licensee shall not provide any person or entity with any directions or instructions as to how the Licensed Material may be extracted from a Project, or with any invitation, suggestion or authorization that the Licensed Material may be extracted from Project.
+3.9. Licensee shall not make the Licensed Material available in a manner intended to allow or invite a third party to download, extract, redistribute or access the Licensed Material as a standalone file, and Licensee shall exercise due diligence and maintain strict safeguards in order to ensure that no third party is able to do so.
+
+4. Derivatives
+
+All derivatives of licensed audio files, whether created in part or whole of the file licensed by this agreement, either by mixing, editing, processing or any other means remain bound by the terms and restrictions of this Agreement.
+
+4.1. Licensee may not re-record or change the Licensed Material in any way not authorized under this Agreement without the written consent of Licensor. Licensee and Licensor understand that it is common to re-design and manipulate Licensed Material. Licensee agrees that such re-designed or manipulated Licensed Material do not constitute original composition and is expressly included within the scope of this Agreement.
+4.2. Other than in the context of the specific uses listed in Grant of License from Section 1 above, Licensee may not do the following:
+4.2.1. embed the Licensed Material in any hardware as a stand-alone element without an additional license from Yadu Rajiv; or
+4.2.2. modify, adapt, translate, reverse engineer, decompile, disassemble, or create derivative works based on the Licensed Material or its accompanying printed or written materials
+Notwithstanding the above, Licensed Material by Yadu Rajiv may be used together with other elements to create a separate derivative musical composition on which Licensee claim a separate copyright; however, one or more of Yadu Rajiv’s sounds may not be mixed with one or more Yadu Rajiv sounds or third party sounds to create a derivative sound on which Licensee claim a separate copyright (i.e., Licensee cannot make new sounds using the Licensed Material of Yadu Rajiv as building blocks and then exploit them as a part of a third party sound effects library, compilation, or otherwise).
+
+5. Use in Sound Library/Distribution
+This License Agreement excludes any isolated and/or independent use of the Licensed Material. The use of the Licensed Material for the creation of a sound library or audio samples or for any sample-based product — even if modified — is strictly prohibited. In addition, the Licensed Material may not be repackaged in whole or part as sample libraries or audio samples or digital instrument patches or any other product, without the prior written permission of Yadu Rajiv. Further, Licensee is not allowed to claim authorship of the samples.
+
+The Agreement forbids any re-distribution method of the Licensed Material, through any means, including but not limited to, re-selling, trading, sharing, resampling, mixing, processing, isolating, or embedding into software or hardware of any kind, for the purpose of re-recording or reproduction as part of any free or commercial library of musical and/or sound effect samples and/or articulations, or any form of musical sample or sound effect sample playback system or device.
+
+5.1. Licensee may not modify any of the Licensed Material with intent to claim authorship.
+5.2. Licensee may not sell any of the Licensed Materials of any of the Sound Effects libraries for the purposes of commercial gain. (Although the Licensed Material may be sold as incorporated into licensee project).
+5.3. Licensee must not License or sell any Licensed Material in its entirety or in part, or to adapt, modify, or repackage any Licensed Material.
+5.4. Licensee must not use, reproduce, or license any Licensed Material other than in respect of a Project (this means the licensee must not act as a distributor of the Licensed Material).
+5.5. In no circumstances whatsoever, may Licensee copy all or a significant part of the Licensed Materials in the Yadu Rajiv website with the purpose of redistributing them.
+5.6. The Licensee may not distribute the Licensed Material, either in their original file format or any other file format, or otherwise edited, for use as sounds, multi-sounds, samples, multi-samples, programs or patches for hardware or software samplers, sample playback units, sound modules, websites, compact discs (CDs), digital versatile discs (DVDs), computers or any other media for sound generation. This license expressly forbids any unauthorized inclusion of the Licensed Material in any library (e.g. sample instrument, sound effects library, etc.) online or offline without Licensor’s express written consent.
+5.7. The Licensed Material under this agreement may not be used in any product that is primarily nature audio and therefore would compete with other present and future Yadu Rajiv products. Primarily, for the purposes of this agreement, is defined as containing pure nature sounds (without voice, music, human or machine sounds or other non-natural sounds) for at least 50% of the total elapsed time of the product. Examples of prohibited products would be environmental soundscape albums, internet radio programming consisting of only nature sounds, nature videos without narration, some mobile applications, and ringtones.
+
+6. Assignment
+
+Licensee may not lend, share, distribute, sell, rent, lease, sublicense, assign, share, sub-lease or otherwise transfer the Licensed Material to any other party except as necessary for the use of Licensed Material in a Project. Licensee may not assign, sell, license or sub-license the Licensed Material to any other party without Licensor’s written consent except Licensed Material has been incorporated by the Licensee in a Project.
+
+7. Duplication and Storage
+
+Licensee may migrate the Licensed Material to one local, stand-alone Workstation. “Workstation” means a single standalone computer on which the Licensed Material is installed. One additional storage copy is allowed for archival, back up purposes. This license does not allow Licensee to upload to a server or make copies available to un-licensed users. Any use or storage of the Licensed Material on additional Workstations, either over a network or on one or more standalone Workstations, is prohibited without an additional license from Yadu Rajiv.
+
+8. Multiuser
+
+Licensee must be the sole editor, otherwise a multi-user license will be required. Purchasing a multi-user license will allow Licensee to use the Licensed Material on more than one workstation and by multiple people on Licensee’s production team.
+
+9. Term
+The term of this Agreement is for the remainder of the current term of the Indian copyright in the Sound Effect(s) and all renewal terms thereof.
+
+This license is binding upon and shall inure to the benefit of the respective successors and/or assigns of the parties hereto.
+
+10. Copyright
+
+Yadu Rajiv owns and controls the rights represented herein with respect to the Licensed Material that are subject to this Agreement. All rights, title, interest, and copyrights in and to the Licensed Material (including without limitation, any images, photographs, animations, video, audio, music, and text incorporated into the Licensed Material) and any copies of the Licensed Material are owned by and remain the property of Yadu Rajiv. Yadu Rajiv has and will hold throughout the Territory and during the Term the above listed rights to exploit the Licensed Material as set forth herein.
+
+Indian copyright laws and international treaty provisions protect the Licensed Material. Licensee must treat the Licensed Material like any other copyrighted material, except that Licensee may make copies as only provided in this EULA. Licensee may not copy the printed materials accompanying the Licensed Material.
+
+11. Representation/Warranty
+THE LICENSED MATERIAL IS PROVIDED “AS IS.” LICENSOR DOES NOT MAKE ANY OTHER WARRANTIES, EXPRESS OR IMPLIED, REGARDING THE LICENSED MATERIAL OR ITS DISCOVERY AND/OR DELIVERY SYSTEMS INCLUDING, WITHOUT LIMITATION, ANY IMPLIED WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE. LISENSOR SHALL NOT BE LIABLE TO LICENSEE OR ANY OTHER PERSON OR ENTITY FOR ANY PUNITIVE, SPECIAL, INDIRECT, CONSEQUENTIAL, INCIDENTAL OR OTHER SIMILAR DAMAGES, COSTS OR LOSSES ARISING OUT OF THIS AGREEMENT, EVEN IF LICENSOR HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES, COSTS OR LOSSES. SOME JURISDICTIONS DO NOT PERMIT THE EXCLUSION OR LIMITATION OF IMPLIED WARRANTIES OR LIABILITY FOR CERTAIN CATEGORIES OF DAMAGES. LISENCOR SHALL NOT BE LIABLE FOR ANY DAMAGES, COSTS OR LOSSES ARISING OUT OF OR AS A RESULT OF MODIFICATIONS MADE TO THE LICENSED MATERIAL BY LICENSEE OR THE CONTEXT IN WHICH LICENSED MATERIAL IS USED IN A PROJECT. IN NO EVENT WILL LISENSOR’S CUMULATIVE LIABILITY WITH RESPECT TO ANY CLAIM MADE IN RELATION TO OR ARISING OUT OF THIS AGREEMENT ON ANY THEORY OR BASIS EXCEED THE LICENSE FEE PAID BY LICENSEE OR PURCHASER FOR THE LICENSED MATERIAL
+
+12. Termination
+The Licensee’s right to use any of the Licensed Material from Licensor will automatically terminate in the event of any breach by Licensee of the terms of this Agreement and upon written demand from Licensor, Licensee agrees to immediately destroy all copies of the Licensed Material and all of its component parts in Licensee’s possession or control.
+
+Any continued use of the Licensed Material by Licensee shall constitute an intentional infringement of the copyrights in and to the Licensed Material. The Licensor hereby reserves all their rights to legal and financial remedies and relief.
+
+Notwithstanding the above, Licensor reserves the right to release the Licensed Material under different license terms or to stop distributing the Licensed Material at any time; provided, however that any such election will not serve to withdraw this License (or any other license that has been, or is required to be, granted under the terms of this License), and this License will continue in full force and effect unless terminated as stated above.
+
+Upon notice from Licensor, or upon Licensee’s knowledge that any Licensed Material may be subject to a claim of another’s right for which Licensor may be liable, Licensor may require Licensee to immediately and at their own expense (i) stop using the Licensed Material; (ii) delete or remove the Licensed Material from its premises, computer systems and storage (electronic and physical); and (iii) ensure that its clients do likewise. Licensor shall provide Licensee with comparable Licensed Material (which comparability will be determined by Licensor in its reasonable commercial judgment), free of charge, but subject to the other terms and conditions of this Agreement.
+
+13. Indemnity/Liability for Damages
+Any similarity to any other Licensed Material is purely unintentional. As stated above, Yadu Rajiv cannot be held responsible for any direct, indirect, or consequential loss arising from the use of Licensed Material licensed from the Website in whatever form, or consequential loss arising from a delayed or lost delivery. The entire risk arising out of use or performance of the Licensed Material remains with Licensee.
+
+The Licensee will indemnify, save, hold harmless and defend Licensor and its affiliated, related or subsidiary companies and its and/or their employees, directors, officers, agents, shareholders, successors, assigns or licensees from, and against any and all losses, costs, claims, demands, suits, damages, liabilities and all reasonable expenses (including, without limitation, reasonable attorneys’ fees, damages for loss of business profits, business interruption, loss of business information, or any other pecuniary loss) arising out of the use of or inability to use of any Yadu Rajiv product, even if Yadu Rajiv has been advised of the possibility of such damages.
+
+The Licensee agrees that Yadu Rajiv’s entire liability with respect to any claims made in relation to or arising out of this Agreement shall in no event exceed the actual license fee paid by Licensee. Because some jurisdictions do not allow the exclusion or limitation of liability for consequential or incidental damages, the above limitation may not apply to Licensee.
+
+14. General Waivers
+Nothing contained herein shall be deemed to constitute a waiver of any fee which, as a result of the use of the Licensed Material contemplated by this Agreement, shall become due and payable to the relevant Collection Society or pursuant to union or collective bargaining requirements.
+
+15. Third Parties
+Where a purchaser is licensing Licensed Material on Licensee’s behalf, purchaser hereby represents and warrants that: (i) purchaser is authorized to act as an agent on Licensee’s behalf and has full power and authority to bind Licensee’s to this Agreement; and (ii) if Licensee subsequently dispute such power or authority, purchaser shall be liable for any failure of Licensee’s to comply with the terms of this Agreement.
+
+Nothing contained in this Agreement is intended to benefit any third parties not specifically herein enumerated, and no person or entity is entitled to any benefits as a third party beneficiary hereunder on account of any obligation of the parties hereto; it being expressly understood that the benefits, duties and obligations of any of the parties hereunder are solely and exclusively the rights and obligations of said parties and are not intended to benefit any third parties unless expressly stated to the contrary herein.
+
+16. Governing Law, Jurisdiction, and Venue
+This Agreement shall be governed by and construed in accordance with the laws of India and the Indian courts shall have sole jurisdiction. 
+
+17. Waiver of Jury Trial
+Licensee acknowledges and agrees that any controversy that may arise under this Agreement, including any exhibits, schedules, attachments, and appendices attached to this Agreement, is likely to involve complicated and difficult issues and, therefore, Licensee irrevocably and unconditionally waives any right it may have to a trial by jury in respect of any legal action arising out of or relating to this License, including any updates, modifications, or alterations hereto, as Licensor may make in its sole discretion from time to time.
+
+18. Entire Agreement/Severance
+This License Agreement contains the entire agreement between Licensor and the Licensee regarding the licensing, use, and liability limitations related to the use of Yadu Rajiv products, in particular the aforementioned Licensed Material. There are no understandings, agreements or representations with respect to the Licensed Material not specified therein. Licensor shall not be bound by any additional provisions that may appear in any communication from Licensee.
+
+No term or provision of this License Agreement may be amended, altered, modified, waived, and no breach consented to in any way except in writing or conducted by both sides via the Yadu Rajiv Website, specifying such an amendment, alteration, modification, or waiver, executed by both Yadu Rajiv and the Licensee.
+
+If any part of this License Agreement is deemed contrary to law, invalid, unenforceable under applicable law, or partially or entirely void in any way by any law or court of law, the remaining provisions of the License Agreement will remain in full force and effect.

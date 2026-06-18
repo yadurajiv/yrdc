@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Game Design Circle | Interactive Workspace</title>
+    <script>
+        window.APP_VERSION = '1.4.9';
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.8/dist/purify.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lz-string@1.5.0/libs/lz-string.min.js"></script>
+    <link rel="stylesheet" href="css/base.css?v=1.4.9">
+    <link rel="stylesheet" href="css/sidebar.css?v=1.4.9">
+    <link rel="stylesheet" href="css/properties.css?v=1.4.9">
+    <link rel="stylesheet" href="css/graph.css?v=1.4.9">
+    <link rel="stylesheet" href="css/hud.css?v=1.4.9">
+    <link rel="stylesheet" href="css/print.css?v=1.4.9">
+</head>
+<body class="h-screen flex flex-col overflow-hidden">
+
+    <!-- Header -->
+    <header class="h-16 bg-white border-b border-slate-200 fixed top-0 left-0 right-0 z-50 px-2 sm:px-4 flex items-center justify-between print-hidden">
+        <div class="flex items-center gap-2">
+            <button onclick="toggleSidebar()" class="p-2 hover:bg-slate-100 rounded-lg lg:hidden">
+                <i data-lucide="menu" class="w-5 h-5"></i>
+            </button>
+            <div class="relative">
+                <button id="file-menu-button" class="flex items-center gap-2">
+                    <div class="w-8 h-8 sm:w-9 sm:h-9 bg-sky-500 rounded flex items-center justify-center shadow-sm shrink-0">
+                        <i data-lucide="radar" class="text-white w-4 h-4 sm:w-5 sm:h-5"></i>
+                    </div>
+                    <h1 class="font-black text-[10px] sm:text-sm uppercase tracking-tighter hidden xs:block">Design Circle</h1>
+                </button>
+                <div id="file-menu" class="file-menu hidden">
+                    <button data-file-action="new">New Project</button>
+                    <button data-file-action="save">Save Sheet</button>
+                    <button data-file-action="load">Load Sheet</button>
+                    <button data-file-action="share">Share Sheet</button>
+                    <div class="file-menu-divider"></div>
+                    <button data-file-action="backup">Backup All</button>
+                    <button data-file-action="restore">Restore All</button>
+                    <div class="file-menu-divider"></div>
+                    <button data-file-action="help">Help</button>
+                    <button data-file-action="delete" class="file-menu-danger">Delete Sheet</button>
+                </div>
+            </div>
+        </div>
+        <div class="flex items-center gap-1 sm:gap-2">
+            <select id="projectSelector" onchange="loadProject(this.value)" class="bg-slate-100 border-none rounded-lg px-1 sm:px-3 py-1 sm:py-1.5 text-[9px] sm:text-xs font-bold focus:ring-2 focus:ring-sky-500 outline-none max-w-[60px] sm:max-w-[150px]">
+            </select>
+            <button onclick="createNewProject()" class="p-1.5 sm:p-2 bg-sky-500 text-white rounded-lg hover:bg-sky-600 shadow-sm" title="New Project">
+                <i data-lucide="plus" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+            </button>
+        </div>
+
+        <!-- Hidden File Inputs -->
+        <input type="file" id="importInput" accept=".json" class="hidden" onchange="importFromJSON(this)">
+        <input type="file" id="importSheetInput" accept=".json" class="hidden" onchange="importSingleSheet(this)">
+    </header>
+
+    <div class="flex flex-1 pt-16 h-full overflow-hidden">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="fixed top-16 bottom-0 left-0 z-40 w-72 bg-white border-r border-slate-200 p-6 flex flex-col gap-6 lg:translate-x-0 closed print-hidden">
+            <div class="space-y-6 flex flex-col h-full overflow-hidden">
+                <section class="shrink-0 sidebar-project">
+                    <div class="sidebar-row">
+                        <label class="text-[10px] font-black uppercase text-slate-400 tracking-widest sidebar-label">Current Project</label>
+                        <button onclick="toggleSidebarCompact()" class="sidebar-icon-btn" title="Collapse panel">
+                            <i data-lucide="panel-left-close" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                    <input type="text" id="projectNameInput" oninput="updateProjectName(this.value)" class="sidebar-input" placeholder="Game Title...">
+                </section>
+
+                <div class="flex-1 overflow-y-auto custom-scrollbar space-y-6">
+                    <div>
+                        <span class="text-[9px] font-black text-slate-400 mb-3 uppercase tracking-widest block sidebar-label">Nodes</span>
+                        <input id="node-search" class="sidebar-search" type="text" placeholder="Filter nodes..." oninput="setNodeFilter(this.value)">
+                        <div class="node-list" id="nav-links"></div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        <div id="sidebar-resizer" class="sidebar-resizer" aria-hidden="true"></div>
+
+        <!-- Main Content -->
+        <main id="main-content" class="flex-1 overflow-y-auto bg-slate-50 lg:ml-72 transition-all custom-scrollbar flex flex-col">
+            
+            <!-- Workspace View -->
+            <div id="view-workspace" class="w-full h-full">
+                <div id="graph-viewport" class="graph-viewport">
+                    <div class="graph-grid"></div>
+                    <svg id="graph-edges" class="graph-edges" aria-hidden="true"></svg>
+                    <div id="graph-world" class="graph-world"></div>
+                </div>
+                <div class="graph-hud-bottom">
+                    <div class="graph-hud-group">
+                        <button onclick="createBlankNodeAtCenter()" class="graph-hud-btn"><i data-lucide="plus" class="w-4 h-4"></i> Blank</button>
+                        <div class="graph-hud-select">
+                            <select id="hud-template-select"></select>
+                            <button onclick="createNodeFromHudTemplate()" class="graph-hud-btn">Add</button>
+                        </div>
+                    </div>
+                    <div class="graph-hud-divider"></div>
+                    <div class="graph-hud-group">
+                        <button onclick="autoTidyNodes()" class="graph-hud-btn"><i data-lucide="layout-grid" class="w-4 h-4"></i> Tidy</button>
+                        <button onclick="resetGraphView()" class="graph-hud-btn"><i data-lucide="maximize" class="w-4 h-4"></i> Center</button>
+                        <button onclick="fitGraphToNodes()" class="graph-hud-btn"><i data-lucide="scan" class="w-4 h-4"></i> Fit</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <aside id="properties-panel" class="properties-panel">
+            <div class="properties-header">
+                <div>
+                    <p class="properties-title">Node Properties</p>
+                    <p class="properties-subtitle">Select a node to edit its details.</p>
+                </div>
+                <button id="properties-collapse" class="properties-collapse" title="Collapse panel">
+                    <i data-lucide="panel-right-close" class="w-4 h-4"></i>
+                </button>
+            </div>
+            <div id="properties-empty" class="properties-empty">
+                <p class="text-sm font-semibold text-slate-600">No node selected.</p>
+                <p class="text-xs text-slate-400">Click a node or select one from the list.</p>
+            </div>
+            <div id="properties-fields" class="properties-fields hidden">
+                <label class="properties-label">Title</label>
+                <input id="prop-title" class="properties-input" type="text">
+
+                <label class="properties-label">Question</label>
+                <input id="prop-question" class="properties-input" type="text">
+
+                <label class="properties-label">Tip</label>
+                <input id="prop-tip" class="properties-input" type="text">
+
+                <label class="properties-label">Content</label>
+                <textarea id="prop-content" class="properties-textarea" rows="6"></textarea>
+
+                <label class="properties-label">Group</label>
+                <input id="prop-group" class="properties-input" type="text" placeholder="Team / Feature / Phase">
+
+                <label class="properties-label">Tags</label>
+                <input id="prop-tags" class="properties-input" type="text" placeholder="comma, separated">
+
+                <label class="properties-label">Connections</label>
+                <div id="prop-links" class="properties-links"></div>
+
+                <div class="properties-actions">
+                    <button id="prop-focus" class="properties-btn">Focus</button>
+                    <button id="prop-duplicate" class="properties-btn">Duplicate</button>
+                    <button id="prop-delete" class="properties-btn properties-danger">Delete</button>
+                </div>
+            </div>
+        </aside>
+        <div id="properties-resizer" class="properties-resizer" aria-hidden="true"></div>
+        <button id="properties-toggle" class="properties-toggle" title="Open properties">
+            <i data-lucide="panel-right-open" class="w-4 h-4"></i>
+        </button>
+    </div>
+
+    <!-- Help Modal -->
+    <div id="help-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm hidden">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto flex flex-col border border-slate-200">
+            <div class="p-6 border-b border-slate-100 flex items-center justify-between sticky top-0 bg-white">
+                <div class="flex items-center gap-3">
+                    <div class="p-2 bg-sky-500 rounded-lg text-white">
+                        <i data-lucide="info" class="w-5 h-5"></i>
+                    </div>
+                    <h2 class="text-xl font-black uppercase tracking-tight">The Design Circle</h2>
+                </div>
+                <button onclick="hideHelp()" class="p-2 hover:bg-slate-100 rounded-full text-slate-400">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            
+            <div class="p-8 space-y-8">
+                <section>
+                    <h3 class="text-sm font-black text-sky-600 uppercase tracking-widest mb-3">Philosophy</h3>
+                    <p class="text-slate-600 leading-relaxed">
+                        Game design is <strong>non-linear</strong>. Ideas rarely start at the theme and end at the loop. The Circle is a <em>thinking device</em> that allows you to enter the process anywhere; be it a core loop, a specific rule, or an intended emotion. This way of questioning works both for specific features to large games.
+                    </p>
+                    <div class="mt-4 p-4 bg-slate-50 border border-slate-100 rounded-xl text-sm italic text-slate-500">
+                        "A game is stable when you can walk the circle in any direction without finding a contradiction."
+                    </div>
+                </section>
+
+                <section>
+                    <h3 class="text-sm font-black text-sky-600 uppercase tracking-widest mb-3">How to Use This Tool</h3>
+                    <ul class="space-y-4 text-sm text-slate-600">
+                        <li class="flex gap-3">
+                            <span class="w-6 h-6 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center text-[10px] font-black shrink-0">01</span>
+                            <span><strong>Workspace:</strong> This is your design canvas. Drag nodes anywhere, pull the connector handle to link ideas, and zoom/pan to explore the graph.</span>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="w-6 h-6 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center text-[10px] font-black shrink-0">02</span>
+                            <span><strong>File Menu:</strong> Click the logo to create, load, or share sheets and manage your workspace archive.</span>
+                        </li>
+                    </ul>
+                </section>
+                
+                <button onclick="hideHelp()" class="w-full py-4 bg-sky-500 hover:bg-sky-600 text-white font-black uppercase tracking-widest rounded-xl transition-all shadow-lg shadow-sky-200">
+                    Got it, let's design
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toasts -->
+    <div id="toast-container" class="print-hidden" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- Mobile Overlay -->
+    <div id="sidebar-overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-30 hidden lg:hidden"></div>
+
+    <script type="module" src="js/app.js?v=1.4.9"></script>
+</body>
+</html>

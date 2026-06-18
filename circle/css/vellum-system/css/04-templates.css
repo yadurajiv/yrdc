@@ -1,0 +1,168 @@
+.vellum-container {
+    margin: 0 auto;
+    max-width: 56rem;
+    padding: 0 1rem;
+}
+
+.vellum-archive-header {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-bottom: 2.5rem;
+}
+
+.vellum-archive-heading-row {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: space-between;
+}
+
+.vellum-archive-title {
+    font-family: var(--vellum-font-serif);
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 2rem;
+    margin: 0;
+}
+
+.vellum-archive-summary {
+    color: #9ca3af;
+    font-family: var(--vellum-font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.28em;
+    line-height: 1rem;
+    margin: 0.5rem 0 0;
+    text-transform: uppercase;
+}
+
+.vellum-document-header {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    justify-content: space-between;
+    margin-bottom: 4rem;
+}
+
+@media (min-width: 768px) {
+    .vellum-document-header {
+        flex-direction: row;
+    }
+}
+
+.vellum-document-company {
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .vellum-document-company {
+        width: 50%;
+    }
+}
+
+.vellum-document-meta {
+    text-align: left;
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .vellum-document-meta {
+        text-align: right;
+        width: 33.333%;
+    }
+}
+
+.vellum-meta-group {
+    color: #9ca3af;
+    font-family: var(--vellum-font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.vellum-meta-value {
+    color: #000000;
+    text-align: right;
+    width: 7rem;
+}
+
+.vellum-greeting {
+    border-left: 2px solid #f3f4f6;
+    font-family: var(--vellum-font-serif);
+    font-size: 1.25rem;
+    font-style: italic;
+    line-height: 1.625;
+    margin-bottom: 2.5rem;
+    outline: none;
+    padding-left: 1.5rem;
+    width: 100%;
+}
+
+@keyframes vellum-burn-out {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(0.98) translateY(-8px);
+    }
+}
+
+.vellum-burning {
+    animation: vellum-burn-out 0.6s forwards ease-in;
+    pointer-events: none;
+    z-index: 50;
+}
+
+.vellum-no-print {
+    display: initial;
+}
+
+@media print {
+    @page {
+        margin: 10mm 6mm;
+        size: A4;
+    }
+
+    .vellum-no-print {
+        display: none !important;
+    }
+
+    .vellum {
+        background: #ffffff;
+        padding-bottom: 0;
+        width: 210mm;
+    }
+
+    .vellum-container {
+        margin: 0 !important;
+        max-width: none !important;
+        padding: 0 !important;
+    }
+
+    .vellum-document {
+        border: none;
+        box-shadow: none;
+        box-sizing: border-box;
+        margin: 0 auto !important;
+        max-width: 198mm !important;
+        min-height: auto !important;
+        padding: 6mm !important;
+        width: 198mm !important;
+    }
+
+    .vellum-input-minimal,
+    .vellum textarea,
+    .vellum input {
+        border: none !important;
+        box-shadow: none !important;
+        outline: none !important;
+        print-color-adjust: exact;
+        resize: none !important;
+        -webkit-print-color-adjust: exact;
+    }
+}
