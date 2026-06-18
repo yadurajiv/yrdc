@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">
     <title>Yadu Rajiv</title>
-    <link href="https://yadurajiv.github.io/yrdc/feed.xml" rel="self" />
-    <link href="https://yadurajiv.github.io/yrdc" />
+    <link href="https://yadurajiv.com/feed.xml" rel="self" />
+    <link href="https://yadurajiv.com" />
     <updated>2026-06-15T07:36:32+05:30</updated>
     <author>
         <name>Yadu Rajiv</name>
     </author>
-    <id>https://yadurajiv.github.io/yrdc</id>
+    <id>https://yadurajiv.com</id>
 
     <entry>
         <title>WFC Experiments - 2</title>
         <author>
             <name>Yadu Rajiv</name>
         </author>
-        <link href="https://yadurajiv.github.io/yrdc/2025/02/15/wfc-experiments-2/"/>
-        <id>https://yadurajiv.github.io/yrdc/2025/02/15/wfc-experiments-2/</id>
-        <media:content url="https://yadurajiv.github.io/yrdc/media/posts/514/wfc_exp_2_gen_MTUtMDItMjAyNSAxMjoxNToxMA.png" medium="image" />
+        <link href="https://yadurajiv.com/2025/02/15/wfc-experiments-2/"/>
+        <id>https://yadurajiv.com/2025/02/15/wfc-experiments-2/</id>
+        <media:content url="https://yadurajiv.com/media/posts/514/wfc_exp_2_gen_MTUtMDItMjAyNSAxMjoxNToxMA.png" medium="image" />
             <category term="Featured"/>
             <category term="Design and related"/>
 
         <updated>2025-02-15T20:59:34+05:30</updated>
             <summary type="html">
                 <![CDATA[
-                        <img src="https://yadurajiv.github.io/yrdc/media/posts/514/wfc_exp_2_gen_MTUtMDItMjAyNSAxMjoxNToxMA.png" alt="" />
+                        <img src="https://yadurajiv.com/media/posts/514/wfc_exp_2_gen_MTUtMDItMjAyNSAxMjoxNToxMA.png" alt="" />
                     In&nbsp;our previous experiment&nbsp;we found out that just walking around and picking tiles and invalidating neighbours weren't enough and the Daniel Shiffman video and the&nbsp;Oskar Stålberg wave demo does&hellip;
                 ]]>
             </summary>
         <content type="html">
             <![CDATA[
-                    <p><img src="https://yadurajiv.github.io/yrdc/media/posts/514/wfc_exp_2_gen_MTUtMDItMjAyNSAxMjoxNToxMA.png" class="type:primaryImage" alt="" /></p>
+                    <p><img src="https://yadurajiv.com/media/posts/514/wfc_exp_2_gen_MTUtMDItMjAyNSAxMjoxNToxMA.png" class="type:primaryImage" alt="" /></p>
                 <p><!-- wp:paragraph --></p>
 <p>In&nbsp;<a href="https://yadu.itch.io/wfc-experiments" target="_blank" rel="noreferrer noopener">our previous experiment</a>&nbsp;we found out that just walking around and picking tiles and invalidating neighbours weren't enough and the Daniel Shiffman video and the&nbsp;Oskar Stålberg wave demo does allude to what we should have been doing, which was to invalidate and collapse neighbours and their neighbours and so on (or so I think) - like solving a sudoku puzzle - the more stable information there is about a cell - in case our starting cell, the more clarity we have about what our neighbours are and their neighbours et al.&nbsp; (Aside: maybe I should try making a sudoku solver 🫠)&nbsp;</p>
 <p>
@@ -95,22 +95,22 @@
         <author>
             <name>Yadu Rajiv</name>
         </author>
-        <link href="https://yadurajiv.github.io/yrdc/2025/02/12/wfc-experiments/"/>
-        <id>https://yadurajiv.github.io/yrdc/2025/02/12/wfc-experiments/</id>
-        <media:content url="https://yadurajiv.github.io/yrdc/media/posts/513/wfc_gen_d.png" medium="image" />
+        <link href="https://yadurajiv.com/2025/02/12/wfc-experiments/"/>
+        <id>https://yadurajiv.com/2025/02/12/wfc-experiments/</id>
+        <media:content url="https://yadurajiv.com/media/posts/513/wfc_gen_d.png" medium="image" />
             <category term="Featured"/>
             <category term="Design and related"/>
 
         <updated>2025-02-12T21:50:45+05:30</updated>
             <summary type="html">
                 <![CDATA[
-                        <img src="https://yadurajiv.github.io/yrdc/media/posts/513/wfc_gen_d.png" alt="" />
+                        <img src="https://yadurajiv.com/media/posts/513/wfc_gen_d.png" alt="" />
                     Play WFC Experiments on itch.io Last week, I&nbsp;shared a video&nbsp;with a friend of mine that explained the Wave Function Collapse and that got me&nbsp; excited about procgen again!&hellip;
                 ]]>
             </summary>
         <content type="html">
             <![CDATA[
-                    <p><img src="https://yadurajiv.github.io/yrdc/media/posts/513/wfc_gen_d.png" class="type:primaryImage" alt="" /></p>
+                    <p><img src="https://yadurajiv.com/media/posts/513/wfc_gen_d.png" class="type:primaryImage" alt="" /></p>
                 <p><!-- wp:html -->
 <div class="post__iframe"><iframe loading="lazy" frameborder="0" src="https://itch.io/embed-upload/12792317?color=9CBBAD" allowfullscreen="" width="800" height="820"><a href="https://yadu.itch.io/wfc-experiments">Play WFC Experiments on itch.io</a></iframe></div>
 <!-- /wp:html --></p>
@@ -141,22 +141,22 @@
         <author>
             <name>Yadu Rajiv</name>
         </author>
-        <link href="https://yadurajiv.github.io/yrdc/2024/07/17/wtf-community-masterclasses-on-game-jams/"/>
-        <id>https://yadurajiv.github.io/yrdc/2024/07/17/wtf-community-masterclasses-on-game-jams/</id>
-        <media:content url="https://yadurajiv.github.io/yrdc/media/posts/512/wtfcmc.png" medium="image" />
+        <link href="https://yadurajiv.com/2024/07/17/wtf-community-masterclasses-on-game-jams/"/>
+        <id>https://yadurajiv.com/2024/07/17/wtf-community-masterclasses-on-game-jams/</id>
+        <media:content url="https://yadurajiv.com/media/posts/512/wtfcmc.png" medium="image" />
             <category term="Featured"/>
             <category term="Design and related"/>
 
         <updated>2024-07-17T22:47:35+05:30</updated>
             <summary type="html">
                 <![CDATA[
-                        <img src="https://yadurajiv.github.io/yrdc/media/posts/512/wtfcmc.png" alt="" />
+                        <img src="https://yadurajiv.com/media/posts/512/wtfcmc.png" alt="" />
                     I had a chance to share some of my experiences with hosting and participating in game jams as the host of the WTF Community x IGDC Game Jam&hellip;
                 ]]>
             </summary>
         <content type="html">
             <![CDATA[
-                    <p><img src="https://yadurajiv.github.io/yrdc/media/posts/512/wtfcmc.png" class="type:primaryImage" alt="" /></p>
+                    <p><img src="https://yadurajiv.com/media/posts/512/wtfcmc.png" class="type:primaryImage" alt="" /></p>
                 <p><!-- wp:paragraph --></p>
 <p>I had a chance to share some of my experiences with hosting and participating in game jams as the host of the WTF Community x IGDC Game Jam in July 19, 2024. The talk centres around how to prepare, what to do and what after a game jam. Video and slides from the talk below.</p>
 <p>
@@ -181,22 +181,22 @@ https://www.youtube.com/watch?v=8rGUNzrjXl8
         <author>
             <name>Yadu Rajiv</name>
         </author>
-        <link href="https://yadurajiv.github.io/yrdc/2024/05/30/the-garden-of-forking-paths-tales-from-alternate-realities/"/>
-        <id>https://yadurajiv.github.io/yrdc/2024/05/30/the-garden-of-forking-paths-tales-from-alternate-realities/</id>
-        <media:content url="https://yadurajiv.github.io/yrdc/media/posts/511/TAN00334-scaled.jpg" medium="image" />
+        <link href="https://yadurajiv.com/2024/05/30/the-garden-of-forking-paths-tales-from-alternate-realities/"/>
+        <id>https://yadurajiv.com/2024/05/30/the-garden-of-forking-paths-tales-from-alternate-realities/</id>
+        <media:content url="https://yadurajiv.com/media/posts/511/TAN00334-scaled.jpg" medium="image" />
             <category term="Featured"/>
             <category term="Design and related"/>
 
         <updated>2024-05-30T11:00:00+05:30</updated>
             <summary type="html">
                 <![CDATA[
-                        <img src="https://yadurajiv.github.io/yrdc/media/posts/511/TAN00334-scaled.jpg" alt="" />
+                        <img src="https://yadurajiv.com/media/posts/511/TAN00334-scaled.jpg" alt="" />
                     I had a chance to speak at the IGDC Dev Days in Kochi on the 30th of May, 2024. The initial idea for this talk was very different.
                 ]]>
             </summary>
         <content type="html">
             <![CDATA[
-                    <p><img src="https://yadurajiv.github.io/yrdc/media/posts/511/TAN00334-scaled.jpg" class="type:primaryImage" alt="" /></p>
+                    <p><img src="https://yadurajiv.com/media/posts/511/TAN00334-scaled.jpg" class="type:primaryImage" alt="" /></p>
                 <p><!-- wp:paragraph --></p>
 <p>I had a chance to speak at the IGDC Dev Days in Kochi on the 30th of May, 2024. The initial idea for this talk was very different. I was trying to figure out what to talk about at the dev days event and my first impulse was to do something around practical gamedev advice which was around doing market research, planning and resources etc. - the sort of things to think about when you are starting out. But it felt really generic and impersonal - and like always I thought I try something new (this is also probably something to learn from - do try new things all the time!). So this is the first time I'm ever attempting this kind of a talk. You can find the talk and slides below.</p>
 <p>
@@ -225,33 +225,33 @@ https://www.youtube.com/watch?v=1RYSM7ohvIo
         <author>
             <name>Yadu Rajiv</name>
         </author>
-        <link href="https://yadurajiv.github.io/yrdc/2023/01/02/jigsaw/"/>
-        <id>https://yadurajiv.github.io/yrdc/2023/01/02/jigsaw/</id>
-        <media:content url="https://yadurajiv.github.io/yrdc/media/posts/509/1-2-scaled.jpg" medium="image" />
+        <link href="https://yadurajiv.com/2023/01/02/jigsaw/"/>
+        <id>https://yadurajiv.com/2023/01/02/jigsaw/</id>
+        <media:content url="https://yadurajiv.com/media/posts/509/1-2-scaled.jpg" medium="image" />
             <category term="Featured"/>
             <category term="Design and related"/>
 
         <updated>2023-01-02T10:00:00+05:30</updated>
             <summary type="html">
                 <![CDATA[
-                        <img src="https://yadurajiv.github.io/yrdc/media/posts/509/1-2-scaled.jpg" alt="" />
+                        <img src="https://yadurajiv.com/media/posts/509/1-2-scaled.jpg" alt="" />
                     Jigsaw is the digital version of the traditional jigsaw puzzle game, where player's piece together an image puzzle. The twist here is that you have video puzzles too.
                 ]]>
             </summary>
         <content type="html">
             <![CDATA[
-                    <p><img src="https://yadurajiv.github.io/yrdc/media/posts/509/1-2-scaled.jpg" class="type:primaryImage" alt="" /></p>
+                    <p><img src="https://yadurajiv.com/media/posts/509/1-2-scaled.jpg" class="type:primaryImage" alt="" /></p>
                 <p><!-- wp:gallery {"linkTo":"none"} --></p>
 <figure class="wp-block-gallery has-nested-images columns-default is-cropped"><!-- wp:image {"id":5092,"sizeSlug":"large","linkDestination":"none"} --></p>
-<figure class="wp-block-image size-large"><figure class="wp-image-5092"><img loading="lazy" src="https://yadurajiv.github.io/yrdc/media/posts/509/3-473x1024.jpg" alt=""  sizes="(max-width: 900px) 100vw, 900px" srcset="https://yadurajiv.github.io/yrdc/media/posts/509/responsive/3-473x1024-xs.jpg 320w ,https://yadurajiv.github.io/yrdc/media/posts/509/responsive/3-473x1024-sm.jpg 640w ,https://yadurajiv.github.io/yrdc/media/posts/509/responsive/3-473x1024-md.jpg 900w ,https://yadurajiv.github.io/yrdc/media/posts/509/responsive/3-473x1024-xl.jpg 1400w"></figure></figure>
+<figure class="wp-block-image size-large"><figure class="wp-image-5092"><img loading="lazy" src="https://yadurajiv.com/media/posts/509/3-473x1024.jpg" alt=""  sizes="(max-width: 900px) 100vw, 900px" srcset="https://yadurajiv.com/media/posts/509/responsive/3-473x1024-xs.jpg 320w ,https://yadurajiv.com/media/posts/509/responsive/3-473x1024-sm.jpg 640w ,https://yadurajiv.com/media/posts/509/responsive/3-473x1024-md.jpg 900w ,https://yadurajiv.com/media/posts/509/responsive/3-473x1024-xl.jpg 1400w"></figure></figure>
 <p>
 <!-- /wp:image --></p>
 <p><!-- wp:image {"id":5093,"sizeSlug":"large","linkDestination":"none"} --></p>
-<figure class="wp-block-image size-large"><figure class="wp-image-5093"><img loading="lazy" src="https://yadurajiv.github.io/yrdc/media/posts/509/2-473x1024.jpg" alt=""  sizes="(max-width: 900px) 100vw, 900px" srcset="https://yadurajiv.github.io/yrdc/media/posts/509/responsive/2-473x1024-xs.jpg 320w ,https://yadurajiv.github.io/yrdc/media/posts/509/responsive/2-473x1024-sm.jpg 640w ,https://yadurajiv.github.io/yrdc/media/posts/509/responsive/2-473x1024-md.jpg 900w ,https://yadurajiv.github.io/yrdc/media/posts/509/responsive/2-473x1024-xl.jpg 1400w"></figure></figure>
+<figure class="wp-block-image size-large"><figure class="wp-image-5093"><img loading="lazy" src="https://yadurajiv.com/media/posts/509/2-473x1024.jpg" alt=""  sizes="(max-width: 900px) 100vw, 900px" srcset="https://yadurajiv.com/media/posts/509/responsive/2-473x1024-xs.jpg 320w ,https://yadurajiv.com/media/posts/509/responsive/2-473x1024-sm.jpg 640w ,https://yadurajiv.com/media/posts/509/responsive/2-473x1024-md.jpg 900w ,https://yadurajiv.com/media/posts/509/responsive/2-473x1024-xl.jpg 1400w"></figure></figure>
 <p>
 <!-- /wp:image --></p>
 <p><!-- wp:image {"id":5091,"sizeSlug":"large","linkDestination":"none"} --></p>
-<figure class="wp-block-image size-large"><figure class="wp-image-5091"><img loading="lazy" src="https://yadurajiv.github.io/yrdc/media/posts/509/1-2-473x1024.jpg" alt=""  sizes="(max-width: 900px) 100vw, 900px" srcset="https://yadurajiv.github.io/yrdc/media/posts/509/responsive/1-2-473x1024-xs.jpg 320w ,https://yadurajiv.github.io/yrdc/media/posts/509/responsive/1-2-473x1024-sm.jpg 640w ,https://yadurajiv.github.io/yrdc/media/posts/509/responsive/1-2-473x1024-md.jpg 900w ,https://yadurajiv.github.io/yrdc/media/posts/509/responsive/1-2-473x1024-xl.jpg 1400w"></figure></figure>
+<figure class="wp-block-image size-large"><figure class="wp-image-5091"><img loading="lazy" src="https://yadurajiv.com/media/posts/509/1-2-473x1024.jpg" alt=""  sizes="(max-width: 900px) 100vw, 900px" srcset="https://yadurajiv.com/media/posts/509/responsive/1-2-473x1024-xs.jpg 320w ,https://yadurajiv.com/media/posts/509/responsive/1-2-473x1024-sm.jpg 640w ,https://yadurajiv.com/media/posts/509/responsive/1-2-473x1024-md.jpg 900w ,https://yadurajiv.com/media/posts/509/responsive/1-2-473x1024-xl.jpg 1400w"></figure></figure>
 <p>
 <!-- /wp:image --></figure>
 <p>
@@ -285,33 +285,33 @@ https://www.youtube.com/watch?v=1RYSM7ohvIo
         <author>
             <name>Yadu Rajiv</name>
         </author>
-        <link href="https://yadurajiv.github.io/yrdc/2022/11/14/tile-match/"/>
-        <id>https://yadurajiv.github.io/yrdc/2022/11/14/tile-match/</id>
-        <media:content url="https://yadurajiv.github.io/yrdc/media/posts/510/icon-1.png" medium="image" />
+        <link href="https://yadurajiv.com/2022/11/14/tile-match/"/>
+        <id>https://yadurajiv.com/2022/11/14/tile-match/</id>
+        <media:content url="https://yadurajiv.com/media/posts/510/icon-1.png" medium="image" />
             <category term="Featured"/>
             <category term="Design and related"/>
 
         <updated>2022-11-14T10:30:00+05:30</updated>
             <summary type="html">
                 <![CDATA[
-                        <img src="https://yadurajiv.github.io/yrdc/media/posts/510/icon-1.png" alt="" />
+                        <img src="https://yadurajiv.com/media/posts/510/icon-1.png" alt="" />
                     TIle Match is a mix of match 3 and Mahjong. The objective for the player is to clear the board by matching 3 tiles with matching symbols to&hellip;
                 ]]>
             </summary>
         <content type="html">
             <![CDATA[
-                    <p><img src="https://yadurajiv.github.io/yrdc/media/posts/510/icon-1.png" class="type:primaryImage" alt="" /></p>
+                    <p><img src="https://yadurajiv.com/media/posts/510/icon-1.png" class="type:primaryImage" alt="" /></p>
                 <p><!-- wp:gallery {"linkTo":"none"} --></p>
 <figure class="wp-block-gallery has-nested-images columns-default is-cropped"><!-- wp:image {"id":7802,"sizeSlug":"large","linkDestination":"none"} --></p>
-<figure class="wp-block-image size-large"><figure class="wp-image-7802"><img loading="lazy" src="https://yadurajiv.github.io/yrdc/media/posts/510/tm1-576x1024.png" alt=""  sizes="(max-width: 900px) 100vw, 900px" srcset="https://yadurajiv.github.io/yrdc/media/posts/510/responsive/tm1-576x1024-xs.png 320w ,https://yadurajiv.github.io/yrdc/media/posts/510/responsive/tm1-576x1024-sm.png 640w ,https://yadurajiv.github.io/yrdc/media/posts/510/responsive/tm1-576x1024-md.png 900w ,https://yadurajiv.github.io/yrdc/media/posts/510/responsive/tm1-576x1024-xl.png 1400w"></figure></figure>
+<figure class="wp-block-image size-large"><figure class="wp-image-7802"><img loading="lazy" src="https://yadurajiv.com/media/posts/510/tm1-576x1024.png" alt=""  sizes="(max-width: 900px) 100vw, 900px" srcset="https://yadurajiv.com/media/posts/510/responsive/tm1-576x1024-xs.png 320w ,https://yadurajiv.com/media/posts/510/responsive/tm1-576x1024-sm.png 640w ,https://yadurajiv.com/media/posts/510/responsive/tm1-576x1024-md.png 900w ,https://yadurajiv.com/media/posts/510/responsive/tm1-576x1024-xl.png 1400w"></figure></figure>
 <p>
 <!-- /wp:image --></p>
 <p><!-- wp:image {"id":7801,"sizeSlug":"large","linkDestination":"none"} --></p>
-<figure class="wp-block-image size-large"><figure class="wp-image-7801"><img loading="lazy" src="https://yadurajiv.github.io/yrdc/media/posts/510/tm2-576x1024.png" alt=""  sizes="(max-width: 900px) 100vw, 900px" srcset="https://yadurajiv.github.io/yrdc/media/posts/510/responsive/tm2-576x1024-xs.png 320w ,https://yadurajiv.github.io/yrdc/media/posts/510/responsive/tm2-576x1024-sm.png 640w ,https://yadurajiv.github.io/yrdc/media/posts/510/responsive/tm2-576x1024-md.png 900w ,https://yadurajiv.github.io/yrdc/media/posts/510/responsive/tm2-576x1024-xl.png 1400w"></figure></figure>
+<figure class="wp-block-image size-large"><figure class="wp-image-7801"><img loading="lazy" src="https://yadurajiv.com/media/posts/510/tm2-576x1024.png" alt=""  sizes="(max-width: 900px) 100vw, 900px" srcset="https://yadurajiv.com/media/posts/510/responsive/tm2-576x1024-xs.png 320w ,https://yadurajiv.com/media/posts/510/responsive/tm2-576x1024-sm.png 640w ,https://yadurajiv.com/media/posts/510/responsive/tm2-576x1024-md.png 900w ,https://yadurajiv.com/media/posts/510/responsive/tm2-576x1024-xl.png 1400w"></figure></figure>
 <p>
 <!-- /wp:image --></p>
 <p><!-- wp:image {"id":7800,"sizeSlug":"large","linkDestination":"none"} --></p>
-<figure class="wp-block-image size-large"><figure class="wp-image-7800"><img loading="lazy" src="https://yadurajiv.github.io/yrdc/media/posts/510/tm3-576x1024.jpg" alt=""  sizes="(max-width: 900px) 100vw, 900px" srcset="https://yadurajiv.github.io/yrdc/media/posts/510/responsive/tm3-576x1024-xs.jpg 320w ,https://yadurajiv.github.io/yrdc/media/posts/510/responsive/tm3-576x1024-sm.jpg 640w ,https://yadurajiv.github.io/yrdc/media/posts/510/responsive/tm3-576x1024-md.jpg 900w ,https://yadurajiv.github.io/yrdc/media/posts/510/responsive/tm3-576x1024-xl.jpg 1400w"></figure></figure>
+<figure class="wp-block-image size-large"><figure class="wp-image-7800"><img loading="lazy" src="https://yadurajiv.com/media/posts/510/tm3-576x1024.jpg" alt=""  sizes="(max-width: 900px) 100vw, 900px" srcset="https://yadurajiv.com/media/posts/510/responsive/tm3-576x1024-xs.jpg 320w ,https://yadurajiv.com/media/posts/510/responsive/tm3-576x1024-sm.jpg 640w ,https://yadurajiv.com/media/posts/510/responsive/tm3-576x1024-md.jpg 900w ,https://yadurajiv.com/media/posts/510/responsive/tm3-576x1024-xl.jpg 1400w"></figure></figure>
 <p>
 <!-- /wp:image --></figure>
 <p>
@@ -379,22 +379,22 @@ https://www.youtube.com/watch?v=1RYSM7ohvIo
         <author>
             <name>Yadu Rajiv</name>
         </author>
-        <link href="https://yadurajiv.github.io/yrdc/2022/11/08/learn-by-doing-empowering-yourself-to-be-independent-at-igdc-2022/"/>
-        <id>https://yadurajiv.github.io/yrdc/2022/11/08/learn-by-doing-empowering-yourself-to-be-independent-at-igdc-2022/</id>
-        <media:content url="https://yadurajiv.github.io/yrdc/media/posts/507/igdc_2022_yadu.jpg" medium="image" />
+        <link href="https://yadurajiv.com/2022/11/08/learn-by-doing-empowering-yourself-to-be-independent-at-igdc-2022/"/>
+        <id>https://yadurajiv.com/2022/11/08/learn-by-doing-empowering-yourself-to-be-independent-at-igdc-2022/</id>
+        <media:content url="https://yadurajiv.com/media/posts/507/igdc_2022_yadu.jpg" medium="image" />
             <category term="Featured"/>
             <category term="Design and related"/>
 
         <updated>2022-11-08T12:28:43+05:30</updated>
             <summary type="html">
                 <![CDATA[
-                        <img src="https://yadurajiv.github.io/yrdc/media/posts/507/igdc_2022_yadu.jpg" alt="" />
+                        <img src="https://yadurajiv.com/media/posts/507/igdc_2022_yadu.jpg" alt="" />
                     I had a chance to speak at the IGDC in Hyderabad in November this year (2022). The short talk was based around the idea of learning by doing.
                 ]]>
             </summary>
         <content type="html">
             <![CDATA[
-                    <p><img src="https://yadurajiv.github.io/yrdc/media/posts/507/igdc_2022_yadu.jpg" class="type:primaryImage" alt="" /></p>
+                    <p><img src="https://yadurajiv.com/media/posts/507/igdc_2022_yadu.jpg" class="type:primaryImage" alt="" /></p>
                 <p><!-- wp:paragraph --></p>
 <p>I had a chance to speak at the IGDC in Hyderabad in November this year (2022). The short talk was based around the idea of learning by doing. Here is an extended version of the slides, with slide notes.</p>
 <p>
@@ -414,24 +414,24 @@ https://www.youtube.com/watch?v=1RYSM7ohvIo
         <author>
             <name>Yadu Rajiv</name>
         </author>
-        <link href="https://yadurajiv.github.io/yrdc/2021/09/27/destination-solitaire-tripeaks/"/>
-        <id>https://yadurajiv.github.io/yrdc/2021/09/27/destination-solitaire-tripeaks/</id>
-        <media:content url="https://yadurajiv.github.io/yrdc/media/posts/508/icon.png" medium="image" />
+        <link href="https://yadurajiv.com/2021/09/27/destination-solitaire-tripeaks/"/>
+        <id>https://yadurajiv.com/2021/09/27/destination-solitaire-tripeaks/</id>
+        <media:content url="https://yadurajiv.com/media/posts/508/icon.png" medium="image" />
             <category term="Featured"/>
             <category term="Design and related"/>
 
         <updated>2021-09-27T10:30:00+05:30</updated>
             <summary type="html">
                 <![CDATA[
-                        <img src="https://yadurajiv.github.io/yrdc/media/posts/508/icon.png" alt="" />
+                        <img src="https://yadurajiv.com/media/posts/508/icon.png" alt="" />
                     Destination Solitaire is a tripeaks game where player's need to match cards one higher or lower in value with a house card to clear the board. My work&hellip;
                 ]]>
             </summary>
         <content type="html">
             <![CDATA[
-                    <p><img src="https://yadurajiv.github.io/yrdc/media/posts/508/icon.png" class="type:primaryImage" alt="" /></p>
+                    <p><img src="https://yadurajiv.com/media/posts/508/icon.png" class="type:primaryImage" alt="" /></p>
                 <p><!-- wp:image {"id":5088,"sizeSlug":"full","linkDestination":"none"} --></p>
-<figure class="wp-block-image size-full"><figure class="wp-image-5088"><img loading="lazy" src="https://yadurajiv.github.io/yrdc/media/posts/508/1-1.jpg" alt=""  sizes="(max-width: 900px) 100vw, 900px" srcset="https://yadurajiv.github.io/yrdc/media/posts/508/responsive/1-1-xs.jpg 320w ,https://yadurajiv.github.io/yrdc/media/posts/508/responsive/1-1-sm.jpg 640w ,https://yadurajiv.github.io/yrdc/media/posts/508/responsive/1-1-md.jpg 900w ,https://yadurajiv.github.io/yrdc/media/posts/508/responsive/1-1-xl.jpg 1400w"></figure></figure>
+<figure class="wp-block-image size-full"><figure class="wp-image-5088"><img loading="lazy" src="https://yadurajiv.com/media/posts/508/1-1.jpg" alt=""  sizes="(max-width: 900px) 100vw, 900px" srcset="https://yadurajiv.com/media/posts/508/responsive/1-1-xs.jpg 320w ,https://yadurajiv.com/media/posts/508/responsive/1-1-sm.jpg 640w ,https://yadurajiv.com/media/posts/508/responsive/1-1-md.jpg 900w ,https://yadurajiv.com/media/posts/508/responsive/1-1-xl.jpg 1400w"></figure></figure>
 <p>
 <!-- /wp:image --></p>
 <p><!-- wp:paragraph --></p>
@@ -474,21 +474,21 @@ https://www.youtube.com/watch?v=1RYSM7ohvIo
         <author>
             <name>Yadu Rajiv</name>
         </author>
-        <link href="https://yadurajiv.github.io/yrdc/2021/06/20/lost-and-found-at-the-mall/"/>
-        <id>https://yadurajiv.github.io/yrdc/2021/06/20/lost-and-found-at-the-mall/</id>
-        <media:content url="https://yadurajiv.github.io/yrdc/media/posts/503/itch_cover.png" medium="image" />
+        <link href="https://yadurajiv.com/2021/06/20/lost-and-found-at-the-mall/"/>
+        <id>https://yadurajiv.com/2021/06/20/lost-and-found-at-the-mall/</id>
+        <media:content url="https://yadurajiv.com/media/posts/503/itch_cover.png" medium="image" />
             <category term="Featured"/>
 
         <updated>2021-06-20T02:06:04+05:30</updated>
             <summary type="html">
                 <![CDATA[
-                        <img src="https://yadurajiv.github.io/yrdc/media/posts/503/itch_cover.png" alt="" />
+                        <img src="https://yadurajiv.com/media/posts/503/itch_cover.png" alt="" />
                     A game about working at the Lost &amp; Found at the Mall. Your duty is to question the very fabric of existence and return the right items to&hellip;
                 ]]>
             </summary>
         <content type="html">
             <![CDATA[
-                    <p><img src="https://yadurajiv.github.io/yrdc/media/posts/503/itch_cover.png" class="type:primaryImage" alt="" /></p>
+                    <p><img src="https://yadurajiv.com/media/posts/503/itch_cover.png" class="type:primaryImage" alt="" /></p>
                 <p><!-- wp:paragraph --></p>
 <p>A game about working at the Lost &amp; Found at the Mall. Your duty is to question the very fabric of existence and return the right items to the right people. But be careful! There might be thieves trying to take what isn’t theirs.</p>
 <p>
@@ -521,21 +521,21 @@ https://www.youtube.com/watch?v=1RYSM7ohvIo
         <author>
             <name>Yadu Rajiv</name>
         </author>
-        <link href="https://yadurajiv.github.io/yrdc/2021/04/24/do-writing/"/>
-        <id>https://yadurajiv.github.io/yrdc/2021/04/24/do-writing/</id>
-        <media:content url="https://yadurajiv.github.io/yrdc/media/posts/502/icon.png" medium="image" />
+        <link href="https://yadurajiv.com/2021/04/24/do-writing/"/>
+        <id>https://yadurajiv.com/2021/04/24/do-writing/</id>
+        <media:content url="https://yadurajiv.com/media/posts/502/icon.png" medium="image" />
             <category term="Featured"/>
 
         <updated>2021-04-24T13:06:05+05:30</updated>
             <summary type="html">
                 <![CDATA[
-                        <img src="https://yadurajiv.github.io/yrdc/media/posts/502/icon.png" alt="" />
+                        <img src="https://yadurajiv.com/media/posts/502/icon.png" alt="" />
                     DoWrite gives you a browser based distraction free writing experience. Write multiple documents, simple and easy to use rich text editor, autosaves all data locally on your browser&hellip;
                 ]]>
             </summary>
         <content type="html">
             <![CDATA[
-                    <p><img src="https://yadurajiv.github.io/yrdc/media/posts/502/icon.png" class="type:primaryImage" alt="" /></p>
+                    <p><img src="https://yadurajiv.com/media/posts/502/icon.png" class="type:primaryImage" alt="" /></p>
                 <p><!-- wp:paragraph --></p>
 <p>DoWrite gives you a browser based distraction free writing experience. Write multiple documents, simple and easy to use rich text editor, autosaves all data locally on your browser and more.</p>
 <p>
