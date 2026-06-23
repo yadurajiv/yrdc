@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Indian Railway Standard Signage Maker</title>
+  <style>
+    :root{
+      --bg:#f5f1e8;--panel:#fffdf8;--ink:#171717;--muted:#666;--line:#ded8c9;--blue:#004b8d;--yellow:#ffd800;--green:#07822f;--red:#c9003d;--orange:#f57b35;--good:#0b7a2a;--warn:#996000;--bad:#b00020;--radius:18px;--shadow:0 18px 40px rgba(0,0,0,.16)
+    }
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif} button,input,select,textarea{font:inherit}.app{min-height:100vh;display:flex;flex-direction:column}.preview-panel{order:1;position:sticky;top:0;z-index:20;padding:12px;background:linear-gradient(180deg,rgba(245,241,232,.98),rgba(245,241,232,.92));backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}.brand-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}.brand h1{margin:0;font-size:18px;letter-spacing:-.02em;line-height:1.05}.brand p{display:none;margin:4px 0 0;color:var(--muted);font-size:13px}.canvas-wrap{width:100%;overflow:auto;border-radius:14px;padding:12px;background:linear-gradient(45deg,#d9d4c8 25%,transparent 25%),linear-gradient(-45deg,#d9d4c8 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#d9d4c8 75%),linear-gradient(-45deg,transparent 75%,#d9d4c8 75%);background-size:18px 18px;background-position:0 0,0 9px,9px -9px,-9px 0}canvas{display:block;width:100%;max-height:44vh;height:auto;object-fit:contain;background:transparent;border-radius:4px;box-shadow:var(--shadow)}.controls-panel{order:2;padding:16px;padding-bottom:96px}.card,details{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 10px 24px rgba(0,0,0,.04);margin-bottom:14px;overflow:hidden}.card{padding:16px}.small{color:var(--muted);font-size:13px;line-height:1.45}.template-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.pill{background:#f1eee6;border-radius:999px;padding:7px 10px;font-size:12px;color:#353535}.pill b{color:#111}summary{cursor:pointer;list-style:none;padding:16px;font-weight:850;display:flex;align-items:center;justify-content:space-between;gap:12px}summary::-webkit-details-marker{display:none}summary::after{content:"+";width:26px;height:26px;display:inline-grid;place-items:center;border-radius:50%;background:#f1eee6;color:var(--muted);font-weight:900;flex:0 0 auto}details[open] summary::after{content:"−"}.section-body{padding:0 16px 16px;border-top:1px solid #f0ece3}.field{margin-top:14px}label{display:block;margin-bottom:7px;font-size:13px;font-weight:750;color:#252525}input,select,textarea{width:100%;min-height:44px;padding:10px 12px;border:1px solid #ccc5b5;border-radius:12px;background:#fffdf8;color:var(--ink);outline:none}textarea{min-height:90px;resize:vertical}input:focus,select:focus,textarea:focus{border-color:#111;box-shadow:0 0 0 3px rgba(17,17,17,.08)}.grid-2{display:grid;grid-template-columns:1fr;gap:0 12px}.grid-3{display:grid;grid-template-columns:1fr;gap:0 12px}.checkbox-row{display:flex;align-items:center;gap:9px;margin-top:12px;font-size:14px;color:#2d2d2d}.checkbox-row input{width:auto;min-height:auto}.button-row{display:grid;grid-template-columns:1fr;gap:10px;margin-top:14px}button{min-height:44px;border:0;border-radius:12px;background:#111;color:#fff;padding:10px 14px;cursor:pointer;font-weight:850;line-height:1.1}button.secondary{background:#eee9df;color:#111}button.ghost{background:transparent;color:#111;border:1px solid #cfc6b6}button:disabled{opacity:.6;cursor:wait}.note{margin:12px 0 0;color:var(--muted);font-size:12.5px;line-height:1.45}.warning{margin:12px 0 0;color:#8a3d00;background:#fff2df;border:1px solid #f1c891;border-radius:12px;padding:10px 12px;font-size:12.5px;line-height:1.4}.status{min-height:18px;margin-top:10px;color:var(--muted);font-size:12.5px;line-height:1.4}.row-card{border:1px solid #eee4d6;border-radius:14px;padding:12px;margin-top:12px;background:#fffaf0}.row-title{font-weight:850;font-size:13px;margin-bottom:2px}.flow-card{border:1px solid #eee4d6;border-radius:14px;padding:12px;margin-top:12px;background:#fffaf0}.flow-title{font-weight:850;margin-bottom:6px}.result-list{display:grid;gap:8px;margin-top:10px}.result-item{border:1px solid #ded8c9;border-radius:12px;background:#fff;padding:10px;text-align:left;color:#111;font-weight:650}.result-item small{display:block;color:#666;font-weight:500;margin-top:4px}.muted-note{color:#666;font-size:12px;line-height:1.4;margin-top:8px}.validation{display:grid;gap:8px}.check{border-radius:12px;padding:10px 12px;background:#f4f1ea;font-size:13px;line-height:1.35}.check.good{border-left:5px solid var(--good)}.check.warn{border-left:5px solid var(--warn)}.check.bad{border-left:5px solid var(--bad)}.action-bar{position:fixed;left:0;right:0;bottom:0;z-index:50;display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px;background:rgba(255,253,248,.96);border-top:1px solid var(--line);backdrop-filter:blur(12px)}.desktop-only{display:none}.hidden{display:none!important}@media(min-width:620px){.grid-2{grid-template-columns:1fr 1fr}.grid-3{grid-template-columns:1fr 1fr 1fr}.button-row{grid-template-columns:1fr 1fr}.brand p{display:block}}@media(min-width:1020px){.app{display:grid;grid-template-columns:420px 1fr;min-height:100vh}.controls-panel{order:1;height:100vh;overflow-y:auto;padding:20px;padding-bottom:20px;border-right:1px solid var(--line)}.preview-panel{order:2;position:static;min-height:100vh;display:grid;grid-template-rows:auto 1fr;padding:24px;border-bottom:0}.brand-row{margin-bottom:18px}.brand h1{font-size:25px}.canvas-wrap{align-self:center;padding:24px;border-radius:20px}canvas{width:auto;max-width:100%;max-height:78vh}.action-bar{display:none}.desktop-only{display:inline-grid}.mobile-only{display:none}}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <section class="preview-panel" aria-label="Live preview">
+      <div class="brand-row">
+        <div class="brand">
+          <h1>Indian Railway Standard Signage Maker</h1>
+          <p>Create signs around the 2023 standard signage guide: fixed types, colours, sizes, hierarchy and PNG export.</p>
+        </div>
+        <button id="downloadTopBtn" class="desktop-only" type="button">Download PNG</button>
+      </div>
+      <div class="canvas-wrap"><canvas id="signCanvas" width="2440" height="900"></canvas></div>
+    </section>
+
+    <main class="controls-panel">
+      <div class="card small">
+        This version is focused on making <b>standard-style, rule-aware railway signs</b>. Choose the sign type first; dimensions, colours, hierarchy notes and validation update from the standard guide.
+        <div class="template-meta" id="templateMeta"></div>
+      </div>
+
+      <details open>
+        <summary>1. Standard sign type</summary>
+        <div class="section-body">
+          <div class="field">
+            <label for="template">Template</label>
+            <select id="template">
+              <option value="stationPrimary">Station Name Board, Primary, Special</option>
+              <option value="stationTertiary">Station Name Board, Tertiary, F4 circular</option>
+              <option value="directional400">Directional / Identification Board, F3/F4, 400 mm height</option>
+              <option value="pylonC1">Pedestrian / Concourse Pylon, C1</option>
+              <option value="platformNumber">Platform Number Board, 25 inch × 25 inch</option>
+              <option value="laneC2">Lane Identification Board, C2, 300 mm height</option>
+              <option value="caution300">Caution / Warning Board, 300 mm height</option>
+              <option value="security300">Safety / Security Board, 300 mm height</option>
+              <option value="emergencyExit">Emergency Exit Board</option>
+              <option value="roomName300">Room / Amenity Name Board, 300 mm height</option>
+            </select>
+          </div>
+
+          <div class="grid-2">
+            <div class="field"><label for="boardWidth">Width / diameter, mm</label><input id="boardWidth" type="number" min="100" max="6000" value="2440" /></div>
+            <div class="field"><label for="boardHeight">Height, mm</label><input id="boardHeight" type="number" min="100" max="4000" value="900" /></div>
+          </div>
+
+          <div class="grid-2">
+            <div class="field"><label for="pxPerMm">Export scale</label><select id="pxPerMm"><option value="0.75">0.75 px/mm, lighter file</option><option value="1" selected>1 px/mm</option><option value="1.5">1.5 px/mm</option><option value="2">2 px/mm, high-res</option></select></div>
+            <div class="field"><label for="mountMode">Mount preview</label><select id="mountMode"><option value="signOnly">Sign only</option><option value="hanging">Hanging rods</option><option value="pole">Pole / gantry</option><option value="transparent">Transparent background</option></select></div>
+          </div>
+
+          <label class="checkbox-row"><input id="lockStandard" type="checkbox" checked /> Lock to standard/default dimensions for this sign type</label>
+          <p class="note" id="templateNote"></p>
+        </div>
+      </details>
+
+      <details open id="stationSection">
+        <summary>2. Station content flow</summary>
+        <div class="section-body">
+          <div class="field">
+            <label for="stationSource">How do you want to fill the station details?</label>
+            <select id="stationSource">
+              <option value="booklet">Use a sample from the booklet</option>
+              <option value="search">Find an Indian place/station and MSL</option>
+              <option value="manual">Type everything manually</option>
+            </select>
+          </div>
+
+          <div id="bookletFlow" class="flow-card">
+            <div class="flow-title">Booklet samples only</div>
+            <div class="grid-2">
+              <div class="field"><label for="sampleStation">Sample shown in guide</label><select id="sampleStation"></select></div>
+              <div class="field"><label>&nbsp;</label><button id="applySampleStationBtn" class="secondary" type="button">Apply booklet sample</button></div>
+            </div>
+            <p class="muted-note">These are not bespoke examples. They are limited to station-name examples visible in the attached standard signage booklet.</p>
+          </div>
+
+          <div id="searchFlow" class="flow-card hidden">
+            <div class="flow-title">Search and apply</div>
+            <div class="field"><label for="placeQuery">Indian place or railway station</label><input id="placeQuery" value="" placeholder="e.g. Kurukshetra Junction railway station" autocomplete="off" /></div>
+            <div class="button-row"><button id="searchPlaceBtn" class="secondary" type="button">Search place + MSL</button><button id="clearSearchBtn" class="ghost" type="button">Clear results</button></div>
+            <div id="placeResults" class="result-list"></div>
+            <p class="muted-note">Applying a result updates the English station/place name, MSL, and station code. Codes come from the built-in railway sample list; when no code is known, the old code is cleared instead of being carried over.</p>
+          </div>
+
+          <div id="manualFlow" class="flow-card">
+            <div class="flow-title">Review and edit final text</div>
+            <div class="field"><label for="stationEnglish">Station name, English</label><input id="stationEnglish" value="Rani Kamalapati" autocomplete="off" /></div>
+            <div class="grid-2">
+              <div class="field"><label for="stationHindi">Hindi</label><input id="stationHindi" value="रानी कमलापति" autocomplete="off" /></div>
+              <div class="field"><label for="stationRegional">Regional / local language</label><input id="stationRegional" value="ರಾಣಿ ಕಮಲಾಪತಿ" autocomplete="off" /></div>
+            </div>
+            <div class="grid-2">
+              <div class="field"><label for="languageOrder">Language order</label><select id="languageOrder"><option value="nonHindi">Non-Hindi state: Regional, Hindi, English</option><option value="hindi">Hindi state: Hindi, English, optional regional</option></select></div>
+              <div class="field"><label for="regionalLanguage">Auto-fill regional language</label><select id="regionalLanguage"><option value="kn">Kannada</option><option value="ml">Malayalam</option><option value="ta">Tamil</option><option value="te">Telugu</option><option value="mr">Marathi</option><option value="bn">Bengali</option><option value="gu">Gujarati</option><option value="pa">Punjabi</option><option value="or">Odia</option><option value="ur">Urdu</option></select></div>
+            </div>
+            <div class="grid-2">
+              <div class="field"><label for="stationCode">Station code</label><input id="stationCode" value="RKMP" autocomplete="off" /></div>
+              <div class="field"><label for="secondaryInfo">Secondary text / MSL</label><input id="secondaryInfo" value="Mean sea level 523 m" autocomplete="off" /></div>
+            </div>
+            <div class="button-row"><button id="autoFillBtn" class="secondary" type="button">Auto-fill Hindi + Regional</button><button id="clearTranslationsBtn" class="ghost" type="button">Clear translations</button></div>
+            <p class="warning">Auto-fill uses a free no-key translation service. Railway station names are proper nouns, so verify spellings before export.</p>
+            <div id="translationStatus" class="status" aria-live="polite"></div>
+          </div>
+        </div>
+      </details>
+
+      <details open id="wayfindingSection">
+        <summary>3. Wayfinding rows</summary>
+        <div class="section-body">
+          <div class="grid-2">
+            <div class="field"><label for="mainArrow">Primary arrow</label><select id="mainArrow"><option value="up">Up / ahead</option><option value="right">Right</option><option value="left">Left</option><option value="down">Down</option><option value="upRight">Up-right</option><option value="upLeft">Up-left</option><option value="downRight">Down-right</option><option value="downLeft">Down-left</option></select></div>
+            <div class="field"><label for="mainIcon">Primary pictogram</label><select id="mainIcon"><option value="platform">Platform</option><option value="ticket">Ticket Counter</option><option value="toilet">Toilets</option><option value="exit">Exit</option><option value="waiting">Waiting Hall</option><option value="parking">Parking</option><option value="taxi">Taxi</option><option value="bus">Bus</option><option value="security">Security Check</option><option value="food">Restaurant</option><option value="water">Drinking Water</option><option value="info">Information</option><option value="assistance">Assistance</option><option value="lift">Lift</option><option value="stairs">Stairs</option><option value="none">None</option></select></div>
+          </div>
+
+          <div class="grid-2">
+            <div class="field"><label for="legendEnglish">Primary legend, English</label><input id="legendEnglish" value="Platform" autocomplete="off" /></div>
+            <div class="field"><label for="legendHindi">Primary legend, Hindi</label><input id="legendHindi" value="प्लेटफॉर्म" autocomplete="off" /></div>
+          </div>
+          <div class="grid-2">
+            <div class="field"><label for="legendRegional">Primary legend, regional</label><input id="legendRegional" value="ಪ್ಲಾಟ್‌ಫಾರ್ಮ್" autocomplete="off" /></div>
+            <div class="field"><label for="platformText">Large number / range</label><input id="platformText" value="1-4" autocomplete="off" /></div>
+          </div>
+          <div class="field"><label for="secondaryLegend">Secondary text</label><input id="secondaryLegend" value="via Foot Over Bridge" autocomplete="off" /></div>
+
+          <div id="multiRows"></div>
+          <p class="note">For grouped wayfinding boards, the guide recommends grouping by direction and limiting to five items per group. This tool keeps five rows available for pylon-style signs.</p>
+        </div>
+      </details>
+
+      <details open>
+        <summary>4. Validation</summary>
+        <div class="section-body"><div id="validation" class="validation"></div></div>
+      </details>
+
+      <details>
+        <summary>Export</summary>
+        <div class="section-body">
+          <div class="button-row"><button id="downloadBtn" type="button">Download PNG</button><button id="resetBtn" class="secondary" type="button">Reset</button></div>
+          <p class="note">This is a rule-aware generator for drafting and visualisation. Final production drawings, materials, approvals and site-specific placement still need competent review.</p>
+        </div>
+      </details>
+    </main>
+  </div>
+
+  <div class="action-bar mobile-only"><button id="downloadBottomBtn" type="button">Download PNG</button><button id="rerenderBtn" class="secondary" type="button">Refresh</button></div>
+
+<script>
+const canvas=document.getElementById('signCanvas');const ctx=canvas.getContext('2d');
+const COLORS={blue:'#004b8d',yellow:'#ffd800',green:'#07822f',red:'#c9003d',orange:'#f57b35',white:'#ffffff',black:'#111111'};
+const T={
+ stationPrimary:{label:'Station Name Board, Primary',type:'Special',category:'Station name',w:2440,h:900,cap:300,bg:'yellow',fg:'black',maxH:null,note:'Primary station name board: provided at both ends of each platform, right angle to track. Local language, Hindi and English should use the same primary character size.'},
+ stationTertiary:{label:'Station Name Board, Tertiary',type:'F4',category:'Station name',w:1000,h:1000,cap:75,bg:'tricolour',fg:'white',maxH:null,note:'Tertiary station name board: 1 m diameter circular sign, local language on top, Hindi in middle and English at bottom unless Hindi and local language are the same.'},
+ directional400:{label:'Directional / Identification Board',type:'F3/F4',category:'Train boarding / direction',w:1600,h:400,cap:100,bg:'blue',fg:'white',maxH:null,note:'For entry gates, FOBs, platform approaches and other direction/identification signs. Sequence should be arrow, symbol, legend and secondary text.'},
+ pylonC1:{label:'Pedestrian / Concourse Pylon',type:'C1',category:'External / concourse',w:1200,h:2400,cap:100,bg:'blue',fg:'white',maxH:2500,note:'C1 pylon in circulating or concourse areas. Size depends on information, with text based on 100 mm character height and height not exceeding 2.5 m in the small/medium station annexure.'},
+ platformNumber:{label:'Platform Number Board',type:'F3/F4',category:'Platform number',w:635,h:635,cap:400,bg:'blue',fg:'white',maxH:null,note:'Platform number board: 25 inch × 25 inch, hanging from platform shelter, double sided where required, generally repeated at intervals.'},
+ laneC2:{label:'Lane Identification Board',type:'C2',category:'Lane identification',w:1200,h:300,cap:100,bg:'blue',fg:'white',maxH:null,note:'Lane identification on the left hand side of each lane, flag/pole mounted, height 300 mm.'},
+ caution300:{label:'Caution / Warning Board',type:'F2',category:'Caution / warning',w:900,h:300,cap:75,bg:'yellow',fg:'black',maxH:null,note:'Yellow background with black text for caution, warning and prohibited-item style messages.'},
+ security300:{label:'Safety / Security Board',type:'F3/F4',category:'Safety / security',w:1200,h:300,cap:75,bg:'red',fg:'white',maxH:null,note:'Red/magenta background with white text and symbol for safety/security information.'},
+ emergencyExit:{label:'Emergency Exit Board',type:'Safety',category:'Emergency exit',w:900,h:300,cap:100,bg:'green',fg:'white',maxH:null,note:'Emergency exit signs use green background with white text, arrow and symbol.'},
+ roomName300:{label:'Room / Amenity Name Board',type:'F4',category:'Room / amenity',w:900,h:300,cap:75,bg:'orange',fg:'white',maxH:null,note:'Orange background with white text for room names related to passenger facilities, utilities, amenities and railway offices.'}
+};
+const languageNames={hi:'Hindi',kn:'Kannada',ml:'Malayalam',ta:'Tamil',te:'Telugu',mr:'Marathi',bn:'Bengali',gu:'Gujarati',pa:'Punjabi',or:'Odia',ur:'Urdu'};
+const BOOKLET_STATIONS=[
+ {label:'Rani Kamalapati, tertiary circular sample',en:'Rani Kamalapati',hi:'रानी कमलापति',reg:'रानी कमलापति',lang:'hi',order:'hindi',code:'RKMP',msl:''},
+ {label:'Kurukshetra Jn., primary station board sample',en:'Kurukshetra Jn.',hi:'कुरुक्षेत्र जं.',reg:'कुरुक्षेत्र जं.',lang:'hi',order:'hindi',code:'KKDE',msl:'Mean sea level 258.39 m'},
+ {label:'Mysuru, tertiary circular sample',en:'Mysuru',hi:'मैसूर',reg:'ಮೈಸೂರು',lang:'kn',order:'nonHindi',code:'MYS',msl:''}
+];
+const STATION_CODE_DB={
+ 'rani kamalapati':'RKMP','rani kamalapati railway station':'RKMP','kurukshetra':'KKDE','kurukshetra jn':'KKDE','kurukshetra junction':'KKDE','mysuru':'MYS','mysore':'MYS','new delhi':'NDLS','delhi':'DLI','mumbai csmt':'CSMT','chhatrapati shivaji maharaj terminus':'CSMT','chennai central':'MAS','howrah':'HWH','kanpur central':'CNB','yesvantpur':'YPR','bengaluru city':'SBC','ksr bengaluru':'SBC','ernakulam junction':'ERS','thiruvananthapuram central':'TVC','kozhikode':'CLT','kannur':'CAN'
+};
+const controls={};['template','boardWidth','boardHeight','pxPerMm','mountMode','lockStandard','stationSource','sampleStation','placeQuery','stationEnglish','stationHindi','stationRegional','languageOrder','regionalLanguage','stationCode','secondaryInfo','mainArrow','mainIcon','legendEnglish','legendHindi','legendRegional','platformText','secondaryLegend'].forEach(id=>controls[id]=document.getElementById(id));
+const multiRows=document.getElementById('multiRows');
+const defaultRows=[['left','ticket','Ticket Counter','टिकट घर'],['upRight','waiting','Waiting Halls','प्रतीक्षालय'],['right','toilet','Toilets','शौचालय'],['left','food','Restaurant','भोजनालय'],['right','exit','Exit','निकास']];
+function buildRows(){multiRows.innerHTML='';for(let i=0;i<5;i++){const r=defaultRows[i];const div=document.createElement('div');div.className='row-card';div.innerHTML=`<div class="row-title">Grouped item ${i+1}</div><div class="grid-2"><div class="field"><label>Arrow</label><select id="rowArrow${i}">${arrowOptions(r[0])}</select></div><div class="field"><label>Pictogram</label><select id="rowIcon${i}">${iconOptions(r[1])}</select></div></div><div class="grid-2"><div class="field"><label>English</label><input id="rowEn${i}" value="${r[2]}"></div><div class="field"><label>Hindi / secondary</label><input id="rowHi${i}" value="${r[3]}"></div></div>`;multiRows.appendChild(div);['rowArrow'+i,'rowIcon'+i,'rowEn'+i,'rowHi'+i].forEach(id=>document.getElementById(id).addEventListener('input',render));}}
+function arrowOptions(sel){return ['up','right','left','down','upRight','upLeft','downRight','downLeft'].map(v=>`<option value="${v}" ${v===sel?'selected':''}>${v}</option>`).join('')}
+function iconOptions(sel){const labels={platform:'Platform',ticket:'Ticket Counter',toilet:'Toilets',exit:'Exit',waiting:'Waiting Hall',parking:'Parking',taxi:'Taxi',bus:'Bus',security:'Security Check',food:'Restaurant',water:'Drinking Water',info:'Information',assistance:'Assistance',lift:'Lift',stairs:'Stairs',none:'None'};return Object.keys(labels).map(v=>`<option value="${v}" ${v===sel?'selected':''}>${labels[v]}</option>`).join('')}
+buildRows();
+function getState(){return {template:controls.template.value,tpl:T[controls.template.value],w:+controls.boardWidth.value||1000,h:+controls.boardHeight.value||300,scale:+controls.pxPerMm.value||1,mount:controls.mountMode.value,stationEnglish:controls.stationEnglish.value.trim(),stationHindi:controls.stationHindi.value.trim(),stationRegional:controls.stationRegional.value.trim(),languageOrder:controls.languageOrder.value,stationCode:controls.stationCode.value.trim(),secondaryInfo:controls.secondaryInfo.value.trim(),mainArrow:controls.mainArrow.value,mainIcon:controls.mainIcon.value,legendEnglish:controls.legendEnglish.value.trim(),legendHindi:controls.legendHindi.value.trim(),legendRegional:controls.legendRegional.value.trim(),platformText:controls.platformText.value.trim(),secondaryLegend:controls.secondaryLegend.value.trim(),rows:[0,1,2,3,4].map(i=>({arrow:document.getElementById('rowArrow'+i).value,icon:document.getElementById('rowIcon'+i).value,en:document.getElementById('rowEn'+i).value.trim(),hi:document.getElementById('rowHi'+i).value.trim()}))}}
+function applyTemplate(force=false){const tpl=T[controls.template.value];if(controls.lockStandard.checked||force){controls.boardWidth.value=tpl.w;controls.boardHeight.value=tpl.h;}document.getElementById('templateNote').textContent=tpl.note;document.getElementById('templateMeta').innerHTML=`<div class="pill"><b>Type:</b> ${tpl.type}</div><div class="pill"><b>Default:</b> ${tpl.w} × ${tpl.h} mm</div><div class="pill"><b>Category:</b> ${tpl.category}</div><div class="pill"><b>Cap height:</b> ${tpl.cap} mm</div>`;updateSections();render();}
+function updateSections(){const k=controls.template.value;const station=['stationPrimary','stationTertiary'].includes(k);document.getElementById('stationSection').classList.toggle('hidden',!station);document.getElementById('wayfindingSection').classList.toggle('hidden',station);const summary=document.getElementById('wayfindingSection').querySelector('summary');summary.textContent=k==='platformNumber'?'2. Platform number content':'3. Wayfinding rows';multiRows.classList.toggle('hidden',k!=='pylonC1');['mainArrow','mainIcon','legendEnglish','legendHindi','legendRegional','secondaryLegend'].forEach(id=>controls[id].closest('.field').classList.toggle('hidden',k==='platformNumber'));document.querySelector('#wayfindingSection .note').classList.toggle('hidden',k!=='pylonC1');updateStationFlow();}
+function setCanvas(w,h){canvas.width=Math.round(w);canvas.height=Math.round(h)}
+function bgColor(tpl){return tpl.bg==='blue'?COLORS.blue:tpl.bg==='yellow'?COLORS.yellow:tpl.bg==='green'?COLORS.green:tpl.bg==='red'?COLORS.red:tpl.bg==='orange'?COLORS.orange:COLORS.blue}
+function fgColor(tpl){return tpl.fg==='black'?COLORS.black:COLORS.white}
+function clearBg(s){if(s.mount==='transparent') ctx.clearRect(0,0,canvas.width,canvas.height); else {ctx.fillStyle='#f3f0e8';ctx.fillRect(0,0,canvas.width,canvas.height)}}
+function boardRect(s){let pad=s.mount==='signOnly'||s.mount==='transparent'?0:Math.max(40*s.scale,canvas.width*.04);let top=s.mount==='hanging'||s.mount==='pole'?Math.max(80*s.scale,canvas.height*.1):0;let bottom=s.mount==='pole'?Math.max(220*s.scale,canvas.height*.25):0;return {x:pad,y:top,w:canvas.width-pad*2,h:canvas.height-top-bottom}}
+function setupForRender(s){let extraH=(s.mount==='pole'?260: s.mount==='hanging'?120:0);let extraW=(s.mount==='signOnly'||s.mount==='transparent'?0:120);setCanvas((s.w+extraW)*s.scale,(s.h+extraH)*s.scale);clearBg(s);let b=boardRect(s);if(s.mount==='hanging')drawHangers(b);if(s.mount==='pole')drawPole(b);return b}
+function drawHangers(b){ctx.fillStyle='#969696';let rw=Math.max(8,b.w*.012);ctx.fillRect(b.x+b.w*.22,0,rw,b.y+12);ctx.fillRect(b.x+b.w*.78,0,rw,b.y+12)}
+function drawPole(b){ctx.fillStyle='#9b9b9b';let rw=Math.max(12,b.w*.02);ctx.fillRect(b.x+b.w*.18,b.y+b.h*.65,rw,canvas.height-b.y-b.h*.65);ctx.fillRect(b.x+b.w*.82,b.y+b.h*.65,rw,canvas.height-b.y-b.h*.65)}
+function fillBoard(b,color){ctx.fillStyle=color;ctx.fillRect(b.x,b.y,b.w,b.h)}
+function fit(text,max,size,font,weight=700){let s=size;ctx.font=`${weight} ${s}px ${font}`;while(ctx.measureText(text).width>max&&s>8){s-=2;ctx.font=`${weight} ${s}px ${font}`}return s}
+function text(text,x,y,max,size,color,font='Helvetica, Arial, sans-serif',weight=700,align='center',base='middle'){if(!text)return;const fs=fit(text,max,size,font,weight);ctx.fillStyle=color;ctx.font=`${weight} ${fs}px ${font}`;ctx.textAlign=align;ctx.textBaseline=base;ctx.fillText(text,x,y)}
+function fontFor(lang){if(lang==='hi')return 'Utsaah, "Noto Sans Devanagari", Mangal, sans-serif';if(lang==='reg')return 'SakalBharati, "Noto Sans Kannada", "Noto Sans Malayalam", "Noto Sans Tamil", "Noto Sans Telugu", sans-serif';return 'Helvetica, Arial, sans-serif'}
+function languageLines(s){if(s.languageOrder==='hindi')return [[s.stationHindi,'hi'],[s.stationEnglish,'en'],[s.stationRegional,'reg']].filter(x=>x[0]);return [[s.stationRegional,'reg'],[s.stationHindi,'hi'],[s.stationEnglish,'en']].filter(x=>x[0])}
+function drawStationPrimary(s,b){fillBoard(b,COLORS.yellow);ctx.strokeStyle=COLORS.black;ctx.lineWidth=Math.max(10*s.scale,b.h*.025);ctx.strokeRect(b.x+ctx.lineWidth/2,b.y+ctx.lineWidth/2,b.w-ctx.lineWidth,b.h-ctx.lineWidth);let lines=languageLines(s);let top=b.y+b.h*.20;let gap=b.h*.205;let fs=Math.min(b.h*.13,b.w*.065);lines.slice(0,3).forEach((ln,i)=>text(ln[0],b.x+b.w/2,top+i*gap,b.w*.82,fs,COLORS.black,fontFor(ln[1]),800));if(s.secondaryInfo){text(s.secondaryInfo,b.x+b.w*.06,b.y+b.h*.87,b.w*.35,b.h*.035,'#c74a00','Helvetica, Arial, sans-serif',700,'left')}; if(s.stationCode){text(s.stationCode.toUpperCase(),b.x+b.w*.93,b.y+b.h*.86,b.w*.12,b.h*.04,COLORS.black,'Helvetica, Arial, sans-serif',900)} }
+function drawStationTertiary(s,b){const cx=b.x+b.w/2,cy=b.y+b.h/2,r=Math.min(b.w,b.h)/2;ctx.save();ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.clip();ctx.fillStyle=COLORS.white;ctx.fillRect(b.x,b.y,b.w,b.h);ctx.fillStyle='#f6a03a';ctx.fillRect(b.x,b.y,b.w,b.h*.42);ctx.fillStyle='#159447';ctx.fillRect(b.x,b.y+b.h*.58,b.w,b.h*.42);ctx.fillStyle=COLORS.white;ctx.beginPath();ctx.arc(cx,cy,r*.47,0,Math.PI*2);ctx.fill();ctx.fillStyle='#293895';ctx.fillRect(b.x,b.y+b.h*.36,b.w,b.h*.28);ctx.restore();ctx.strokeStyle='rgba(0,0,0,.06)';ctx.lineWidth=Math.max(1,2*s.scale);ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.stroke();let lines=languageLines(s).slice(0,3);let ypos=[.43,.50,.57];lines.forEach((ln,i)=>text(ln[0],cx,b.y+b.h*ypos[i],b.w*.52,b.h*.05,COLORS.white,fontFor(ln[1]),800))}
+function arrowSymbol(v){return {up:'↑',right:'→',left:'←',down:'↓',upRight:'↗',upLeft:'↖',downRight:'↘',downLeft:'↙'}[v]||'→'}
+function drawPictogram(kind,cx,cy,size,color){if(kind==='none')return;ctx.save();ctx.strokeStyle=color;ctx.fillStyle=color;ctx.lineWidth=Math.max(2,size*.08);ctx.lineCap='round';ctx.lineJoin='round';let s=size,x=cx-s/2,y=cy-s/2;function line(ax,ay,bx,by){ctx.beginPath();ctx.moveTo(x+ax*s,y+ay*s);ctx.lineTo(x+bx*s,y+by*s);ctx.stroke()}function rect(ax,ay,w,h,fill=false){ctx.beginPath();ctx.rect(x+ax*s,y+ay*s,w*s,h*s);fill?ctx.fill():ctx.stroke()}function circ(ax,ay,r,fill=true){ctx.beginPath();ctx.arc(x+ax*s,y+ay*s,r*s,0,Math.PI*2);fill?ctx.fill():ctx.stroke()}if(kind==='platform'){rect(.18,.42,.54,.28,false);line(.25,.70,.18,.88);line(.65,.70,.73,.88);circ(.23,.22,.06);line(.23,.30,.23,.55);line(.15,.40,.31,.40);rect(.52,.24,.30,.22,false);line(.58,.46,.78,.46)}else if(kind==='ticket'){rect(.22,.18,.56,.64,false);line(.22,.36,.78,.36);line(.36,.18,.36,.82);circ(.57,.58,.08,false)}else if(kind==='toilet'){circ(.34,.18,.06);line(.34,.28,.34,.76);line(.25,.42,.43,.42);line(.34,.76,.25,.92);line(.34,.76,.43,.92);circ(.66,.18,.06);ctx.beginPath();ctx.moveTo(x+.66*s,y+.28*s);ctx.lineTo(x+.54*s,y+.62*s);ctx.lineTo(x+.78*s,y+.62*s);ctx.closePath();ctx.fill();line(.66,.62,.58,.92);line(.66,.62,.74,.92)}else if(kind==='exit'){circ(.35,.18,.06);line(.35,.27,.30,.50);line(.30,.50,.48,.58);line(.30,.50,.18,.72);line(.46,.58,.62,.84);line(.24,.58,.42,.84);line(.68,.30,.88,.50);line(.68,.70,.88,.50);line(.50,.50,.88,.50)}else if(kind==='waiting'){line(.25,.74,.70,.74);line(.35,.74,.30,.92);line(.62,.74,.68,.92);ctx.beginPath();ctx.arc(x+.38*s,y+.42*s,.18*s,Math.PI*.05,Math.PI*.95);ctx.stroke();line(.20,.42,.20,.74);line(.58,.42,.58,.74);circ(.72,.24,.12,false);line(.72,.24,.72,.12);line(.72,.24,.82,.24)}else if(kind==='parking'){ctx.font=`900 ${s*.75}px Helvetica,Arial`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('P',cx,cy)}else if(kind==='taxi'){rect(.18,.40,.64,.25,false);rect(.30,.28,.40,.14,false);circ(.32,.70,.08);circ(.68,.70,.08)}else if(kind==='bus'){rect(.22,.20,.56,.55,false);line(.28,.38,.72,.38);circ(.34,.78,.07);circ(.66,.78,.07);line(.22,.58,.78,.58)}else if(kind==='security'){circ(.35,.20,.06);line(.35,.28,.35,.58);line(.20,.42,.50,.42);line(.35,.58,.25,.85);line(.35,.58,.45,.85);rect(.58,.28,.18,.48,false);line(.60,.40,.74,.40)}else if(kind==='food'){circ(.35,.52,.20,false);line(.64,.20,.64,.84);line(.74,.20,.74,.84);line(.64,.46,.74,.46);line(.84,.20,.84,.84)}else if(kind==='water'){line(.28,.28,.64,.28);line(.64,.28,.64,.52);ctx.beginPath();ctx.moveTo(x+.64*s,y+.52*s);ctx.quadraticCurveTo(x+.74*s,y+.60*s,x+.64*s,y+.70*s);ctx.quadraticCurveTo(x+.54*s,y+.60*s,x+.64*s,y+.52*s);ctx.fill();line(.28,.28,.28,.82);line(.20,.82,.45,.82)}else if(kind==='info'){circ(.50,.50,.38,false);ctx.font=`900 ${s*.68}px Helvetica,Arial`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('i',cx,cy+s*.02)}else if(kind==='assistance'){circ(.36,.24,.06);circ(.66,.24,.06);line(.36,.32,.36,.72);line(.66,.32,.66,.72);line(.42,.48,.60,.48);line(.30,.72,.42,.90);line(.66,.72,.76,.90)}else if(kind==='lift'){rect(.20,.12,.60,.76,false);line(.50,.18,.50,.82);line(.32,.28,.40,.20);line(.40,.20,.48,.28);line(.60,.72,.68,.80);line(.68,.80,.76,.72);circ(.36,.45,.06);rect(.30,.53,.12,.20,true);circ(.65,.45,.06);rect(.59,.53,.12,.20,true)}else if(kind==='stairs'){for(let i=0;i<5;i++)rect(.18+i*.12,.68-i*.11,.12,.11,true)}ctx.restore()}
+function drawDirectional(s,b){fillBoard(b,bgColor(s.tpl));let fg=fgColor(s.tpl);let arrowX=b.x+b.w*.11;let iconX=b.x+b.w*.25;let textX=b.x+b.w*.38;let y=b.y+b.h*.50;text(arrowSymbol(s.mainArrow),arrowX,y,b.w*.16,b.h*.55,fg,'Helvetica, Arial, sans-serif',300);drawPictogram(s.mainIcon,iconX,y,Math.min(b.w*.16,b.h*.46),fg);let main=s.legendEnglish||'Legend';if(s.platformText){text(s.platformText,b.x+b.w*.82,y,b.w*.26,b.h*.48,fg,'Helvetica, Arial, sans-serif',900)}text(s.legendHindi||s.legendRegional,textX,b.y+b.h*.38,b.w*.38,b.h*.14,fg,fontFor('hi'),800,'left');text(main,textX,b.y+b.h*.60,b.w*.38,b.h*.16,fg,'Helvetica, Arial, sans-serif',800,'left');if(s.secondaryLegend)text(s.secondaryLegend,textX,b.y+b.h*.78,b.w*.38,b.h*.07,fg,'Helvetica, Arial, sans-serif',600,'left')}
+function drawPylon(s,b){fillBoard(b,COLORS.blue);let fg=COLORS.white;let headerH=b.h*.16;ctx.fillStyle=COLORS.blue;ctx.fillRect(b.x,b.y,b.w,headerH);text(s.stationEnglish||'Station',b.x+b.w/2,b.y+headerH*.45,b.w*.8,headerH*.22,fg,'Helvetica, Arial, sans-serif',800);text(s.stationHindi||'',b.x+b.w/2,b.y+headerH*.72,b.w*.8,headerH*.16,fg,fontFor('hi'),700);let rows=s.rows.filter(r=>r.en||r.hi);let rowH=(b.h-headerH)/(Math.max(rows.length,1));rows.forEach((r,i)=>{let y=b.y+headerH+i*rowH;ctx.strokeStyle='rgba(255,255,255,.55)';ctx.lineWidth=Math.max(2,s.scale);ctx.beginPath();ctx.moveTo(b.x+b.w*.04,y);ctx.lineTo(b.x+b.w*.96,y);ctx.stroke();text(arrowSymbol(r.arrow),b.x+b.w*.10,y+rowH*.5,b.w*.12,rowH*.54,fg,'Helvetica, Arial, sans-serif',300);drawPictogram(r.icon,b.x+b.w*.25,y+rowH*.5,Math.min(b.w*.12,rowH*.48),fg);text(r.hi,b.x+b.w*.38,y+rowH*.39,b.w*.48,rowH*.18,fg,fontFor('hi'),800,'left');text(r.en,b.x+b.w*.38,y+rowH*.63,b.w*.48,rowH*.18,(r.en.toLowerCase()==='exit'?'#ffde00':fg),'Helvetica, Arial, sans-serif',800,'left')})}
+function drawPlatformNumber(s,b){fillBoard(b,COLORS.blue);ctx.strokeStyle=COLORS.white;ctx.lineWidth=Math.max(14*s.scale,b.w*.045);roundRect(b.x+b.w*.1,b.y+b.h*.1,b.w*.8,b.h*.8,b.w*.07,false,true);text(s.platformText||'3',b.x+b.w/2,b.y+b.h*.54,b.w*.7,b.h*.62,COLORS.white,'Helvetica, Arial, sans-serif',900)}
+function roundRect(x,y,w,h,r,fill,stroke){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();if(fill)ctx.fill();if(stroke)ctx.stroke()}
+function render(){const s=getState();let b=setupForRender(s);if(s.template==='stationPrimary')drawStationPrimary(s,b);else if(s.template==='stationTertiary')drawStationTertiary(s,b);else if(s.template==='pylonC1')drawPylon(s,b);else if(s.template==='platformNumber')drawPlatformNumber(s,b);else drawDirectional(s,b);validate(s);}
+function validate(s){const out=[];const add=(kind,msg)=>out.push(`<div class="check ${kind}">${msg}</div>`);add('good',`Template <b>${s.tpl.label}</b> uses type <b>${s.tpl.type}</b> with default size <b>${s.tpl.w} × ${s.tpl.h} mm</b>.`);if(s.w===s.tpl.w&&s.h===s.tpl.h)add('good','Dimensions match the selected standard/default size.');else add('warn',`Custom size selected: ${s.w} × ${s.h} mm. Check site approval and viewing-distance requirements.`);if(s.tpl.maxH&&s.h>s.tpl.maxH)add('bad',`Height exceeds the stated limit for this template: ${s.h} mm > ${s.tpl.maxH} mm.`);if(s.template==='pylonC1'&&s.rows.filter(r=>r.en||r.hi).length>5)add('bad','More than five items in one group. Split into separate groups or boards.');if(['directional400','pylonC1','laneC2'].includes(s.template))add('good','Colour scheme: dark blue background with white text/arrow/logo for identification and directional train-boarding information.');if(s.template==='caution300')add('good','Colour scheme: yellow background with black text for caution/warning.');if(s.template==='security300')add('good','Colour scheme: red background with white text for safety/security.');if(s.template==='emergencyExit')add('good','Colour scheme: green background with white text for emergency exit.');if(s.template==='roomName300')add('good','Colour scheme: orange background with white text for room/facility boards.');if(s.template==='stationPrimary'&&languageLines(s).length<2)add('warn','Station name boards should carry the required language set. Add Hindi, English and regional/local text as applicable.');let ideal=Math.round(s.tpl.cap*0.12);let max=Math.round(s.tpl.cap*0.45);add('good',`Reference cap height: <b>${s.tpl.cap} mm</b>, roughly ideal readable distance <b>${ideal} m</b> and maximum <b>${max} m</b> based on the guide table.`);if(s.legendEnglish&&s.legendEnglish===s.legendEnglish.toUpperCase()&&s.legendEnglish.length>4)add('warn','For standard wayfinding text, avoid all caps except where specifically required. Use sentence/title case for legends.');document.getElementById('validation').innerHTML=out.join('')}
+function populateBookletSamples(){controls.sampleStation.innerHTML=BOOKLET_STATIONS.map((st,i)=>`<option value="${i}">${st.label}</option>`).join('')}
+function applyStationData(st){controls.stationEnglish.value=st.en||'';controls.stationHindi.value=st.hi||'';controls.stationRegional.value=st.reg||'';controls.regionalLanguage.value=st.lang||controls.regionalLanguage.value;controls.languageOrder.value=st.order||controls.languageOrder.value;controls.stationCode.value=st.code||'';controls.secondaryInfo.value=st.msl||'';render()}
+function applyBookletSample(){const st=BOOKLET_STATIONS[+controls.sampleStation.value];if(st){applyStationData(st);setStatus('Applied booklet sample. Review text before export.')}}
+function updateStationFlow(){if(!controls.stationSource)return;const v=controls.stationSource.value;document.getElementById('bookletFlow').classList.toggle('hidden',v!=='booklet');document.getElementById('searchFlow').classList.toggle('hidden',v!=='search');document.getElementById('manualFlow').classList.remove('hidden')}
+function normaliseStationName(name){return (name||'').split(',')[0].replace(/ railway station/ig,'').replace(/ junction/ig,' Jn.').replace(/\s+/g,' ').trim()}
+function codeForName(name){let key=(name||'').toLowerCase().replace(/\./g,'').replace(/ railway station/g,'').trim();return STATION_CODE_DB[key]||STATION_CODE_DB[key.replace(/ jn$/,' junction')]||''}
+async function fetchElevation(lat,lon){const url=new URL('https://api.open-meteo.com/v1/elevation');url.searchParams.set('latitude',lat);url.searchParams.set('longitude',lon);const r=await fetch(url);if(!r.ok)throw new Error('Elevation failed');const d=await r.json();return Array.isArray(d.elevation)?Math.round(d.elevation[0]):null}
+async function searchPlace(){const q=controls.placeQuery.value.trim();if(!q){alert('Type a place or station name first.');return}const btn=document.getElementById('searchPlaceBtn');btn.disabled=true;btn.textContent='Searching...';setStatus('Searching place results and mean sea level...');try{const url=new URL('https://nominatim.openstreetmap.org/search');url.searchParams.set('format','jsonv2');url.searchParams.set('limit','5');url.searchParams.set('countrycodes','in');url.searchParams.set('q',q);const r=await fetch(url,{headers:{'Accept':'application/json','Accept-Language':'en'}});if(!r.ok)throw new Error('Search failed');const results=await r.json();window.__placeResults=[];const list=document.getElementById('placeResults');list.innerHTML='';for(const item of results.slice(0,5)){let elevation=null;try{elevation=await fetchElevation(item.lat,item.lon)}catch(e){}const clean=normaliseStationName(item.display_name);const code=codeForName(clean);const entry={en:clean,hi:'',reg:'',lang:controls.regionalLanguage.value,order:controls.languageOrder.value,code,msl:elevation!==null?'Mean sea level '+elevation+' m':''};window.__placeResults.push(entry);const b=document.createElement('button');b.type='button';b.className='result-item';b.innerHTML=`${clean} ${code?'<b>('+code+')</b>':'<b>(code not in local list)</b>'}<small>${item.display_name}${elevation!==null?' · MSL '+elevation+' m':''}</small>`;b.addEventListener('click',()=>{applyStationData(entry);setStatus(code?'Applied search result with station code and MSL.':'Applied search result and cleared station code because no trusted local code match was found.');});list.appendChild(b)}setStatus(results.length?'Choose a result below.':'No results found. Try a more specific station name.')}catch(e){setStatus('Search failed. You can still type details manually.');alert('Search failed. Try again later or type manually.')}finally{btn.disabled=false;btn.textContent='Search place + MSL'}}
+function clearSearch(){document.getElementById('placeResults').innerHTML='';controls.placeQuery.value='';setStatus('');render()}
+async function translateWithMyMemory(text,target){const url=new URL('https://api.mymemory.translated.net/get');url.searchParams.set('q',text);url.searchParams.set('langpair',`en|${target}`);const r=await fetch(url);if(!r.ok)throw new Error('Translation failed');const d=await r.json();return d?.responseData?.translatedText||''}
+function setStatus(m){document.getElementById('translationStatus').textContent=m||''}
+async function autoFill(){const source=controls.stationEnglish.value.trim();if(!source){alert('Type the English station name first.');return}const btn=document.getElementById('autoFillBtn');btn.disabled=true;btn.textContent='Auto-filling...';setStatus('Requesting Hindi and regional names...');try{const [hi,reg]=await Promise.all([translateWithMyMemory(source,'hi'),translateWithMyMemory(source,controls.regionalLanguage.value)]);controls.stationHindi.value=hi;controls.stationRegional.value=reg;setStatus(`Filled Hindi and ${languageNames[controls.regionalLanguage.value]}. Please verify spelling.`);render()}catch(e){setStatus('Auto-fill failed. Type the names manually.');alert('Translation failed. Please type names manually.')}finally{btn.disabled=false;btn.textContent='Auto-fill Hindi + Regional'}}
+function download(){render();const s=getState();const a=document.createElement('a');a.download=(s.tpl.label+'-'+(s.stationEnglish||s.legendEnglish||'sign')).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')+'.png';a.href=canvas.toDataURL('image/png');a.click()}
+function reset(){controls.template.value='stationPrimary';controls.lockStandard.checked=true;controls.stationSource.value='booklet';controls.stationEnglish.value='Rani Kamalapati';controls.stationHindi.value='रानी कमलापति';controls.stationRegional.value='ರಾಣಿ ಕಮಲಾಪತಿ';controls.stationCode.value='RKMP';controls.secondaryInfo.value='Mean sea level 523 m';controls.legendEnglish.value='Platform';controls.legendHindi.value='प्लेटफॉर्म';controls.legendRegional.value='ಪ್ಲಾಟ್‌ಫಾರ್ಮ್';controls.platformText.value='1-4';controls.secondaryLegend.value='via Foot Over Bridge';applyTemplate(true)}
+Object.values(controls).forEach(el=>{if(el){el.addEventListener('input',render);el.addEventListener('change',render)}});controls.template.addEventListener('change',()=>applyTemplate());controls.lockStandard.addEventListener('change',()=>applyTemplate());controls.stationSource.addEventListener('change',updateStationFlow);document.getElementById('applySampleStationBtn').addEventListener('click',applyBookletSample);document.getElementById('searchPlaceBtn').addEventListener('click',searchPlace);document.getElementById('clearSearchBtn').addEventListener('click',clearSearch);document.getElementById('autoFillBtn').addEventListener('click',autoFill);document.getElementById('clearTranslationsBtn').addEventListener('click',()=>{controls.stationHindi.value='';controls.stationRegional.value='';setStatus('');render()});['downloadBtn','downloadTopBtn','downloadBottomBtn'].forEach(id=>document.getElementById(id).addEventListener('click',download));document.getElementById('rerenderBtn').addEventListener('click',render);document.getElementById('resetBtn').addEventListener('click',reset);populateBookletSamples();updateStationFlow();applyTemplate(true);
+</script>
+</body>
+</html>

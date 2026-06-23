@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Indian Railway Sign Maker</title>
+  <style>
+    :root {
+      --bg: #f5f1e8;
+      --panel: #ffffff;
+      --ink: #171717;
+      --muted: #666666;
+      --line: #ded8c9;
+      --accent: #f6c400;
+      --accent-dark: #111111;
+      --danger: #8a3d00;
+      --radius: 18px;
+      --shadow: 0 18px 40px rgba(0, 0, 0, 0.16);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+    }
+
+    button, input, select, textarea { font: inherit; }
+
+    .app {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .preview-panel {
+      order: 1;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      padding: 12px;
+      background: linear-gradient(180deg, rgba(245,241,232,0.98), rgba(245,241,232,0.92));
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+    }
+
+    .brand p {
+      display: none;
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .mini-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .canvas-wrap {
+      width: 100%;
+      overflow: auto;
+      border-radius: 14px;
+      padding: 12px;
+      background:
+        linear-gradient(45deg, #d9d4c8 25%, transparent 25%),
+        linear-gradient(-45deg, #d9d4c8 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #d9d4c8 75%),
+        linear-gradient(-45deg, transparent 75%, #d9d4c8 75%);
+      background-size: 18px 18px;
+      background-position: 0 0, 0 9px, 9px -9px, -9px 0px;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      max-height: 42vh;
+      height: auto;
+      object-fit: contain;
+      background: transparent;
+      border-radius: 4px;
+      box-shadow: var(--shadow);
+    }
+
+    .controls-panel {
+      order: 2;
+      padding: 16px;
+      padding-bottom: 92px;
+    }
+
+    .intro-card, details {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.04);
+      margin-bottom: 14px;
+      overflow: hidden;
+    }
+
+    .intro-card {
+      padding: 16px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: 14px;
+    }
+
+    summary {
+      cursor: pointer;
+      list-style: none;
+      padding: 16px;
+      font-weight: 850;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    summary::-webkit-details-marker { display: none; }
+
+    summary::after {
+      content: "+";
+      width: 26px;
+      height: 26px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #f1eee6;
+      color: var(--muted);
+      font-weight: 900;
+      flex: 0 0 auto;
+    }
+
+    details[open] summary::after { content: "−"; }
+
+    .section-body {
+      padding: 0 16px 16px;
+      border-top: 1px solid #f0ece3;
+    }
+
+    .field { margin-top: 14px; }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 13px;
+      font-weight: 750;
+      color: #252525;
+    }
+
+    input, select {
+      width: 100%;
+      min-height: 44px;
+      padding: 10px 12px;
+      border: 1px solid #ccc5b5;
+      border-radius: 12px;
+      background: #fffdf8;
+      color: var(--ink);
+      outline: none;
+    }
+
+    input:focus, select:focus {
+      border-color: #111;
+      box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.08);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0 12px;
+    }
+
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-top: 12px;
+      font-size: 14px;
+      color: #2d2d2d;
+    }
+
+    .checkbox-row input { width: auto; min-height: auto; }
+
+    .button-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    button {
+      min-height: 44px;
+      border: 0;
+      border-radius: 12px;
+      background: #111;
+      color: #fff;
+      padding: 10px 14px;
+      cursor: pointer;
+      font-weight: 850;
+      line-height: 1.1;
+    }
+
+    button.secondary { background: #eee9df; color: #111; }
+    button.ghost { background: transparent; color: #111; border: 1px solid #cfc6b6; }
+    button:disabled { opacity: 0.6; cursor: wait; }
+
+    .note {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 12.5px;
+      line-height: 1.45;
+    }
+
+    .warning {
+      margin: 12px 0 0;
+      color: var(--danger);
+      background: #fff2df;
+      border: 1px solid #f1c891;
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 12.5px;
+      line-height: 1.4;
+    }
+
+    .status {
+      min-height: 18px;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 12.5px;
+      line-height: 1.4;
+    }
+
+    .action-bar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 50;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      padding: 12px;
+      background: rgba(255, 253, 248, 0.96);
+      border-top: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+    }
+
+    .desktop-only { display: none; }
+
+    @media (min-width: 620px) {
+      .grid-2 { grid-template-columns: 1fr 1fr; }
+      .button-row { grid-template-columns: 1fr 1fr; }
+      .brand p { display: block; }
+    }
+
+    @media (min-width: 960px) {
+      .app {
+        display: grid;
+        grid-template-columns: 390px 1fr;
+        min-height: 100vh;
+      }
+
+      .controls-panel {
+        order: 1;
+        height: 100vh;
+        overflow-y: auto;
+        padding: 20px;
+        padding-bottom: 20px;
+        border-right: 1px solid var(--line);
+      }
+
+      .preview-panel {
+        order: 2;
+        position: static;
+        min-height: 100vh;
+        display: grid;
+        grid-template-rows: auto 1fr;
+        padding: 24px;
+        border-bottom: 0;
+      }
+
+      .brand-row { margin-bottom: 18px; }
+
+      .brand h1 { font-size: 26px; }
+
+      .canvas-wrap {
+        align-self: center;
+        padding: 24px;
+        border-radius: 20px;
+      }
+
+      canvas {
+        width: auto;
+        max-width: 100%;
+        max-height: 76vh;
+      }
+
+      .action-bar { display: none; }
+      .desktop-only { display: inline-grid; }
+      .mobile-only { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <section class="preview-panel" aria-label="Live preview">
+      <div class="brand-row">
+        <div class="brand">
+          <h1>Indian Railway Sign Maker</h1>
+          <p>Mobile-first canvas generator with PNG export and optional no-key translation auto-fill.</p>
+        </div>
+        <div class="mini-actions">
+          <button id="downloadTopBtn" class="desktop-only" type="button">Download PNG</button>
+        </div>
+      </div>
+
+      <div class="canvas-wrap">
+        <canvas id="signCanvas" width="1400" height="520"></canvas>
+      </div>
+    </section>
+
+    <main class="controls-panel" aria-label="Controls">
+      <div class="intro-card">
+        Type a station name, choose a regional script, auto-fill if useful, edit spellings, then export a PNG. The app is one HTML file and runs locally.
+      </div>
+
+      <details open>
+        <summary>Station details</summary>
+        <div class="section-body">
+          <div class="field">
+            <label for="englishName">English station name</label>
+            <input id="englishName" value="KANNUR" autocomplete="off" />
+          </div>
+
+          <div class="field">
+            <label for="inputMode">Input mode</label>
+            <select id="inputMode">
+              <option value="manual">Manual multilingual</option>
+              <option value="englishOnly">English only + auto-fill</option>
+            </select>
+          </div>
+
+          <div class="grid-2">
+            <div class="field">
+              <label for="stationCode">Station code</label>
+              <input id="stationCode" value="CAN" autocomplete="off" />
+            </div>
+            <div class="field">
+              <label for="zone">Zone / division</label>
+              <input id="zone" value="SOUTHERN RAILWAY" autocomplete="off" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="regionalLanguage">Regional language</label>
+            <select id="regionalLanguage">
+              <option value="ml">Malayalam</option>
+              <option value="ta">Tamil</option>
+              <option value="kn">Kannada</option>
+              <option value="te">Telugu</option>
+              <option value="mr">Marathi</option>
+              <option value="bn">Bengali</option>
+              <option value="gu">Gujarati</option>
+              <option value="pa">Punjabi</option>
+              <option value="or">Odia</option>
+              <option value="ur">Urdu</option>
+            </select>
+          </div>
+
+          <div class="button-row" id="translationActions">
+            <button id="autoFillBtn" class="secondary" type="button">Auto-fill Hindi + Regional</button>
+            <button id="clearTranslationsBtn" class="ghost" type="button">Clear translations</button>
+          </div>
+
+          <p class="warning">
+            Auto-fill uses a free no-key translation service. Station names are proper nouns, so please verify spellings before export.
+          </p>
+          <div id="translationStatus" class="status" aria-live="polite"></div>
+
+          <div class="field">
+            <label for="hindiName">Hindi / Devanagari name</label>
+            <input id="hindiName" value="कन्नूर" autocomplete="off" />
+          </div>
+
+          <div class="field">
+            <label for="regionalName">Regional language name</label>
+            <input id="regionalName" value="കണ്ണൂർ" autocomplete="off" />
+          </div>
+        </div>
+      </details>
+
+      <details open>
+        <summary>Board style</summary>
+        <div class="section-body">
+          <div class="field">
+            <label for="preset">Style preset</label>
+            <select id="preset">
+              <option value="classic">Classic Yellow Board</option>
+              <option value="modern">Modern Platform Board</option>
+              <option value="poster">Poster / Thumbnail Mode</option>
+              <option value="miniature">Miniature Model Sign</option>
+            </select>
+          </div>
+
+          <div class="grid-2">
+            <div class="field">
+              <label for="boardWidth">Custom width</label>
+              <input id="boardWidth" type="number" value="1400" min="480" max="4000" />
+            </div>
+            <div class="field">
+              <label for="boardHeight">Custom height</label>
+              <input id="boardHeight" type="number" value="520" min="220" max="2400" />
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="field">
+              <label for="fontScale">Font scale</label>
+              <input id="fontScale" type="number" value="1" min="0.55" max="2" step="0.05" />
+            </div>
+            <div class="field">
+              <label for="borderSize">Border thickness</label>
+              <input id="borderSize" type="number" value="18" min="4" max="80" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="weathering">Weathering</label>
+            <select id="weathering">
+              <option value="none">None</option>
+              <option value="light">Light</option>
+              <option value="medium">Medium</option>
+              <option value="heavy">Heavy</option>
+            </select>
+          </div>
+
+          <label class="checkbox-row">
+            <input id="uppercaseEnglish" type="checkbox" checked />
+            Uppercase English
+          </label>
+          <label class="checkbox-row">
+            <input id="showCode" type="checkbox" checked />
+            Show station code
+          </label>
+          <label class="checkbox-row">
+            <input id="showZone" type="checkbox" checked />
+            Show zone / division
+          </label>
+        </div>
+      </details>
+
+      <details>
+        <summary>Export</summary>
+        <div class="section-body">
+          <div class="field">
+            <label for="exportPreset">Export preset</label>
+            <select id="exportPreset">
+              <option value="custom">Custom size</option>
+              <option value="hd">HD PNG, 1600 × 600</option>
+              <option value="print">Print, 3000 × 1200</option>
+              <option value="square">Square poster, 1080 × 1080</option>
+              <option value="game">Game asset, 2048 × 768</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="mountMode">Mount mode</label>
+            <select id="mountMode">
+              <option value="boardOnly">Board only</option>
+              <option value="poles">Board with poles</option>
+              <option value="transparent">Transparent background</option>
+            </select>
+          </div>
+
+          <div class="button-row">
+            <button id="downloadBtn" type="button">Download PNG</button>
+            <button id="resetBtn" class="secondary" type="button">Reset sample</button>
+          </div>
+
+          <p class="note">
+            PNG export is rendered from canvas. Transparent background is useful for game assets and layout mockups.
+          </p>
+        </div>
+      </details>
+    </main>
+  </div>
+
+  <div class="action-bar mobile-only">
+    <button id="downloadBottomBtn" type="button">Download PNG</button>
+    <button id="rerenderBtn" class="secondary" type="button">Refresh Preview</button>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("signCanvas");
+    const ctx = canvas.getContext("2d");
+
+    const controls = {
+      englishName: document.getElementById("englishName"),
+      hindiName: document.getElementById("hindiName"),
+      regionalName: document.getElementById("regionalName"),
+      stationCode: document.getElementById("stationCode"),
+      zone: document.getElementById("zone"),
+      preset: document.getElementById("preset"),
+      boardWidth: document.getElementById("boardWidth"),
+      boardHeight: document.getElementById("boardHeight"),
+      fontScale: document.getElementById("fontScale"),
+      borderSize: document.getElementById("borderSize"),
+      uppercaseEnglish: document.getElementById("uppercaseEnglish"),
+      showCode: document.getElementById("showCode"),
+      showZone: document.getElementById("showZone"),
+      inputMode: document.getElementById("inputMode"),
+      regionalLanguage: document.getElementById("regionalLanguage"),
+      exportPreset: document.getElementById("exportPreset"),
+      mountMode: document.getElementById("mountMode"),
+      weathering: document.getElementById("weathering"),
+    };
+
+    const languageNames = {
+      hi: "Hindi",
+      ml: "Malayalam",
+      ta: "Tamil",
+      kn: "Kannada",
+      te: "Telugu",
+      mr: "Marathi",
+      bn: "Bengali",
+      gu: "Gujarati",
+      pa: "Punjabi",
+      or: "Odia",
+      ur: "Urdu",
+    };
+
+    const regionalSamples = {
+      ml: "കണ്ണൂർ",
+      ta: "கண்ணூர்",
+      kn: "ಕಣ್ಣೂರು",
+      te: "కన్నూర్",
+      mr: "कन्नूर",
+      bn: "কান্নুর",
+      gu: "કન્નુર",
+      pa: "ਕੰਨੂਰ",
+      or: "କନ୍ନୁର",
+      ur: "کننور",
+    };
+
+    let weatherSeed = 7;
+
+    function seededRandom() {
+      const x = Math.sin(weatherSeed++) * 10000;
+      return x - Math.floor(x);
+    }
+
+    function getExportSize() {
+      const preset = controls.exportPreset.value;
+      if (preset === "hd") return { width: 1600, height: 600 };
+      if (preset === "print") return { width: 3000, height: 1200 };
+      if (preset === "square") return { width: 1080, height: 1080 };
+      if (preset === "game") return { width: 2048, height: 768 };
+      return {
+        width: Number(controls.boardWidth.value) || 1400,
+        height: Number(controls.boardHeight.value) || 520,
+      };
+    }
+
+    function getState() {
+      let english = controls.englishName.value.trim() || "STATION NAME";
+      if (controls.uppercaseEnglish.checked) english = english.toUpperCase();
+      const exportSize = getExportSize();
+      return {
+        english,
+        hindi: controls.hindiName.value.trim(),
+        regional: controls.regionalName.value.trim(),
+        code: controls.stationCode.value.trim().toUpperCase(),
+        zone: controls.zone.value.trim().toUpperCase(),
+        preset: controls.preset.value,
+        width: exportSize.width,
+        height: exportSize.height,
+        fontScale: Number(controls.fontScale.value) || 1,
+        borderSize: Number(controls.borderSize.value) || 18,
+        showCode: controls.showCode.checked,
+        showZone: controls.showZone.checked,
+        inputMode: controls.inputMode.value,
+        regionalLanguage: controls.regionalLanguage.value,
+        mountMode: controls.mountMode.value,
+        weathering: controls.weathering.value,
+      };
+    }
+
+    function setCanvasSize(w, h) {
+      canvas.width = Math.round(w);
+      canvas.height = Math.round(h);
+    }
+
+    function fitText(text, maxWidth, initialSize, fontFamily, weight = "800") {
+      let size = initialSize;
+      ctx.font = `${weight} ${size}px ${fontFamily}`;
+      while (ctx.measureText(text).width > maxWidth && size > 12) {
+        size -= 2;
+        ctx.font = `${weight} ${size}px ${fontFamily}`;
+      }
+      return size;
+    }
+
+    function drawCenteredText(text, x, y, maxWidth, size, fontFamily, weight = "800") {
+      if (!text) return;
+      const finalSize = fitText(text, maxWidth, size, fontFamily, weight);
+      ctx.font = `${weight} ${finalSize}px ${fontFamily}`;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(text, x, y);
+    }
+
+    function drawBoardBackground(s, board) {
+      if (s.mountMode !== "transparent") {
+        ctx.fillStyle = "#f6c400";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      } else {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+
+      if (s.mountMode === "poles") drawPoles(board);
+
+      ctx.fillStyle = "#f6c400";
+      ctx.fillRect(board.x, board.y, board.w, board.h);
+    }
+
+    function getBoardRect(s) {
+      if (s.mountMode === "poles") {
+        return {
+          x: s.width * 0.04,
+          y: s.height * 0.08,
+          w: s.width * 0.92,
+          h: s.height * 0.62,
+        };
+      }
+      return { x: 0, y: 0, w: s.width, h: s.height };
+    }
+
+    function drawPoles(board) {
+      ctx.save();
+      const poleW = Math.max(12, board.w * 0.018);
+      const leftX = board.x + board.w * 0.18;
+      const rightX = board.x + board.w * 0.82;
+      const topY = board.y + board.h * 0.68;
+      const bottomY = canvas.height;
+      ctx.fillStyle = "#222";
+      ctx.fillRect(leftX, topY, poleW, bottomY - topY);
+      ctx.fillRect(rightX, topY, poleW, bottomY - topY);
+      ctx.fillStyle = "rgba(255,255,255,0.16)";
+      ctx.fillRect(leftX + poleW * 0.15, topY, poleW * 0.22, bottomY - topY);
+      ctx.fillRect(rightX + poleW * 0.15, topY, poleW * 0.22, bottomY - topY);
+      ctx.restore();
+    }
+
+    function drawWeathering(level, board) {
+      if (level === "none") return;
+      weatherSeed = 7;
+      const density = { light: 42, medium: 120, heavy: 260 }[level] || 0;
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(board.x, board.y, board.w, board.h);
+      ctx.clip();
+      for (let i = 0; i < density; i++) {
+        const x = board.x + seededRandom() * board.w;
+        const y = board.y + seededRandom() * board.h;
+        const r = seededRandom() * 3.2 + 0.5;
+        ctx.fillStyle = `rgba(0, 0, 0, ${seededRandom() * 0.085})`;
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      const gradient = ctx.createLinearGradient(board.x, board.y, board.x, board.y + board.h);
+      gradient.addColorStop(0, "rgba(255,255,255,0.12)");
+      gradient.addColorStop(0.55, "rgba(255,255,255,0)");
+      gradient.addColorStop(1, "rgba(0,0,0,0.12)");
+      ctx.fillStyle = gradient;
+      ctx.fillRect(board.x, board.y, board.w, board.h);
+      ctx.restore();
+    }
+
+    function drawClassic(s) {
+      setCanvasSize(s.width, s.height);
+      const board = getBoardRect(s);
+      drawBoardBackground(s, board);
+      const border = Math.max(4, s.borderSize * (board.w / s.width));
+      ctx.save();
+      ctx.translate(board.x, board.y);
+      ctx.strokeStyle = "#111";
+      ctx.lineWidth = border;
+      ctx.strokeRect(border / 2, border / 2, board.w - border, board.h - border);
+      ctx.lineWidth = Math.max(3, border * 0.35);
+      const inset = border + board.w * 0.018;
+      const footerHeight = s.showZone && s.zone ? board.h * 0.115 : 0;
+      const innerBottom = board.h - inset - footerHeight;
+      ctx.strokeRect(inset, inset, board.w - inset * 2, Math.max(board.h * 0.45, innerBottom - inset));
+      ctx.fillStyle = "#111";
+      const safeWidth = board.w * 0.82;
+      const fs = s.fontScale;
+      drawCenteredText(s.hindi, board.w / 2, board.h * 0.25, safeWidth, board.h * 0.14 * fs, '"Noto Sans Devanagari", "Mangal", system-ui, sans-serif', "800");
+      drawCenteredText(s.english, board.w / 2, board.h * 0.50, safeWidth, board.h * 0.215 * fs, 'Arial Black, Impact, system-ui, sans-serif', "900");
+      drawCenteredText(s.regional, board.w / 2, board.h * 0.72, safeWidth, board.h * 0.14 * fs, '"Noto Sans Malayalam", "Noto Sans Tamil", "Noto Sans Kannada", "Noto Sans Telugu", system-ui, sans-serif', "800");
+      if (s.showCode && s.code) {
+        const badgeW = board.w * 0.11;
+        const badgeH = board.h * 0.125;
+        const x = board.w - border - badgeW - board.w * 0.03;
+        const y = border + board.h * 0.05;
+        ctx.fillStyle = "#111";
+        ctx.fillRect(x, y, badgeW, badgeH);
+        ctx.fillStyle = "#f6c400";
+        ctx.font = `900 ${Math.max(18, badgeH * 0.52 * fs)}px Arial Black, system-ui, sans-serif`;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(s.code, x + badgeW / 2, y + badgeH / 2);
+      }
+      if (s.showZone && s.zone) {
+        ctx.fillStyle = "#111";
+        ctx.font = `800 ${Math.max(16, board.h * 0.038 * fs)}px system-ui, sans-serif`;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(s.zone, board.w / 2, board.h - border - board.h * 0.045);
+      }
+      ctx.restore();
+      drawWeathering(s.weathering, board);
+    }
+
+    function drawModern(s) {
+      setCanvasSize(s.width, s.height);
+      const board = getBoardRect(s);
+      drawBoardBackground(s, board);
+      const border = Math.max(4, s.borderSize * (board.w / s.width));
+      ctx.save();
+      ctx.translate(board.x, board.y);
+      ctx.strokeStyle = "#111";
+      ctx.lineWidth = border;
+      ctx.strokeRect(border / 2, border / 2, board.w - border, board.h - border);
+      const topBar = board.h * 0.14;
+      ctx.fillStyle = "#111";
+      ctx.fillRect(0, 0, board.w, topBar);
+      ctx.fillStyle = "#f6c400";
+      ctx.font = `850 ${Math.max(16, topBar * 0.38 * s.fontScale)}px system-ui, sans-serif`;
+      ctx.textAlign = "left";
+      ctx.textBaseline = "middle";
+      ctx.fillText(s.zone || "INDIAN RAILWAYS", board.w * 0.035, topBar / 2);
+      if (s.showCode && s.code) {
+        ctx.textAlign = "right";
+        ctx.fillText(s.code, board.w - board.w * 0.035, topBar / 2);
+      }
+      ctx.fillStyle = "#111";
+      drawCenteredText(s.hindi, board.w / 2, board.h * 0.34, board.w * 0.82, board.h * 0.135 * s.fontScale, '"Noto Sans Devanagari", "Mangal", system-ui, sans-serif', "800");
+      drawCenteredText(s.english, board.w / 2, board.h * 0.58, board.w * 0.86, board.h * 0.22 * s.fontScale, 'Arial Black, Impact, system-ui, sans-serif', "900");
+      drawCenteredText(s.regional, board.w / 2, board.h * 0.79, board.w * 0.82, board.h * 0.12 * s.fontScale, '"Noto Sans Malayalam", "Noto Sans Tamil", "Noto Sans Kannada", "Noto Sans Telugu", system-ui, sans-serif', "800");
+      ctx.restore();
+      drawWeathering(s.weathering, board);
+    }
+
+    function drawPoster(s) {
+      setCanvasSize(s.width, s.height);
+      const board = getBoardRect(s);
+      drawBoardBackground(s, board);
+      ctx.save();
+      ctx.translate(board.x, board.y);
+      ctx.fillStyle = "#111";
+      drawCenteredText(s.english, board.w / 2, board.h * 0.42, board.w * 0.86, board.h * 0.22 * s.fontScale, 'Arial Black, Impact, system-ui, sans-serif', "900");
+      const secondary = [s.hindi, s.regional].filter(Boolean).join("  •  ");
+      drawCenteredText(secondary, board.w / 2, board.h * 0.64, board.w * 0.82, board.h * 0.07 * s.fontScale, '"Noto Sans Devanagari", "Noto Sans Malayalam", "Noto Sans Tamil", "Noto Sans Kannada", system-ui, sans-serif', "800");
+      if (s.showCode && s.code) {
+        ctx.font = `900 ${Math.max(20, board.h * 0.06 * s.fontScale)}px Arial Black, system-ui, sans-serif`;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(s.code, board.w / 2, board.h * 0.80);
+      }
+      ctx.restore();
+      drawWeathering(s.weathering, board);
+    }
+
+    function drawMiniature(s) {
+      setCanvasSize(s.width, s.height);
+      const board = getBoardRect(s);
+      drawBoardBackground(s, board);
+      const border = Math.max(6, s.borderSize * 0.9);
+      ctx.save();
+      ctx.translate(board.x, board.y);
+      ctx.strokeStyle = "#111";
+      ctx.lineJoin = "round";
+      ctx.lineWidth = border;
+      ctx.strokeRect(border / 2, border / 2, board.w - border, board.h - border);
+      ctx.fillStyle = "#111";
+      const fs = s.fontScale * 1.12;
+      drawCenteredText(s.english, board.w / 2, board.h * 0.42, board.w * 0.78, board.h * 0.25 * fs, 'Arial Black, Impact, system-ui, sans-serif', "900");
+      drawCenteredText(s.hindi, board.w / 2, board.h * 0.66, board.w * 0.76, board.h * 0.11 * fs, '"Noto Sans Devanagari", "Mangal", system-ui, sans-serif', "900");
+      drawCenteredText(s.regional, board.w / 2, board.h * 0.80, board.w * 0.76, board.h * 0.10 * fs, '"Noto Sans Malayalam", "Noto Sans Tamil", "Noto Sans Kannada", "Noto Sans Telugu", system-ui, sans-serif', "900");
+      if (s.showCode && s.code) {
+        ctx.font = `900 ${Math.max(18, board.h * 0.055 * fs)}px Arial Black, system-ui, sans-serif`;
+        ctx.textAlign = "right";
+        ctx.textBaseline = "top";
+        ctx.fillText(s.code, board.w - border * 1.4, border * 1.1);
+      }
+      ctx.restore();
+      drawWeathering(s.weathering, board);
+    }
+
+    function render() {
+      const state = getState();
+      if (state.preset === "modern") drawModern(state);
+      else if (state.preset === "poster") drawPoster(state);
+      else if (state.preset === "miniature") drawMiniature(state);
+      else drawClassic(state);
+    }
+
+    function safeFileName(name) {
+      return (name || "station-sign").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "station-sign";
+    }
+
+    function downloadPNG() {
+      render();
+      const state = getState();
+      const link = document.createElement("a");
+      link.download = `${safeFileName(state.english)}.png`;
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    }
+
+    function setStatus(message) {
+      document.getElementById("translationStatus").textContent = message || "";
+    }
+
+    async function translateWithMyMemory(text, targetLanguage) {
+      const url = new URL("https://api.mymemory.translated.net/get");
+      url.searchParams.set("q", text);
+      url.searchParams.set("langpair", `en|${targetLanguage}`);
+      const response = await fetch(url.toString());
+      if (!response.ok) throw new Error("Translation request failed.");
+      const data = await response.json();
+      const translated = data && data.responseData && data.responseData.translatedText;
+      if (!translated) throw new Error("No translation returned.");
+      return translated;
+    }
+
+    async function autoFillTranslations() {
+      const sourceText = controls.englishName.value.trim();
+      if (!sourceText) {
+        alert("Type the English station name first.");
+        return;
+      }
+      const btn = document.getElementById("autoFillBtn");
+      btn.disabled = true;
+      btn.textContent = "Auto-filling...";
+      setStatus("Requesting Hindi and regional names...");
+      try {
+        const regionalCode = controls.regionalLanguage.value;
+        const [hindi, regional] = await Promise.all([
+          translateWithMyMemory(sourceText, "hi"),
+          translateWithMyMemory(sourceText, regionalCode),
+        ]);
+        controls.hindiName.value = hindi;
+        controls.regionalName.value = regional;
+        setStatus(`Filled Hindi and ${languageNames[regionalCode]}. Please verify spelling.`);
+        render();
+      } catch (error) {
+        setStatus("Auto-fill failed. You can still type the names manually.");
+        alert("Translation failed. Please type the Hindi and regional names manually.");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Auto-fill Hindi + Regional";
+      }
+    }
+
+    function clearTranslations() {
+      controls.hindiName.value = "";
+      controls.regionalName.value = "";
+      setStatus("");
+      render();
+    }
+
+    function updateInputModeUI() {
+      const englishOnly = controls.inputMode.value === "englishOnly";
+      const translationActions = document.getElementById("translationActions");
+      translationActions.style.display = englishOnly ? "grid" : "none";
+      controls.hindiName.placeholder = englishOnly ? "Auto-fill or paste Hindi name here" : "Enter Hindi / Devanagari name";
+      controls.regionalName.placeholder = englishOnly ? `Auto-fill or paste ${languageNames[controls.regionalLanguage.value]} name here` : "Enter regional language name";
+    }
+
+    function handleRegionalChange() {
+      const code = controls.regionalLanguage.value;
+      if (!controls.regionalName.value.trim() || Object.values(regionalSamples).includes(controls.regionalName.value.trim())) {
+        controls.regionalName.value = regionalSamples[code] || "";
+      }
+      updateInputModeUI();
+      render();
+    }
+
+    function resetSample() {
+      controls.englishName.value = "KANNUR";
+      controls.hindiName.value = "कन्नूर";
+      controls.regionalLanguage.value = "ml";
+      controls.regionalName.value = "കണ്ണൂർ";
+      controls.stationCode.value = "CAN";
+      controls.zone.value = "SOUTHERN RAILWAY";
+      controls.preset.value = "classic";
+      controls.boardWidth.value = "1400";
+      controls.boardHeight.value = "520";
+      controls.fontScale.value = "1";
+      controls.borderSize.value = "18";
+      controls.exportPreset.value = "custom";
+      controls.mountMode.value = "boardOnly";
+      controls.weathering.value = "none";
+      controls.uppercaseEnglish.checked = true;
+      controls.showCode.checked = true;
+      controls.showZone.checked = true;
+      controls.inputMode.value = "manual";
+      setStatus("");
+      updateInputModeUI();
+      render();
+    }
+
+    Object.values(controls).forEach((control) => {
+      control.addEventListener("input", render);
+      control.addEventListener("change", render);
+    });
+
+    controls.inputMode.addEventListener("change", updateInputModeUI);
+    controls.regionalLanguage.addEventListener("change", handleRegionalChange);
+
+    document.getElementById("autoFillBtn").addEventListener("click", autoFillTranslations);
+    document.getElementById("clearTranslationsBtn").addEventListener("click", clearTranslations);
+    document.getElementById("downloadBtn").addEventListener("click", downloadPNG);
+    document.getElementById("downloadTopBtn").addEventListener("click", downloadPNG);
+    document.getElementById("downloadBottomBtn").addEventListener("click", downloadPNG);
+    document.getElementById("rerenderBtn").addEventListener("click", render);
+    document.getElementById("resetBtn").addEventListener("click", resetSample);
+
+    updateInputModeUI();
+    render();
+  </script>
+</body>
+</html>
