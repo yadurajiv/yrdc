@@ -1,0 +1,1063 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Work with Yadu Rajiv | Game Design, UX, Prototypes and Teaching</title>
+  <meta name="description" content="Work with Yadu Rajiv on game design, UX, prototypes, 0-to-1 product design, playful tools, learning experiences, workshops, curriculum development and design leadership." />
+  <meta name="keywords" content="game design consultant, game UX, prototype sprint, 0 to 1 design, game design workshop, playful systems, learning games, Unity, Godot, India game designer" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="canonical" href="https://workwith.yadurajiv.com/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Work with Yadu Rajiv" />
+  <meta property="og:description" content="Game design, UX, prototypes, workshops and curriculum support for teams building games, tools, learning products and interactive systems." />
+  <meta property="og:url" content="https://workwith.yadurajiv.com/" />
+  <meta property="og:image" content="https://workwith.yadurajiv.com/assets/yadu-rajiv.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Work with Yadu Rajiv" />
+  <meta name="twitter:description" content="Senior game design, UX, prototype, workshop and curriculum support for games and playful products." />
+  <meta name="twitter:image" content="https://workwith.yadurajiv.com/assets/yadu-rajiv.jpg" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Yadu Rajiv",
+    "url": "https://yadurajiv.com/",
+    "image": "https://workwith.yadurajiv.com/assets/yadu-rajiv.jpg",
+    "jobTitle": "Game Designer, UX Designer, Developer and Educator",
+    "sameAs": [
+      "https://yadurajiv.com/",
+      "https://www.linkedin.com/in/yadurajiv",
+      "https://yadu.itch.io/",
+      "https://cal.com/yadurajiv",
+      "https://gamedev.in/"
+    ],
+    "knowsAbout": [
+      "Game Design",
+      "UX Design",
+      "Game Development",
+      "Unity",
+      "Godot",
+      "GameMaker",
+      "Prototyping",
+      "Interactive Learning",
+      "Children's Games",
+      "Creative Technology",
+      "Game Design Education",
+      "Community Building"
+    ],
+    "offers": {
+      "@type": "OfferCatalog",
+      "name": "Game design, UX, prototype, workshop and curriculum consulting",
+      "itemListElement": [
+        {"@type":"Offer","name":"Game Design and UX Audit"},
+        {"@type":"Offer","name":"Prototype Sprint"},
+        {"@type":"Offer","name":"Pitch and Demo Review"},
+        {"@type":"Offer","name":"Fractional Design Lead"},
+        {"@type":"Offer","name":"Workshops, Courses and Curriculum"}
+      ]
+    }
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg: #fff7e8;
+      --paper: #fffdf7;
+      --ink: #1f1b2e;
+      --muted: #5f5a70;
+      --line: #262236;
+      --soft-line: rgba(38, 34, 54, .14);
+      --green: #b7dd56;
+      --coral: #f26d5b;
+      --blue: #6aa8ff;
+      --yellow: #ffd76d;
+      --lilac: #a993ff;
+      --shadow: 7px 7px 0 var(--line);
+      --soft-shadow: 0 18px 60px rgba(31, 27, 46, .14);
+      --radius: 24px;
+      --max: 1160px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 10% 0%, rgba(183,221,86,.25), transparent 26rem),
+        radial-gradient(circle at 88% 8%, rgba(106,168,255,.20), transparent 26rem),
+        linear-gradient(90deg, rgba(38,34,54,.045) 1px, transparent 1px) 0 0 / 28px 28px,
+        linear-gradient(0deg, rgba(38,34,54,.04) 1px, transparent 1px) 0 0 / 28px 28px,
+        var(--bg);
+      line-height: 1.55;
+      text-rendering: optimizeLegibility;
+    }
+
+    a { color: inherit; }
+
+    .skip-link {
+      position: absolute;
+      left: 1rem;
+      top: -10rem;
+      background: var(--ink);
+      color: white;
+      padding: .7rem 1rem;
+      border-radius: 999px;
+      z-index: 30;
+    }
+
+    .skip-link:focus { top: 1rem; }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 2px solid var(--line);
+      background: rgba(255, 247, 232, .88);
+      backdrop-filter: blur(14px);
+    }
+
+    .nav {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: center;
+      padding: .82rem 0;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: .65rem;
+      font-weight: 900;
+      text-decoration: none;
+      letter-spacing: -.03em;
+    }
+
+    .brand-mark {
+      width: 2.35rem;
+      height: 2.35rem;
+      border: 2px solid var(--line);
+      border-radius: 12px;
+      background: var(--paper);
+      box-shadow: 4px 4px 0 var(--line);
+      display: grid;
+      place-items: center;
+      font-weight: 950;
+    }
+
+    nav ul {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: .25rem;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    nav a {
+      display: inline-flex;
+      padding: .5rem .78rem;
+      text-decoration: none;
+      border-radius: 999px;
+      font-size: .92rem;
+      font-weight: 780;
+    }
+
+    nav a:hover, nav a:focus-visible {
+      background: var(--ink);
+      color: white;
+      outline: none;
+    }
+
+    main { overflow: hidden; }
+
+    section {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+      padding: 4.6rem 0;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.12fr) minmax(320px, .88fr);
+      gap: clamp(2rem, 5vw, 5rem);
+      align-items: center;
+      min-height: calc(100vh - 72px);
+      padding-top: 4.4rem;
+      padding-bottom: 4rem;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      border: 2px solid var(--line);
+      border-radius: 999px;
+      padding: .36rem .72rem .36rem .46rem;
+      background: var(--paper);
+      font-weight: 900;
+      box-shadow: 4px 4px 0 var(--line);
+      font-size: .92rem;
+    }
+
+    .dot {
+      width: .85rem;
+      height: .85rem;
+      border-radius: 50%;
+      background: var(--coral);
+      border: 2px solid var(--line);
+    }
+
+    h1, h2, h3 { line-height: 1.04; margin: 0; letter-spacing: -.052em; }
+
+    h1 {
+      font-size: clamp(2.8rem, 6vw, 5.7rem);
+      max-width: 12ch;
+      margin: 1.05rem 0 1.15rem;
+    }
+
+    .lead {
+      font-size: clamp(1.12rem, 2vw, 1.42rem);
+      color: var(--muted);
+      max-width: 63ch;
+      margin: 0 0 1.35rem;
+    }
+
+    .starting-points {
+      display: grid;
+      gap: .55rem;
+      margin: 1.2rem 0 1.45rem;
+    }
+
+    .starting-points strong {
+      font-size: .9rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      border: 2px solid var(--line);
+      border-radius: 999px;
+      background: var(--paper);
+      padding: .42rem .65rem;
+      font-weight: 850;
+      box-shadow: 3px 3px 0 var(--line);
+      font-size: .92rem;
+    }
+
+    .chip::before {
+      content: "";
+      width: .55rem;
+      height: .55rem;
+      border-radius: 50%;
+      background: var(--green);
+      border: 1.5px solid var(--line);
+      flex: 0 0 auto;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .8rem;
+      align-items: center;
+      margin: 1.35rem 0 1rem;
+    }
+
+    .button, .card-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .45rem;
+      min-height: 48px;
+      border: 2px solid var(--line);
+      padding: .84rem 1rem;
+      border-radius: 15px;
+      text-decoration: none;
+      font-weight: 950;
+      box-shadow: 5px 5px 0 var(--line);
+      transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+    }
+
+    .button:hover, .button:focus-visible, .card-cta:hover, .card-cta:focus-visible {
+      transform: translate(3px, 3px);
+      box-shadow: 2px 2px 0 var(--line);
+      outline: none;
+    }
+
+    .primary { background: var(--green); }
+    .secondary { background: var(--paper); }
+
+    .small-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .35rem .65rem;
+      margin-top: .8rem;
+    }
+
+    .small-link { font-weight: 800; color: var(--muted); }
+    .small-link:hover { color: var(--ink); }
+
+    .hero-card {
+      position: relative;
+      isolation: isolate;
+      padding-bottom: .5rem;
+    }
+
+    .portrait-card {
+      border: 3px solid var(--line);
+      border-radius: 32px;
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transform: rotate(1deg);
+    }
+
+    .portrait-card img {
+      width: 100%;
+      display: block;
+      aspect-ratio: 4 / 4.55;
+      object-fit: cover;
+      filter: grayscale(100%) contrast(1.06);
+    }
+
+    .tag-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .45rem;
+      padding: .95rem;
+      border-top: 3px solid var(--line);
+      background: var(--paper);
+    }
+
+    .tag {
+      padding: .34rem .58rem;
+      border: 2px solid var(--line);
+      border-radius: 999px;
+      background: white;
+      font-size: .82rem;
+      font-weight: 850;
+    }
+
+    .floating-note {
+      position: absolute;
+      right: -1rem;
+      top: 54%;
+      max-width: 230px;
+      border: 2px solid var(--line);
+      border-radius: 18px;
+      background: var(--paper);
+      box-shadow: 5px 5px 0 var(--line);
+      padding: .85rem;
+      font-weight: 900;
+      transform: translateY(-50%) rotate(-3deg);
+      z-index: 2;
+    }
+
+    .floating-note span {
+      display: block;
+      margin-top: .25rem;
+      color: var(--muted);
+      font-weight: 750;
+      font-size: .9rem;
+    }
+
+    .feature-band {
+      width: 100%;
+      border-block: 3px solid var(--line);
+      background: var(--ink);
+      color: white;
+      padding: 2.6rem 0;
+      margin: .5rem 0;
+    }
+
+    .feature-band .inner {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .stat {
+      border: 2px solid rgba(255,255,255,.78);
+      border-radius: 20px;
+      padding: 1.05rem;
+      background: rgba(255,255,255,.08);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: clamp(2rem, 3.5vw, 3.3rem);
+      line-height: 1;
+      letter-spacing: -.05em;
+    }
+
+    .stat span { color: rgba(255,255,255,.80); font-weight: 750; }
+
+    .section-title {
+      display: grid;
+      gap: .72rem;
+      margin-bottom: 2rem;
+    }
+
+    .section-title h2 { font-size: clamp(2.05rem, 4vw, 3.75rem); }
+    .section-title p { margin: 0; max-width: 72ch; color: var(--muted); font-size: 1.08rem; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .two-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .card {
+      border: 2px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 253, 247, .94);
+      box-shadow: 5px 5px 0 var(--line);
+      padding: 1.18rem;
+      transition: transform .14s ease, box-shadow .14s ease, background .14s ease;
+    }
+
+    .card:hover, .card:focus-within {
+      transform: translate(2px, 2px);
+      box-shadow: 3px 3px 0 var(--line);
+      background: #fffefa;
+    }
+
+
+    #services .card {
+      display: flex;
+      flex-direction: column;
+    }
+
+    #services .card .card-cta {
+      margin-top: auto;
+      align-self: flex-start;
+    }
+
+    #services .card ul {
+      margin-bottom: 1.05rem;
+    }
+
+    .card h3 {
+      font-size: 1.34rem;
+      margin: 0;
+    }
+
+    .card p { color: var(--muted); margin: .68rem 0 0; }
+
+    .card ul {
+      margin: .9rem 0 0;
+      padding-left: 1.12rem;
+      color: var(--muted);
+    }
+
+    .card li + li { margin-top: .35rem; }
+
+    .card-head {
+      display: flex;
+      align-items: center;
+      gap: .68rem;
+      margin-bottom: .2rem;
+    }
+
+    .icon-badge {
+      flex: 0 0 auto;
+      width: 2.25rem;
+      height: 2.25rem;
+      display: grid;
+      place-items: center;
+      border: 2px solid var(--line);
+      border-radius: 12px;
+      background: var(--ink);
+      color: white;
+      box-shadow: 3px 3px 0 var(--line);
+      font-size: 1rem;
+      font-weight: 950;
+    }
+
+    .price {
+      display: inline-flex;
+      margin-bottom: .85rem;
+      background: var(--line);
+      color: white;
+      border-radius: 999px;
+      padding: .28rem .6rem;
+      font-size: .84rem;
+      font-weight: 900;
+    }
+
+    .card-cta {
+      margin-top: 1rem;
+      min-height: 42px;
+      border-radius: 999px;
+      padding: .62rem .82rem;
+      background: white;
+      box-shadow: 3px 3px 0 var(--line);
+      font-size: .92rem;
+      width: fit-content;
+    }
+
+    .card-cta:hover, .card-cta:focus-visible { background: var(--green); }
+
+    .capability-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: .9rem;
+    }
+
+    .capability {
+      min-height: 100%;
+      padding: 1rem;
+    }
+
+    .capability .icon-badge { margin-bottom: .7rem; }
+    .capability h3 { font-size: 1.15rem; }
+
+    .timeline {
+      display: grid;
+      gap: .85rem;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 190px 1fr;
+      gap: 1rem;
+      align-items: start;
+      border: 2px solid var(--line);
+      border-radius: 22px;
+      background: rgba(255, 253, 247, .94);
+      padding: 1rem;
+      box-shadow: 4px 4px 0 var(--line);
+    }
+
+    .where {
+      font-weight: 950;
+      font-size: 1.07rem;
+      line-height: 1.15;
+    }
+
+    .timeline-item p { margin: 0; color: var(--muted); }
+
+    .course-card {
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .course-note {
+      border: 2px solid var(--line);
+      border-radius: 20px;
+      background: var(--paper);
+      box-shadow: 4px 4px 0 var(--line);
+      padding: 1rem;
+      margin-bottom: 1rem;
+      color: var(--muted);
+      font-weight: 760;
+    }
+
+    .course-meta {
+      margin-top: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+    }
+
+    .course-meta span {
+      background: rgba(31,27,46,.08);
+      border-radius: 999px;
+      padding: .35rem .55rem;
+      font-weight: 820;
+      font-size: .84rem;
+    }
+
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .55rem;
+      margin-top: 1rem;
+    }
+
+    .pill {
+      border: 2px solid var(--line);
+      border-radius: 999px;
+      background: white;
+      padding: .44rem .65rem;
+      font-weight: 850;
+      font-size: .9rem;
+    }
+
+    .callout {
+      border: 2px solid var(--line);
+      border-radius: 28px;
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      padding: clamp(1.2rem, 3vw, 2rem);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    .callout h3 { font-size: clamp(1.8rem, 3.4vw, 3rem); }
+
+    details {
+      border: 2px solid var(--line);
+      border-radius: 18px;
+      padding: .85rem 1rem;
+      background: white;
+    }
+
+    details + details { margin-top: .7rem; }
+
+    summary {
+      cursor: pointer;
+      font-weight: 950;
+    }
+
+    details p, details ul { color: var(--muted); }
+
+    .cta-panel {
+      border: 3px solid var(--line);
+      border-radius: 34px;
+      background: linear-gradient(135deg, rgba(183,221,86,.95), rgba(255,215,109,.92));
+      box-shadow: var(--shadow);
+      padding: clamp(1.35rem, 4vw, 3rem);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .cta-panel h2 { font-size: clamp(2rem, 4vw, 4.2rem); }
+    .cta-panel p { max-width: 68ch; margin: .8rem 0 0; font-size: 1.08rem; }
+
+    footer {
+      border-top: 3px solid var(--line);
+      background: var(--ink);
+      color: white;
+      padding: 2rem 0;
+    }
+
+    footer .inner {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 1rem;
+      color: rgba(255,255,255,.78);
+    }
+
+    footer a { color: white; font-weight: 850; }
+
+    @media (max-width: 1020px) {
+      .capability-grid { grid-template-columns: repeat(3, 1fr); }
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-card { max-width: 560px; justify-self: center; }
+    }
+
+    @media (max-width: 900px) {
+      .grid, .two-grid, .feature-band .inner, .callout, .cta-panel { grid-template-columns: 1fr; }
+      nav ul { display: none; }
+      .timeline-item { grid-template-columns: 1fr; }
+      .cta-panel .button { width: fit-content; }
+    }
+
+    @media (max-width: 620px) {
+      section { padding: 3.35rem 0; }
+      .hero { padding-top: 2.5rem; }
+      h1 { max-width: none; }
+      .capability-grid { grid-template-columns: 1fr; }
+      .floating-note { right: .55rem; top: 49%; max-width: 215px; }
+      .button { width: 100%; }
+      .card-cta { width: 100%; }
+      .portrait-card { transform: none; }
+      .cta-panel .button { width: 100%; }
+    }
+
+    @media (max-width: 420px) {
+      .floating-note {
+        position: static;
+        transform: rotate(-2deg);
+        margin: 1rem 0 0 auto;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .button, .card, .card-cta { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <header>
+    <div class="nav" aria-label="Main navigation">
+      <a class="brand" href="#top" aria-label="Work with Yadu Rajiv home">
+        <span class="brand-mark">YR</span>
+        <span>Work with Yadu Rajiv</span>
+      </a>
+      <nav>
+        <ul>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#approach">Approach</a></li>
+          <li><a href="#zero-to-one">0-to-1</a></li>
+          <li><a href="#teaching">Teaching</a></li>
+          <li><a href="#background">Background</a></li>
+          <li><a href="https://cal.com/yadurajiv">Book a call</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top">
+      <div>
+        <span class="eyebrow"><span class="dot" aria-hidden="true"></span> Game design · UX · prototypes · teaching</span>
+        <h1>Design help for games and playful products.</h1>
+        <p class="lead">I help teams turn unclear ideas, complex systems and early builds into playable, testable and easier-to-explain products.</p>
+
+        <div class="starting-points" aria-label="Common starting points">
+          <strong>Good starting points</strong>
+          <div class="chip-row">
+            <span class="chip">an early build needs direction</span>
+            <span class="chip">a demo needs to communicate faster</span>
+            <span class="chip">a system needs to become playable</span>
+          </div>
+        </div>
+
+        <div class="cta-row">
+          <a class="button primary" href="https://cal.com/yadurajiv">Book a fit call</a>
+          <a class="button secondary" href="#services">See services</a>
+        </div>
+
+        <div class="small-links" aria-label="Profile links">
+          <a class="small-link" href="https://yadurajiv.com/about/">Full bio</a>
+          <a class="small-link" href="https://yadu.itch.io/">Games, tools and prototypes</a>
+          <a class="small-link" href="https://www.linkedin.com/in/yadurajiv">LinkedIn</a>
+        </div>
+      </div>
+
+      <aside class="hero-card" aria-label="Portrait and summary">
+        <div class="portrait-card">
+          <img src="assets/yadu-rajiv.jpg" alt="Black and white portrait of Yadu Rajiv" loading="eager" />
+          <div class="tag-strip" aria-label="Areas of work">
+            <span class="tag">Game Design</span>
+            <span class="tag">UX</span>
+            <span class="tag">Prototypes</span>
+            <span class="tag">Godot</span>
+            <span class="tag">Creative Tech</span>
+            <span class="tag">Teaching</span>
+          </div>
+        </div>
+        <div class="floating-note">Art + code + design <span>Useful when the work needs both creative direction and implementation sense.</span></div>
+      </aside>
+    </section>
+
+    <div class="feature-band" aria-label="Experience summary">
+      <div class="inner">
+        <div class="stat"><strong>20+</strong><span>years across games, UX, teaching and creative technology</span></div>
+        <div class="stat"><strong>0→1</strong><span>experience across B2B tools, children’s games, mobile games and PC/console work</span></div>
+        <div class="stat"><strong>Art + Code</strong><span>design direction, prototyping, writing, systems and team alignment</span></div>
+      </div>
+    </div>
+
+    <section id="services">
+      <div class="section-title">
+        <h2>Services</h2>
+        <p>Clear ways to bring in senior design help without turning it into a vague consulting engagement.</p>
+      </div>
+
+      <div class="grid">
+        <article class="card">
+          <span class="price">Starts at $2,500</span>
+          <div class="card-head"><span class="icon-badge" aria-hidden="true">01</span><h3>Design and UX Audit</h3></div>
+          <p>A structured review of a build, prototype, onboarding flow, feature, tool or player journey.</p>
+          <ul>
+            <li>Recorded playthrough or walkthrough</li>
+            <li>Design, UX and systems notes</li>
+            <li>Priority fixes and opportunity map</li>
+          </ul>
+          <a class="card-cta" href="https://cal.com/yadurajiv">Book a call about this</a>
+        </article>
+
+        <article class="card">
+          <span class="price">Starts at $3,500</span>
+          <div class="card-head"><span class="icon-badge" aria-hidden="true">02</span><h3>Prototype Sprint</h3></div>
+          <p>Turn an unclear mechanic, tool, learning loop or interaction model into something playable and testable.</p>
+          <ul>
+            <li>Playable prototype or interaction mock</li>
+            <li>Design notes and assumptions</li>
+            <li>Next-step production recommendations</li>
+          </ul>
+          <a class="card-cta" href="https://cal.com/yadurajiv">Book a call about this</a>
+        </article>
+
+        <article class="card">
+          <span class="price">Starts at $4,000 / month</span>
+          <div class="card-head"><span class="icon-badge" aria-hidden="true">03</span><h3>Fractional Design Lead</h3></div>
+          <p>Recurring design leadership for teams that need direction, critique, prioritisation and momentum.</p>
+          <ul>
+            <li>Weekly design review</li>
+            <li>Systems, UX and feature direction</li>
+            <li>Mentorship and documentation support</li>
+          </ul>
+          <a class="card-cta" href="https://cal.com/yadurajiv">Book a call about this</a>
+        </article>
+
+        <article class="card">
+          <span class="price">Custom</span>
+          <div class="card-head"><span class="icon-badge" aria-hidden="true">04</span><h3>Pitch and Demo Review</h3></div>
+          <p>For teams preparing a publisher demo, investor update, grant pitch, milestone review or public showcase.</p>
+          <ul>
+            <li>Player promise and narrative clarity</li>
+            <li>Demo risk and pacing review</li>
+            <li>What to show, cut, explain or polish</li>
+          </ul>
+          <a class="card-cta" href="https://cal.com/yadurajiv">Book a call about this</a>
+        </article>
+
+        <article class="card">
+          <span class="price">Custom</span>
+          <div class="card-head"><span class="icon-badge" aria-hidden="true">05</span><h3>Workshops and Courses</h3></div>
+          <p>Live sessions and custom learning formats for studios, colleges, festivals, accelerators and product teams.</p>
+          <ul>
+            <li>Game design and prototyping</li>
+            <li>Playtesting and critique</li>
+            <li>Game UX, onboarding and systems</li>
+          </ul>
+          <a class="card-cta" href="https://cal.com/yadurajiv">Book a call about this</a>
+        </article>
+
+        <article class="card">
+          <span class="price">Custom</span>
+          <div class="card-head"><span class="icon-badge" aria-hidden="true">06</span><h3>Advisory Call</h3></div>
+          <p>A focused session for a specific decision, such as scope, positioning, design direction or next steps.</p>
+          <ul>
+            <li>Bring a build, deck, document or question</li>
+            <li>Leave with clearer options</li>
+            <li>Good as a low-friction first step</li>
+          </ul>
+          <a class="card-cta" href="https://cal.com/yadurajiv">Book a call about this</a>
+        </article>
+      </div>
+    </section>
+
+    <section id="approach">
+      <div class="section-title">
+        <h2>What I bring to the work</h2>
+        <p>The value is in the combination: design judgment, hands-on making, technical understanding, visual direction and the ability to teach the team as the work moves forward.</p>
+      </div>
+
+      <div class="capability-grid">
+        <article class="card capability">
+          <span class="icon-badge" aria-hidden="true">D</span>
+          <h3>Design</h3>
+          <p>Core loops, systems, onboarding, progression, economy, UX flows, player motivation and product clarity.</p>
+        </article>
+        <article class="card capability">
+          <span class="icon-badge" aria-hidden="true">T</span>
+          <h3>Technology</h3>
+          <p>Unity, Godot, GameMaker, JavaScript, creative code, frontend thinking and prototype-minded engineering conversations.</p>
+        </article>
+        <article class="card capability">
+          <span class="icon-badge" aria-hidden="true">A</span>
+          <h3>Art</h3>
+          <p>Visual direction, interaction feel, storytelling through play, world-building and making systems legible.</p>
+        </article>
+        <article class="card capability">
+          <span class="icon-badge" aria-hidden="true">P</span>
+          <h3>Prototyping</h3>
+          <p>Testing assumptions quickly through playable sketches, tools, flows, paper exercises and small interactive builds.</p>
+        </article>
+        <article class="card capability">
+          <span class="icon-badge" aria-hidden="true">L</span>
+          <h3>Learning</h3>
+          <p>Design for children, learning goals, feedback loops, progression, curriculum constraints and classroom-friendly formats.</p>
+        </article>
+        <article class="card capability">
+          <span class="icon-badge" aria-hidden="true">M</span>
+          <h3>Mentoring</h3>
+          <p>Critique, documentation, workshops, team alignment and making design decisions easier to discuss.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="zero-to-one">
+      <div class="section-title">
+        <h2>0-to-1 experience</h2>
+        <p>This is not the only thing I do, but it is a real advantage: I have repeatedly worked on products before the shape was obvious.</p>
+      </div>
+
+      <div class="timeline">
+        <article class="timeline-item">
+          <div class="where">redBus</div>
+          <p>B2B tools and UX for operator-facing products, including analytics, data flows, communication flows, visual systems and frontend implementation.</p>
+        </article>
+        <article class="timeline-item">
+          <div class="where">BYJU’S / Tangible Play / Osmo</div>
+          <p>Games for the Osmo platform for children under 10, moving from early concepts through prototypes, playtests, learning goals, hardware constraints, interaction design and production handoff.</p>
+        </article>
+        <article class="timeline-item">
+          <div class="where">PlaySimple</div>
+          <p>Design leadership inside the New Games Group, taking multiple games from early idea and MVP through prototyping, validation, economy, progression, UX, content systems and scale.</p>
+        </article>
+        <article class="timeline-item">
+          <div class="where">Second Quest</div>
+          <p>Founding team work on a PC/console game and studio, shaping creative direction, product vision, systems, tools and player experience from the ground up.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="teaching">
+      <div class="section-title">
+        <h2>Workshops, courses and curriculum</h2>
+        <p>Live workshops and custom course formats for studios, colleges, accelerators and industry programs. These can also become recorded or self-paced material when a partner wants to produce them together.</p>
+      </div>
+
+      <div class="course-note">This builds on classroom teaching, curriculum development and skilling work across Srishti, NID, Aptech, Arena, and ongoing Talent & Skilling work with GDAI.</div>
+
+      <div class="grid two-grid">
+        <article class="card course-card">
+          <div>
+            <div class="card-head"><span class="icon-badge" aria-hidden="true">C1</span><h3>Game Design by Making</h3></div>
+            <p>Learn game design through small playable exercises, critique and iteration rather than abstract theory alone.</p>
+          </div>
+          <div class="course-meta"><span>Live cohort</span><span>College module</span><span>Can become recorded</span></div>
+        </article>
+
+        <article class="card course-card">
+          <div>
+            <div class="card-head"><span class="icon-badge" aria-hidden="true">C2</span><h3>Prototyping Before Production</h3></div>
+            <p>Prototype decisions, test assumptions, build just enough, and avoid spending months on the wrong version of an idea.</p>
+          </div>
+          <div class="course-meta"><span>Studio workshop</span><span>Founder training</span><span>Design teams</span></div>
+        </article>
+
+        <article class="card course-card">
+          <div>
+            <div class="card-head"><span class="icon-badge" aria-hidden="true">C3</span><h3>Game UX and Player Clarity</h3></div>
+            <p>Make systems understandable through flow, feedback, pacing, language, affordances and player-facing design.</p>
+          </div>
+          <div class="course-meta"><span>Live workshop</span><span>Audit add-on</span><span>Can become recorded</span></div>
+        </article>
+
+        <article class="card course-card">
+          <div>
+            <div class="card-head"><span class="icon-badge" aria-hidden="true">C4</span><h3>Playtesting and Critique</h3></div>
+            <p>Structure playtests, read feedback, separate opinion from evidence, and help teams learn from the game itself.</p>
+          </div>
+          <div class="course-meta"><span>Studio training</span><span>Community program</span><span>Design education</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section id="background">
+      <div class="section-title">
+        <h2>Background</h2>
+        <p>A few parts of my career that are especially relevant for teams looking for senior design, UX, prototyping, teaching or advisory support.</p>
+      </div>
+
+      <div class="grid two-grid">
+        <article class="card">
+          <div class="card-head"><span class="icon-badge" aria-hidden="true">G</span><h3>Games and playful products</h3></div>
+          <p>Lead and senior roles across mobile games, children’s learning games, indie games, interactive installations and PC/console sandbox work.</p>
+          <div class="pill-list">
+            <span class="pill">PlaySimple</span><span class="pill">BYJU’S / Osmo</span><span class="pill">Hashstash</span><span class="pill">Second Quest</span>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-head"><span class="icon-badge" aria-hidden="true">N</span><h3>Teaching and community</h3></div>
+          <p>Long-running work as educator, mentor, organiser, speaker and curriculum builder across Indian and international game development spaces.</p>
+          <div class="pill-list">
+            <span class="pill">gamedev.in</span><span class="pill">BYOG</span><span class="pill">Global Game Jam</span><span class="pill">GDAI skilling</span>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-head"><span class="icon-badge" aria-hidden="true">W</span><h3>Writing and explanation</h3></div>
+          <p>Author of <a href="https://yadurajiv.com/2018/12/01/developing-turn-based-multiplayer-games-with-gamemaker-studio-2-and-nodejs/">Developing Turn-Based Multiplayer Games with GameMaker Studio 2 and NodeJS</a>, plus long-time writer, speaker and explainer of game design, UX and creative technology.</p>
+          <div class="pill-list">
+            <span class="pill">Apress author</span><span class="pill">Technical writing</span><span class="pill">Talks</span><span class="pill">Workshops</span><span class="pill">Design docs</span>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-head"><span class="icon-badge" aria-hidden="true">H</span><h3>Hands-on making</h3></div>
+          <p>Independent games, tools, utilities, prototypes, procedural experiments and web-playable work that show how ideas become testable artifacts.</p>
+          <div class="pill-list">
+            <span class="pill">Unity</span><span class="pill">Godot</span><span class="pill">JavaScript</span><span class="pill">GameMaker</span><span class="pill">Creative code</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="call">
+      <div class="callout">
+        <div>
+          <h3>What to bring to a first call</h3>
+          <p class="lead">A call works best when there is a concrete thing to look at: a build, deck, document, prototype, problem statement or decision the team is stuck on.</p>
+        </div>
+        <div>
+          <details open>
+            <summary>Good fit</summary>
+            <p>Early-stage games, playful tools, learning products, UGC systems, onboarding problems, prototype questions, pitch demos and teams that need senior design judgment.</p>
+          </details>
+          <details>
+            <summary>Less good fit</summary>
+            <p>Pure production outsourcing, art-only execution, code-only implementation, generic hiring replacement or projects where the design direction is already fully fixed.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section id="book">
+      <div class="cta-panel">
+        <div>
+          <h2>Let’s look at the problem.</h2>
+          <p>Bring a build, deck, prototype, problem statement or rough idea. In a short fit call, we can decide whether an audit, sprint, workshop or retainer is the right shape.</p>
+        </div>
+        <a class="button primary" href="https://cal.com/yadurajiv">Book on Cal.com</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="inner">
+      <span>© <span id="year">2026</span> Yadu Rajiv</span>
+      <span><a href="https://yadurajiv.com/about/">About</a> · <a href="https://www.linkedin.com/in/yadurajiv">LinkedIn</a> · <a href="https://yadu.itch.io/">Itch</a> · <a href="https://cal.com/yadurajiv">Cal.com</a></span>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    document.querySelectorAll('.button, .card-cta').forEach((button) => {
+      button.addEventListener('pointerdown', () => button.style.transform = 'translate(4px, 4px)');
+      button.addEventListener('pointerup', () => button.style.transform = '');
+      button.addEventListener('pointerleave', () => button.style.transform = '');
+    });
+  </script>
+</body>
+</html>
