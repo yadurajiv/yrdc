@@ -206,7 +206,9 @@
       background: var(--paper);
       font-weight: 900;
       box-shadow: 4px 4px 0 var(--line);
-      font-size: .92rem;
+      font-size: .82rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
     }
 
     .dot {
@@ -220,16 +222,53 @@
     h1, h2, h3 { line-height: 1.04; margin: 0; letter-spacing: -.052em; }
 
     h1 {
-      font-size: clamp(2.8rem, 6vw, 5.7rem);
-      max-width: 12ch;
-      margin: 1.05rem 0 1.15rem;
+      display: inline-grid;
+      gap: .18rem;
+      font-size: clamp(2rem, 4vw, 3.65rem);
+      max-width: 16ch;
+      margin: .8rem 0 .7rem;
+      line-height: .95;
+      padding: .7rem .8rem .75rem;
+      border: 2px solid var(--line);
+      border-radius: 22px;
+      background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,.74));
+      box-shadow: 4px 4px 0 var(--line);
+      transform: rotate(-1.25deg);
     }
 
+    .hero-h1-intro {
+      display: block;
+      font-size: .44em;
+      line-height: 1;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 900;
+    }
+
+    .hero-h1-line {
+      display: block;
+      line-height: .96;
+    }
+
+    .hero-keyword {
+      display: inline-block;
+      padding: 0 .1em;
+      border-bottom: 3px solid var(--line);
+      border-radius: .18em;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .hero-games { background: linear-gradient(180deg, rgba(183,221,86,.1), rgba(183,221,86,.35)); }
+    .hero-prototypes { background: linear-gradient(180deg, rgba(255,215,109,.14), rgba(255,215,109,.38)); }
+    .hero-products { background: linear-gradient(180deg, rgba(106,168,255,.12), rgba(106,168,255,.34)); }
+
     .lead {
-      font-size: clamp(1.12rem, 2vw, 1.42rem);
+      font-size: clamp(1.02rem, 1.7vw, 1.22rem);
       color: var(--muted);
       max-width: 63ch;
-      margin: 0 0 1.35rem;
+      margin: 0 0 1.1rem;
     }
 
     .starting-points {
@@ -239,7 +278,7 @@
     }
 
     .starting-points strong {
-      font-size: .9rem;
+      font-size: .78rem;
       letter-spacing: .08em;
       text-transform: uppercase;
     }
@@ -260,7 +299,7 @@
       padding: .42rem .65rem;
       font-weight: 850;
       box-shadow: 3px 3px 0 var(--line);
-      font-size: .92rem;
+      font-size: .84rem;
     }
 
     .chip::before {
@@ -397,10 +436,38 @@
     }
 
     .stat {
+      position: relative;
+      overflow: hidden;
       border: 2px solid rgba(255,255,255,.78);
       border-radius: 20px;
       padding: 1.05rem;
       background: rgba(255,255,255,.08);
+      transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease, background .16s ease;
+    }
+
+    .stat::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,.14) 45%, transparent 70%);
+      transform: translateX(-120%);
+      transition: transform .3s ease;
+      pointer-events: none;
+    }
+
+    .stat:hover, .stat:focus-within {
+      transform: translateY(-3px);
+      border-color: rgba(255,255,255,.95);
+      background: rgba(255,255,255,.13);
+      box-shadow: 0 10px 24px rgba(0,0,0,.22);
+    }
+
+    .stat:hover::after, .stat:focus-within::after {
+      transform: translateX(0%);
+    }
+
+    .stat:active {
+      transform: translateY(-1px);
     }
 
     .stat strong {
@@ -410,7 +477,12 @@
       letter-spacing: -.05em;
     }
 
-    .stat span { color: rgba(255,255,255,.80); font-weight: 750; }
+    .stat span {
+      display: block;
+      margin-top: .75rem;
+      color: rgba(255,255,255,.80);
+      font-weight: 750;
+    }
 
     .section-title {
       display: grid;
@@ -689,6 +761,8 @@
       section { padding: 3.35rem 0; }
       .hero { padding-top: 2.5rem; }
       h1 { max-width: none; }
+      .hero-h1-intro { font-size: .44em; }
+      .hero-keyword { border-bottom-width: 2px; }
       .capability-grid { grid-template-columns: 1fr; }
       .floating-note { right: .55rem; top: 49%; max-width: 215px; }
       .button { width: 100%; }
@@ -707,7 +781,7 @@
 
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
-      .button, .card, .card-cta { transition: none; }
+      .button, .card, .card-cta, .stat, .stat::after { transition: none; }
     }
   </style>
 </head>
@@ -716,7 +790,7 @@
 
   <header>
     <div class="nav" aria-label="Main navigation">
-      <a class="brand" href="#top" aria-label="Work with Yadu Rajiv home">
+      <a class="brand" href="#top" aria-label="Work with Yadu Rajiv">
         <span class="brand-mark">YR</span>
         <span>Work with Yadu Rajiv</span>
       </a>
@@ -725,7 +799,7 @@
           <li><a href="#services">Services</a></li>
           <li><a href="#approach">Approach</a></li>
           <li><a href="#zero-to-one">0-to-1</a></li>
-          <li><a href="#teaching">Education</a></li>
+          <li><a href="#education">Education</a></li>
           <li><a href="#background">Background</a></li>
           <li><a href="https://cal.com/yadurajiv">Book a call</a></li>
         </ul>
@@ -736,9 +810,12 @@
   <main id="main">
     <section class="hero" id="top">
       <div>
-        <span class="eyebrow"><span class="dot" aria-hidden="true"></span> Game design · UX · prototypes · education</span>
-        <h1>Senior design support for games, prototypes and playful products.</h1>
-        <p class="lead">I help teams turn early ideas, complex systems and rough builds into playable, testable and easier-to-explain products.</p>
+        <span class="eyebrow"><span class="dot" aria-hidden="true"></span> Game Design · UX · Prototypes · Education</span>
+        <h1>
+          <span class="hero-h1-intro">Seasoned design support for</span>
+          <span class="hero-h1-line" aria-label="Games, prototypes and playful products"><span class="hero-keyword hero-games">games</span>, <span class="hero-keyword hero-prototypes">prototypes</span> &amp; <span class="hero-keyword hero-products">playful products</span>.</span>
+        </h1>
+        <p class="lead">I help teams turn early ideas, rough builds and complex systems into playable, testable and easier-to-explain products.</p>
 
         <div class="starting-points" aria-label="Common starting points">
           <strong>Book a call if:</strong>
@@ -751,7 +828,7 @@
 
         <div class="cta-row">
           <a class="button primary" href="https://cal.com/yadurajiv">Book a fit call</a>
-          <a class="button secondary" href="#services">See services</a>
+          <a class="button secondary" href="#services">See Services</a>
         </div>
 
         <div class="small-links" aria-label="Profile links">
@@ -768,20 +845,21 @@
             <span class="tag">Game Design</span>
             <span class="tag">UX</span>
             <span class="tag">Prototypes</span>
+            <span class="tag">Unity</span>
             <span class="tag">Godot</span>
             <span class="tag">Creative Tech</span>
             <span class="tag">Education</span>
           </div>
         </div>
-        <div class="floating-note">Creative Direction + Code + Design <span>Useful when the work needs both creative direction and implementation sense.</span></div>
+        <div class="floating-note">Creative Direction + Design + Code<span>The right combination when the work needs both creative direction & implementation sense.</span></div>
       </aside>
     </section>
 
     <div class="feature-band" aria-label="Experience summary">
       <div class="inner">
-        <div class="stat"><strong>20+</strong><span>years across games, UX, education and creative technology</span></div>
-        <div class="stat"><strong>0→1</strong><span>experience across B2B tools, children’s games, mobile games and PC/console work</span></div>
-        <div class="stat"><strong>Creative Direction + Code</strong><span>design direction, prototyping, writing, systems and team alignment</span></div>
+        <div class="stat"><strong>20+ years</strong><span>across games, UX, education and creative technology</span></div>
+        <div class="stat"><strong>0 → 1</strong><span>experience across B2B tools, educational game, games for children, mobile and PC games</span></div>
+        <div class="stat"><strong>Vision → Build</strong><span>creative direction, prototyping, code and team alignment</span></div>
       </div>
     </div>
 
@@ -793,9 +871,10 @@
 
       <div class="grid">
         <article class="card">
-          <span class="price">Starts at $2,500</span>
+          <span class="price">Starts at $1,500</span>
           <div class="card-head"><span class="icon-badge" aria-hidden="true">01</span><h3>Design and UX Audit</h3></div>
-          <p>Turn an early mechanic, tool, learning loop or interaction model into something playable and testable.</p>
+          <p>A structured review of a build, prototype, onboarding flow, feature, tool or player journey.</p>
+          <p>You get a clear read on what is working, what is confusing, and what to fix first.</p>
           <ul>
             <li>Recorded playthrough or walkthrough</li>
             <li>Design, UX and systems notes</li>
@@ -807,7 +886,8 @@
         <article class="card">
           <span class="price">Starts at $3,500</span>
           <div class="card-head"><span class="icon-badge" aria-hidden="true">02</span><h3>Prototype Sprint</h3></div>
-          <p>Turn an unclear mechanic, tool, learning loop or interaction model into something playable and testable.</p>
+          <p>Turn an early mechanic, tool, learning loop or interaction model into something playable and testable.</p>
+          <p>Useful when the team needs to test an idea before committing production time.</p>
           <ul>
             <li>Playable prototype or interaction mock</li>
             <li>Design notes and assumptions</li>
@@ -817,9 +897,10 @@
         </article>
 
         <article class="card">
-          <span class="price">Starts at $4,000 / month</span>
+          <span class="price">Starts at $3,000 / month</span>
           <div class="card-head"><span class="icon-badge" aria-hidden="true">03</span><h3>Fractional Design Lead</h3></div>
           <p>Ongoing senior design support for teams that need direction, critique, prioritisation and momentum without hiring full-time.</p>
+          <p>Ideal for teams that need consistent design leadership without the commitment of a full-time hire.</p>
           <ul>
             <li>Weekly design review</li>
             <li>Systems, UX and feature direction</li>
@@ -829,9 +910,10 @@
         </article>
 
         <article class="card">
-          <span class="price">Custom</span>
+          <span class="price">Starts at $2,000</span>
           <div class="card-head"><span class="icon-badge" aria-hidden="true">04</span><h3>Pitch and Demo Review</h3></div>
           <p>For teams preparing a publisher demo, investor update, grant pitch, milestone review or public showcase.</p>
+          <p>The goal is to make the project easier to understand, evaluate and believe in.</p>
           <ul>
             <li>Player promise and narrative clarity</li>
             <li>Demo risk and pacing review</li>
@@ -841,9 +923,10 @@
         </article>
 
         <article class="card">
-          <span class="price">Custom</span>
+          <span class="price">Starts at ₹1.5L / $2,000 per day</span>
           <div class="card-head"><span class="icon-badge" aria-hidden="true">05</span><h3>Workshops and Courses</h3></div>
-          <p>Live sessions and custom learning formats for studios, colleges, festivals, accelerators and product teams.</p>
+          <p>Live sessions, custom learning formats and curriculum development for studios, colleges, accelerators and industry programs.</p>
+          <p>Designed to equip teams and individuals with practical skills and insights.</p>
           <ul>
             <li>Game design and prototyping</li>
             <li>Playtesting and critique</li>
@@ -855,11 +938,11 @@
         <article class="card">
           <span class="price">Custom</span>
           <div class="card-head"><span class="icon-badge" aria-hidden="true">06</span><h3>Advisory Call</h3></div>
-          <p>A focused session for a specific decision, such as scope, positioning, design direction or next steps.</p>
+          <p>A flexible session for questions that do not fit neatly into the other formats.</p>
           <ul>
-            <li>Bring a build, deck, document or question</li>
-            <li>Leave with clearer options</li>
-            <li>Good as a low-friction first step</li>
+              <li>Bring a build, deck, document, site, course plan or question</li>
+              <li>Use it for scope, positioning, design direction or next steps</li>
+              <li>Good as a low-friction first conversation</li>
           </ul>
           <a class="card-cta" href="https://cal.com/yadurajiv">Book a call about this</a>
         </article>
@@ -932,7 +1015,7 @@
       </div>
     </section>
 
-    <section id="teaching">
+    <section id="education">
       <div class="section-title">
         <h2>Workshops, courses and curriculum</h2>
         <p>I run live workshops and custom course formats for studios, colleges, accelerators and industry programs. I can also work with partners to develop recorded courses, self-paced material or curriculum programs.</p>
