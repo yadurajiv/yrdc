@@ -13,7 +13,7 @@
 <body>
 
 <header id="topbar">
-  <div class="brand" title="SuperGrid">▦ <span>SuperGrid</span></div>
+  <button id="btn-about" class="brand" title="About SuperGrid">▦ <span>SuperGrid</span></button>
   <div class="topbar-actions">
     <button id="btn-add" class="tb" title="Add tile (a)">＋ Add</button>
     <button id="btn-switcher" class="tb" title="Quick switcher (s or /)">⌕ Switch</button>
@@ -24,6 +24,7 @@
       <input id="volume-control" type="range" min="0" max="1" step="0.05" value="1" aria-label="Master volume">
     </label>
     <button id="btn-channels" class="tb" title="Channel manager (e)">☰ Channels</button>
+    <button id="btn-grids" class="tb" title="Saved grids (p)">▥ Grids</button>
     <button id="btn-share" class="tb" title="Copy share link">⤴ Share</button>
     <button id="btn-chrome" class="tb" title="Hide controls (h)">◱ Hide UI</button>
     <button id="btn-help" class="tb" title="Help (?)">?</button>
@@ -77,6 +78,24 @@
   </div>
 </div>
 
+<!-- Saved grids -->
+<div id="grids" class="overlay hidden">
+  <div class="modal">
+    <div class="modal-head">
+      <h2>Saved grids</h2>
+      <button class="tb close-modal" data-close="grids">✕</button>
+    </div>
+    <div class="chan-add">
+      <input id="grid-name" type="text" placeholder="Name this grid (e.g. Morning news)">
+      <button id="grid-save-btn" class="tb">＋ Save current grid</button>
+    </div>
+    <ul id="grid-list"></ul>
+    <div class="modal-foot">
+      <span class="dim">Click a grid to load it (replaces the current tiles). 🔗 copies a share link.</span>
+    </div>
+  </div>
+</div>
+
 <!-- Help -->
 <div id="help" class="overlay hidden">
   <div class="modal">
@@ -91,11 +110,64 @@
       <tr><td><kbd>f</kbd></td><td>Toggle focus layout</td></tr>
       <tr><td><kbd>h</kbd></td><td>Hide / show UI</td></tr>
       <tr><td><kbd>e</kbd></td><td>Channel manager</td></tr>
+      <tr><td><kbd>p</kbd></td><td>Saved grids</td></tr>
       <tr><td><kbd>x</kbd></td><td>Close audio-focused tile</td></tr>
       <tr><td><kbd>Esc</kbd></td><td>Close overlays / exit focus layout</td></tr>
       <tr><td>Click tile</td><td>Audio focus (solo sound)</td></tr>
       <tr><td>Double-click tile</td><td>Expand / restore</td></tr>
     </table>
+  </div>
+</div>
+
+<!-- About / how-to / changelog -->
+<div id="about" class="overlay hidden">
+  <div class="modal">
+    <div class="modal-head">
+      <h2>▦ SuperGrid <span class="dim about-ver">v0.2</span></h2>
+      <button class="tb close-modal" data-close="about">✕</button>
+    </div>
+    <div class="about-body">
+      <p>A multi-stream video wall for watching many things at once — news, live cams,
+      music, streams — in one grid, with one tap to move the sound around. Vanilla
+      HTML/JS/CSS, no backend, everything saved in your browser.</p>
+
+      <h3>How to use it</h3>
+      <ul>
+        <li><b>Add streams</b> — <b>＋ Add</b> or the quick switcher (<kbd>s</kbd>): search your
+          channels, filter by <code>#tag</code>, or paste any URL (YouTube, Twitch, Kick,
+          Vimeo, a direct video, or a webpage).</li>
+        <li><b>Give a tile sound</b> — click it; everything else mutes. Click again to silence.
+          The master-volume slider up top scales whatever's playing.</li>
+        <li><b>Expand</b> — double-click a tile (or <kbd>Shift</kbd>+number). <kbd>Esc</kbd> restores.</li>
+        <li><b>Tile controls</b> (hover a tile): play/pause, loop, speed, 🖱 interact,
+          ↻ reload if it freezes, 🔗 copy link, ⌕ swap, expand, close.</li>
+        <li><b>Saved grids</b> — arrange tiles, then <b>▥ Grids</b> (<kbd>p</kbd>) to save the whole
+          layout under a name and switch between setups. Each grid has its own share link.</li>
+        <li><b>Everything auto-saves</b> and restores on reload. Press <kbd>?</kbd> for all shortcuts.</li>
+      </ul>
+
+      <h3>Changelog</h3>
+      <div class="changelog">
+        <p class="cl-ver">v0.2 — 22 Jul 2026</p>
+        <ul>
+          <li><b>Saved grids</b>: name &amp; store whole layouts, reload anytime, per-grid share links.</li>
+          <li><b>Master volume</b> slider, with reliable one-tile-at-a-time audio and muted autoplay.</li>
+          <li>Per-tile <b>play/pause</b> (now reflects the player's real state), <b>reload</b> (↻) and <b>copy link</b> (🔗).</li>
+          <li>Pasted YouTube/Vimeo links <b>auto-resolve to the real video title</b>.</li>
+          <li>🖱 <b>Interact</b> button now works for Twitch, Kick and Vimeo — not just YouTube.</li>
+          <li>YouTube default channels use direct <code>watch?v=</code> links (channel-live embeds stopped rendering).</li>
+          <li>Hidden-UI tiles stay interactive on hover; embed hint only shows when a page is actually blocked.</li>
+          <li>No-cache local server so edits always show without a hard refresh.</li>
+        </ul>
+        <p class="cl-ver">v0.1 — initial</p>
+        <ul>
+          <li>Multi-stream grid with layouts (auto, 2×2, 3×3, row, focus) and click-to-focus audio.</li>
+          <li>Quick switcher, channel manager with tags, opened-URL history.</li>
+          <li>Sources: YouTube, Twitch, Kick, Vimeo, HLS, DASH, direct media, local files.</li>
+          <li>Share links and localStorage persistence.</li>
+        </ul>
+      </div>
+    </div>
   </div>
 </div>
 

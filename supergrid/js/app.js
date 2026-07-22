@@ -7,6 +7,7 @@
     SG.channels.load(saved && saved.channels);
     SG.grid.setMasterVolume(saved && typeof saved.volume === 'number' ? saved.volume : 1);
     SG.history.load(saved && saved.history);
+    SG.presets.load(saved && saved.presets);
 
     // Shared link takes precedence over saved grid
     const shared = SG.state.parseShareHash();
@@ -47,9 +48,13 @@
     volumeControl.value = String(next);
   });
   $('#btn-channels').addEventListener('click', () => SG.ui.openChanman());
+  $('#btn-grids').addEventListener('click', () => SG.ui.openGrids());
+  $('#grid-save-btn').addEventListener('click', () => SG.ui.saveCurrentGrid());
+  $('#grid-name').addEventListener('keydown', (e) => { if (e.key === 'Enter') SG.ui.saveCurrentGrid(); });
   $('#btn-share').addEventListener('click', () => SG.ui.share());
   $('#btn-chrome').addEventListener('click', () => SG.ui.toggleChrome());
   $('#btn-help').addEventListener('click', () => SG.ui.show('help'));
+  $('#btn-about').addEventListener('click', () => SG.ui.show('about'));
   SG.util.$$('.close-modal').forEach(b =>
     b.addEventListener('click', () => SG.ui.hide(b.dataset.close)));
 
@@ -135,6 +140,7 @@
       }
       case 'h': SG.ui.toggleChrome(); break;
       case 'e': SG.ui.openChanman(); break;
+      case 'p': SG.ui.openGrids(); break;
       case 'x': if (SG.grid.audioFocusId) SG.grid.removeTile(SG.grid.audioFocusId); break;
       case '?': SG.ui.show('help'); break;
     }

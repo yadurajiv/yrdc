@@ -60,6 +60,23 @@ SG.util = {
     return Promise.resolve();
   },
 
+  // Best-effort human title for a URL via public oEmbed endpoints (no API key,
+  // CORS-enabled). Resolves to a string, or null if unavailable/unsupported.
+  fetchTitle(url) {
+    const src = SG.sources.detect(url);
+    let endpoint = null;
+    if (src && src.type === 'youtube') {
+      endpoint = 'https://www.youtube.com/oembed?format=json&url=' + encodeURIComponent(url);
+    } else if (src && src.type === 'vimeo') {
+      endpoint = 'https://vimeo.com/api/oembed.json?url=' + encodeURIComponent(url);
+    }
+    if (!endpoint || typeof fetch !== 'function') return Promise.resolve(null);
+    return fetch(endpoint)
+      .then(r => (r.ok ? r.json() : null))
+      .then(d => (d && d.title ? String(d.title) : null))
+      .catch(() => null);
+  },
+
   loadScript(src) {
     this._scripts = this._scripts || {};
     if (!this._scripts[src]) {

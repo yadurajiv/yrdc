@@ -76,6 +76,19 @@ SG.players = {
       if (clamped > 0) lastVolume = clamped;
       cmd('setVolume', [Math.round(clamped * 100)]);
     };
+    // Reflect the player's real state (playing / paused / unstarted) back to the UI.
+    const onMsg = (e) => {
+      if (e.source !== iframe.contentWindow || !opts.onState) return;
+      let d; try { d = JSON.parse(e.data); } catch (_) { return; }
+      let st;
+      if (d.event === 'onStateChange') st = d.info;
+      else if (d.event === 'infoDelivery' && d.info && typeof d.info.playerState === 'number') st = d.info.playerState;
+      if (typeof st !== 'number') return;
+      if (st === 1) opts.onState(true);                       // playing
+      else if (st === 2 || st === 0 || st === -1 || st === 5) opts.onState(false); // paused/ended/unstarted/cued
+    };
+    window.addEventListener('message', onMsg);
+
     iframe.addEventListener('load', () => {
       try { iframe.contentWindow.postMessage(JSON.stringify({ event: 'listening', id: SG.util.uid() }), '*'); } catch (e) {}
       setTimeout(() => {
@@ -95,7 +108,7 @@ SG.players = {
       setVolume: v => setVol(v),
       play: () => cmd('playVideo'),
       pause: () => cmd('pauseVideo'),
-      destroy: () => iframe.remove(),
+      destroy: () => { window.removeEventListener('message', onMsg); iframe.remove(); },
     };
   },
 
@@ -108,6 +121,11 @@ SG.players = {
 
     let hlsInst = null, dashInst = null;
     let currentVolume = 1;
+    if (opts.onState) {
+      video.addEventListener('play', () => opts.onState(true));
+      video.addEventListener('playing', () => opts.onState(true));
+      video.addEventListener('pause', () => opts.onState(false));
+    }
 
     if (source.hls && !video.canPlayType('application/vnd.apple.mpegurl')) {
       SG.util.loadScript(this.CDN.hls).then(() => {
@@ -201,6 +219,14 @@ SG.players = {
       player.addEventListener(window.Twitch.Player.READY, () => {
         try { player.setMuted(pendingMuted); player.setVolume(pendingVol); } catch (e) {}
       });
+      if (opts.onState) {
+        try {
+          player.addEventListener(window.Twitch.Player.PLAY, () => opts.onState(true));
+          player.addEventListener(window.Twitch.Player.PLAYING, () => opts.onState(true));
+          player.addEventListener(window.Twitch.Player.PAUSE, () => opts.onState(false));
+          player.addEventListener(window.Twitch.Player.ENDED, () => opts.onState(false));
+        } catch (e) {}
+      }
     }).catch(() => {
       // offline / blocked: plain iframe fallback (starts muted, no runtime control)
       if (destroyed) return;
@@ -250,6 +276,15 @@ SG.players = {
     const cmd = (method, value) => {
       try { iframe.contentWindow.postMessage(JSON.stringify({ method, value }), '*'); } catch (e) {}
     };
+    const onMsg = (e) => {
+      if (e.source !== iframe.contentWindow) return;
+      let d; try { d = JSON.parse(e.data); } catch (_) { return; }
+      if (d.event === 'ready') { cmd('addEventListener', 'play'); cmd('addEventListener', 'pause'); cmd('addEventListener', 'ended'); }
+      else if (!opts.onState) return;
+      else if (d.event === 'play') opts.onState(true);
+      else if (d.event === 'pause' || d.event === 'ended') opts.onState(false);
+    };
+    window.addEventListener('message', onMsg);
     return {
       el: iframe,
       caps: { mute: true, loop: true, rate: false, playPause: true },
@@ -259,7 +294,7 @@ SG.players = {
       setRate: () => {},
       play: () => cmd('play'),
       pause: () => cmd('pause'),
-      destroy: () => iframe.remove(),
+      destroy: () => { window.removeEventListener('message', onMsg); iframe.remove(); },
     };
   },
 

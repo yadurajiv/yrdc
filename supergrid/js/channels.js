@@ -107,6 +107,11 @@ SG.history = {
     SG.state.save();
   },
 
+  rename(url, name) {
+    const h = this.list.find(x => x.url === url);
+    if (h && name) { h.name = name; SG.state.save(); }
+  },
+
   search(query) {
     const q = (query || '').trim().toLowerCase();
     if (!q) return this.list.slice();

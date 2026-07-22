@@ -22,7 +22,7 @@ SG.grid = {
       id: SG.util.uid(), url, name: name || url,
       type: source.type, loop, local, muted, rateIdx: 0,
     };
-    tile.adapter = SG.players.create(source, { loop });
+    tile.adapter = SG.players.create(source, this._mkOpts(tile, loop));
     tile.el = this._buildTileEl(tile);
     this.tiles.push(tile);
     this.root().appendChild(tile.el);
@@ -30,6 +30,7 @@ SG.grid = {
     // is granted explicitly by clicking a tile (a user gesture). Auto-unmuting here
     // would both break YouTube autoplay and leak sound from more than one tile.
     if (!local) SG.history.add(url, tile.name);
+    this._autoName(tile);
     this._applyTileState(tile);
     this.render();
     SG.state.save();
@@ -51,6 +52,28 @@ SG.grid = {
     SG.state.save();
   },
 
+  // Rebuild a tile's player in place (same URL) — recovers a frame that has
+  // frozen, errored, or dropped its stream, without touching the rest of the grid.
+  reloadTile(id) {
+    const t = this.tiles.find(x => x.id === id);
+    if (!t || t.local) return; // blob URLs are revoked on destroy → can't reload
+    const source = SG.sources.detect(t.url);
+    if (!source) return;
+    try { t.adapter.destroy(); } catch (e) {}
+    t.adapter = SG.players.create(source, this._mkOpts(t, t.loop));
+    const holder = t.el.querySelector('.tile-player');
+    holder.innerHTML = '';
+    holder.appendChild(t.adapter.el);
+    t.paused = false;
+    t.el.classList.remove('shield-off');
+    this._refreshTileBar(t);
+    this._applyTileState(t);
+    this.render();
+    try { t.adapter.play(); } catch (e) {}
+    setTimeout(() => { try { t.adapter.play(); } catch (e) {} }, 120);
+    SG.util.toast('Reloaded tile');
+  },
+
   swapTile(id, url, name) {
     const t = this.tiles.find(x => x.id === id);
     if (!t) return;
@@ -59,17 +82,70 @@ SG.grid = {
     const wasFocused = this.audioFocusId === id;
     t.adapter.destroy();
     if (t.local && t.url.startsWith('blob:')) { /* revoked by adapter */ }
-    Object.assign(t, { url, name: name || url, type: source.type, local: url.startsWith('blob:'), muted: !wasFocused, rateIdx: 0 });
-    t.adapter = SG.players.create(source, { loop: t.loop });
+    Object.assign(t, { url, name: name || url, type: source.type, local: url.startsWith('blob:'), muted: !wasFocused, rateIdx: 0, paused: false });
+    t.adapter = SG.players.create(source, this._mkOpts(t, t.loop));
     if (wasFocused) t.adapter.setMuted(false);
     if (!t.local) SG.history.add(url, t.name);
     const holder = t.el.querySelector('.tile-player');
     holder.innerHTML = '';
     holder.appendChild(t.adapter.el);
     this._refreshTileBar(t);
+    this._autoName(t);
     this._applyTileState(t);
     this.render();
     SG.state.save();
+  },
+
+  // Fetch a human title when a tile's name is just its URL (typical for pasted
+  // links), then update the tile bar and the matching history entry in place.
+  _autoName(tile) {
+    if (tile.local) return;
+    const looksLikeUrl = tile.name === tile.url || /^https?:\/\//i.test(tile.name);
+    if (!looksLikeUrl) return;
+    SG.util.fetchTitle(tile.url).then(title => {
+      if (!title) return;
+      tile.name = title;
+      const span = tile.el && tile.el.querySelector('.tile-name');
+      if (span) { span.textContent = title; span.title = tile.url; }
+      SG.history.rename(tile.url, title);
+      SG.state.save();
+    });
+  },
+
+  clear() {
+    for (const t of this.tiles.slice()) { try { t.adapter.destroy(); } catch (e) {} t.el.remove(); }
+    this.tiles = [];
+    this.audioFocusId = null;
+    this.bigId = null;
+    this.render();
+    SG.state.save();
+  },
+
+  // Load a saved grid snapshot { layout, tiles:[{url,name,loop}], focusIdx, bigIdx }
+  applyGrid(snap) {
+    if (!snap) return;
+    this.clear();
+    this.layout = this.LAYOUTS.includes(snap.layout) ? snap.layout : 'auto';
+    SG.state.layout = this.layout;
+    (snap.tiles || []).forEach(t => this.addTile({ url: t.url, name: t.name, loop: !!t.loop }));
+    const fi = typeof snap.focusIdx === 'number' ? snap.focusIdx : -1;
+    if (fi >= 0 && this.tiles[fi]) this.focusAudio(this.tiles[fi].id);
+    const bi = typeof snap.bigIdx === 'number' ? snap.bigIdx : -1;
+    if (bi >= 0 && this.tiles[bi]) this.bigId = this.tiles[bi].id;
+    this.render();
+    SG.state.save();
+  },
+
+  // Options passed to every adapter — includes a play-state callback so the
+  // tile's play/pause button reflects what the player is actually doing.
+  _mkOpts(tile, loop) {
+    return { loop: !!loop, onState: (playing) => this._setPlayIcon(tile, playing) };
+  },
+
+  _setPlayIcon(tile, playing) {
+    tile.paused = !playing;
+    const b = tile.el && tile.el.querySelector('.tile-bar [data-act="playpause"]');
+    if (b) { b.textContent = playing ? '⏸' : '▶'; b.title = playing ? 'Pause' : 'Play'; }
   },
 
   _applyTileState(tile) {
@@ -239,6 +315,16 @@ SG.grid = {
 
     if (caps.mute) bar.appendChild(btn('🔊', 'Audio focus', 'audio', () => this.focusAudio(tile.id)));
 
+    if (caps.playPause) {
+      const b = btn(tile.paused ? '▶' : '⏸', 'Play / pause', 'playpause', (bEl) => {
+        tile.paused = !tile.paused;
+        if (tile.paused) tile.adapter.pause(); else tile.adapter.play();
+        bEl.textContent = tile.paused ? '▶' : '⏸';
+        bEl.title = tile.paused ? 'Play' : 'Pause';
+      });
+      bar.appendChild(b);
+    }
+
     if (caps.loop) {
       const b = btn('⟳', 'Loop', 'loop', (bEl) => {
         tile.loop = !tile.loop;
@@ -283,6 +369,13 @@ SG.grid = {
         SG.channels.add(tile.name, tile.url);
         SG.util.toast('Saved to channels');
         bEl.remove();
+      }));
+    }
+
+    if (!tile.local) {
+      bar.appendChild(btn('↻', 'Reload this tile (if it froze or errored)', 'reload', () => this.reloadTile(tile.id)));
+      bar.appendChild(btn('🔗', 'Copy this tile’s link', 'copy', () => {
+        SG.util.copyText(tile.url).then(() => SG.util.toast('Link copied'));
       }));
     }
 

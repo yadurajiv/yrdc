@@ -10,11 +10,11 @@ SG.ui = {
   show(id) { document.getElementById(id).classList.remove('hidden'); },
   hide(id) { document.getElementById(id).classList.add('hidden'); },
   anyOverlayOpen() {
-    return ['switcher', 'chanman', 'help'].some(id =>
+    return ['switcher', 'chanman', 'grids', 'help', 'about'].some(id =>
       !document.getElementById(id).classList.contains('hidden'));
   },
   closeAllOverlays() {
-    ['switcher', 'chanman', 'help'].forEach(id => this.hide(id));
+    ['switcher', 'chanman', 'grids', 'help', 'about'].forEach(id => this.hide(id));
   },
 
   // ── Quick switcher ─────────────────────────────────────────────
@@ -203,6 +203,71 @@ SG.ui = {
     }
     if (!SG.channels.list.length) {
       ul.appendChild(el('li', { text: 'No channels yet — add one above or import JSON.' }));
+    }
+  },
+
+  // ── Saved grids (presets) ──────────────────────────────────────
+  openGrids() {
+    this.renderGridList();
+    this.show('grids');
+    setTimeout(() => document.getElementById('grid-name').focus(), 30);
+  },
+
+  saveCurrentGrid() {
+    if (!SG.grid.tiles.length) return SG.util.toast('Nothing to save — add some tiles first');
+    const input = document.getElementById('grid-name');
+    const p = SG.presets.save(input.value);
+    input.value = '';
+    this.renderGridList();
+    SG.util.toast('Saved grid: ' + p.name);
+  },
+
+  renderGridList() {
+    const ul = document.getElementById('grid-list');
+    ul.innerHTML = '';
+    const { el } = SG.util;
+    for (const p of SG.presets.list) {
+      const count = (p.tiles || []).length;
+      const info = el('div', { class: 'c-info', title: 'Click to load this grid' }, [
+        el('div', { class: 'c-name', text: p.name }),
+        el('div', { class: 'c-url', text: `${count} tile${count === 1 ? '' : 's'} · ${p.layout} layout` }),
+      ]);
+      info.addEventListener('click', () => {
+        SG.presets.apply(p.id);
+        this.hide('grids');
+        SG.util.toast('Loaded grid: ' + p.name);
+      });
+      const link = el('button', { class: 'tbtn', title: 'Copy share link', text: '🔗' });
+      link.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const url = SG.presets.shareLink(p.id);
+        if (url) SG.util.copyText(url).then(() => SG.util.toast('Grid link copied'));
+      });
+      const over = el('button', { class: 'tbtn', title: 'Overwrite with current grid', text: '⤓' });
+      over.addEventListener('click', (e) => {
+        e.stopPropagation();
+        SG.presets.overwrite(p.id);
+        this.renderGridList();
+        SG.util.toast('Updated: ' + p.name);
+      });
+      const edit = el('button', { class: 'tbtn', title: 'Rename', text: '✎' });
+      edit.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const name = prompt('Grid name:', p.name);
+        if (name === null) return;
+        SG.presets.update(p.id, { name: name.trim() || p.name });
+        this.renderGridList();
+      });
+      const del = el('button', { class: 'tbtn', title: 'Delete', text: '🗑' });
+      del.addEventListener('click', (e) => {
+        e.stopPropagation();
+        SG.presets.remove(p.id);
+        this.renderGridList();
+      });
+      ul.appendChild(el('li', {}, [info, link, over, edit, del]));
+    }
+    if (!SG.presets.list.length) {
+      ul.appendChild(el('li', { text: 'No saved grids yet — arrange some tiles, name it above, and save.' }));
     }
   },
 
