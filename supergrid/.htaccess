@@ -1,0 +1,20 @@
+# SuperGrid — never serve stale files (Apache / most shared hosts).
+# The app has no build step and files keep their names across updates, so we tell
+# browsers and proxies not to cache the HTML/CSS/JS. The ?v= stamp in index.html
+# is a second line of defence for any cache that ignores these headers.
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html|htm|js|css|json|webmanifest)$">
+    Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType text/css "access plus 0 seconds"
+  ExpiresByType application/javascript "access plus 0 seconds"
+  ExpiresByType text/javascript "access plus 0 seconds"
+</IfModule>

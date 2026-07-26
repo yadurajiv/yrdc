@@ -16,7 +16,7 @@
     if (src) {
       SG.grid.layout = ['auto', '2x2', '3x3', 'cols', 'focus'].includes(src.layout) ? src.layout : 'auto';
       SG.state.layout = SG.grid.layout;
-      (src.tiles || []).forEach(t => SG.grid.addTile({ url: t.url, name: t.name, loop: t.loop }));
+      (src.tiles || []).forEach(t => SG.grid.addTile({ url: t.url, name: t.name, loop: t.loop, volume: t.volume }));
       const fi = shared ? shared.focusIdx : (saved ? saved.focusIdx : -1);
       if (fi >= 0 && SG.grid.tiles[fi]) SG.grid.focusAudio(SG.grid.tiles[fi].id);
       const bi = shared ? shared.bigId : (saved ? saved.bigId : -1);
@@ -29,6 +29,8 @@
       SG.state.save();
     }
     $('#volume-control').value = String(SG.grid.masterVolume);
+    const av = document.querySelector('.about-ver');
+    if (av && window.SG_VERSION) av.textContent = 'v' + window.SG_VERSION;
     SG.grid.render();
   }
 
@@ -41,12 +43,23 @@
   $('#btn-layout').addEventListener('click', () => SG.grid.cycleLayout());
   $('#btn-muteall').addEventListener('click', () => SG.grid.toggleMuteAll());
   const volumeControl = $('#volume-control');
-  volumeControl.addEventListener('input', (e) => SG.grid.setMasterVolume(e.target.value));
-  volumeControl.addEventListener('click', () => {
-    const next = SG.grid.masterVolume > 0 ? 0 : 1;
+  const volumeIcon = $('#volume-icon');
+  let lastMaster = SG.grid.masterVolume > 0 ? SG.grid.masterVolume : 1;
+  const updateVolIcon = () => { volumeIcon.textContent = SG.grid.masterVolume > 0 ? '🔊' : '🔇'; };
+  // Drag = set volume. Mute/unmute lives ONLY on the icon — a click handler on the
+  // slider itself also fires at the end of every drag, which would snap it to 0.
+  volumeControl.addEventListener('input', (e) => {
+    SG.grid.setMasterVolume(e.target.value);
+    if (SG.grid.masterVolume > 0) lastMaster = SG.grid.masterVolume;
+    updateVolIcon();
+  });
+  volumeIcon.addEventListener('click', () => {
+    const next = SG.grid.masterVolume > 0 ? 0 : (lastMaster || 1);
     SG.grid.setMasterVolume(next);
     volumeControl.value = String(next);
+    updateVolIcon();
   });
+  updateVolIcon();
   $('#btn-channels').addEventListener('click', () => SG.ui.openChanman());
   $('#btn-grids').addEventListener('click', () => SG.ui.openGrids());
   $('#grid-save-btn').addEventListener('click', () => SG.ui.saveCurrentGrid());

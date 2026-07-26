@@ -14,13 +14,15 @@ SG.grid = {
   root() { return document.getElementById('grid'); },
 
   // ── Tile lifecycle ─────────────────────────────────────────────
-  addTile({ url, name, loop = false, local = false, muted = true }) {
+  addTile({ url, name, loop = false, local = false, muted = true, volume = 1 }) {
     const source = SG.sources.detect(url);
     if (!source) { SG.util.toast('Could not parse that URL'); return null; }
 
     const tile = {
       id: SG.util.uid(), url, name: name || url,
-      type: source.type, loop, local, muted, rateIdx: 0,
+      type: source.type, loop, local, muted,
+      volume: Math.max(0, Math.min(1, Number(volume) || 0)),
+      rateIdx: 0,
     };
     tile.adapter = SG.players.create(source, this._mkOpts(tile, loop));
     tile.el = this._buildTileEl(tile);
@@ -127,7 +129,7 @@ SG.grid = {
     this.clear();
     this.layout = this.LAYOUTS.includes(snap.layout) ? snap.layout : 'auto';
     SG.state.layout = this.layout;
-    (snap.tiles || []).forEach(t => this.addTile({ url: t.url, name: t.name, loop: !!t.loop }));
+    (snap.tiles || []).forEach(t => this.addTile({ url: t.url, name: t.name, loop: !!t.loop, volume: t.volume }));
     const fi = typeof snap.focusIdx === 'number' ? snap.focusIdx : -1;
     if (fi >= 0 && this.tiles[fi]) this.focusAudio(this.tiles[fi].id);
     const bi = typeof snap.bigIdx === 'number' ? snap.bigIdx : -1;
@@ -149,19 +151,51 @@ SG.grid = {
   },
 
   _applyTileState(tile) {
-    // Mute is the single source of truth for silence (a real player mute, not a
-    // volume-0 hack). Master volume only scales the one tile that's actually audible.
-    const audible = !tile.muted && this.masterVolume > 0;
+    // Each tile has its own volume; the master slider is a global multiplier.
+    // Any number of tiles can be audible at once (multi-audio). Mute is a real
+    // player mute — the reliable source of silence.
+    const level = (tile.volume == null ? 1 : tile.volume) * this.masterVolume;
+    const audible = !tile.muted && level > 0;
     if (audible) {
-      tile.adapter.setVolume(this.masterVolume);
+      tile.adapter.setVolume(level);
       tile.adapter.setMuted(false);
     } else {
       tile.adapter.setMuted(true);
     }
     if (tile.el) {
-      const icon = tile.el.querySelector('[data-act="audio"]');
-      if (icon) icon.classList.toggle('on', audible && tile.id === this.audioFocusId);
+      const icon = tile.el.querySelector('[data-act="mute"]');
+      if (icon) { icon.classList.toggle('on', audible); icon.textContent = tile.muted ? '🔇' : '🔊'; }
+      const slider = tile.el.querySelector('[data-act="vol"]');
+      if (slider && document.activeElement !== slider) slider.value = String(tile.muted ? 0 : (tile.volume == null ? 1 : tile.volume));
     }
+  },
+
+  // Independent mute toggle for one tile — enables multi-audio (unmute several
+  // tiles) without muting the others, unlike the solo click on the tile body.
+  toggleTileMute(id) {
+    const t = this.tiles.find(x => x.id === id);
+    if (!t) return;
+    t.muted = !t.muted;
+    if (!t.muted) {
+      if (!t.volume) t.volume = 1;         // unmuting a zeroed tile restores a level
+      this.audioFocusId = id;               // keep number-key / badge pointing here
+    } else if (this.audioFocusId === id) {
+      this.audioFocusId = null;
+    }
+    this._applyTileState(t);
+    this.render();
+    SG.state.save();
+  },
+
+  setTileVolume(id, v) {
+    const t = this.tiles.find(x => x.id === id);
+    if (!t) return;
+    t.volume = Math.max(0, Math.min(1, Number(v) || 0));
+    t.muted = t.volume <= 0;
+    if (!t.muted) this.audioFocusId = id;
+    this._applyTileState(t);
+    this.render();
+    SG.state.save();
   },
 
   setMasterVolume(v) {
@@ -178,6 +212,7 @@ SG.grid = {
     this.audioFocusId = id;
     for (const t of this.tiles) {
       t.muted = t.id !== id;
+      if (!t.muted && !t.volume) t.volume = 1; // solo'ing a zeroed tile gives it a level
       this._applyTileState(t);
     }
     this.render();
@@ -256,7 +291,7 @@ SG.grid = {
     this.tiles.forEach((t, i) => {
       const big = this.layout === 'focus' && n > 1 && t.id === this.bigId;
       t.el.classList.toggle('is-big', big);
-      t.el.classList.toggle('audio-focus', t.id === this.audioFocusId);
+      t.el.classList.toggle('audio-focus', !t.muted);
       if (this.layout === 'focus' && n > 1) {
         t.el.style.gridArea = big ? `1 / 1 / ${Math.max(n, 2)} / 2` : '';
         if (!big) t.el.style.gridColumn = '2';
@@ -265,9 +300,9 @@ SG.grid = {
         t.el.style.gridColumn = '';
       }
       const num = t.el.querySelector('.tile-num');
-      num.textContent = (i + 1) + (t.id === this.audioFocusId ? ' 🔊' : '');
-      const audioBtn = t.el.querySelector('[data-act="audio"]');
-      if (audioBtn) audioBtn.classList.toggle('on', t.id === this.audioFocusId);
+      num.textContent = (i + 1) + (!t.muted ? ' 🔊' : '');
+      const muteBtn = t.el.querySelector('[data-act="mute"]');
+      if (muteBtn) muteBtn.classList.toggle('on', !t.muted);
     });
   },
 
@@ -313,7 +348,26 @@ SG.grid = {
 
     bar.appendChild(el('span', { class: 'tile-name', text: tile.name, title: tile.url }));
 
-    if (caps.mute) bar.appendChild(btn('🔊', 'Audio focus', 'audio', () => this.focusAudio(tile.id)));
+    if (caps.mute) {
+      // Compact per-tile volume: click icon = independent mute toggle (multi-audio),
+      // drag slider = this tile's level. Clicking the tile body still solos.
+      const wrap = el('label', { class: 'tile-vol', title: 'This tile’s sound — click icon to mute, drag to set volume' });
+      const icon = el('span', { class: 'tvol-icon' + (tile.muted ? '' : ' on'), text: tile.muted ? '🔇' : '🔊', 'data-act': 'mute' });
+      icon.addEventListener('click', (e) => { e.stopPropagation(); this.toggleTileMute(tile.id); });
+      const slider = el('input', {
+        type: 'range', min: '0', max: '1', step: '0.05', 'data-act': 'vol',
+        value: String(tile.muted ? 0 : (tile.volume == null ? 1 : tile.volume)), 'aria-label': 'Tile volume',
+      });
+      slider.addEventListener('click', (e) => e.stopPropagation());
+      slider.addEventListener('input', (e) => this.setTileVolume(tile.id, e.target.value));
+      wrap.append(icon, slider);
+      bar.appendChild(wrap);
+    }
+
+    if (caps.playlist) {
+      bar.appendChild(btn('⏮', 'Previous in playlist', 'prev', () => { try { tile.adapter.prev(); } catch (e) {} }));
+      bar.appendChild(btn('⏭', 'Next in playlist', 'next', () => { try { tile.adapter.next(); } catch (e) {} }));
+    }
 
     if (caps.playPause) {
       const b = btn(tile.paused ? '▶' : '⏸', 'Play / pause', 'playpause', (bEl) => {
@@ -326,7 +380,7 @@ SG.grid = {
     }
 
     if (caps.loop) {
-      const b = btn('⟳', 'Loop', 'loop', (bEl) => {
+      const b = btn('⟳', 'Loop / auto-replay at end', 'loop', (bEl) => {
         tile.loop = !tile.loop;
         tile.adapter.setLoop(tile.loop);
         bEl.classList.toggle('on', tile.loop);

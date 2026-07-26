@@ -8,7 +8,14 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>SuperGrid</title>
-<link rel="stylesheet" href="css/main.css">
+<script>
+/* Single source of truth for the app version. Bump it whenever you deploy: it
+   cache-busts CSS/JS (so users never run a stale mix of old + new files) and is
+   shown in the About box. Combined with the no-store headers (serve.py / .htaccess
+   / _headers) this keeps browsers from holding on to older versions. */
+window.SG_VERSION = '0.3.1';
+document.write('<link rel="stylesheet" href="css/main.css?v=' + window.SG_VERSION + '">');
+</script>
 </head>
 <body>
 
@@ -19,10 +26,10 @@
     <button id="btn-switcher" class="tb" title="Quick switcher (s or /)">⌕ Switch</button>
     <button id="btn-layout" class="tb" title="Cycle layout (g)">▦ Layout</button>
     <button id="btn-muteall" class="tb" title="Mute all (m)">🔇 Mute all</button>
-    <label class="volume-wrap" title="Master volume (click to mute/unmute)">
-      <span id="volume-icon">🔊</span>
+    <div class="volume-wrap" title="Master volume">
+      <span id="volume-icon" title="Mute / unmute all">🔊</span>
       <input id="volume-control" type="range" min="0" max="1" step="0.05" value="1" aria-label="Master volume">
-    </label>
+    </div>
     <button id="btn-channels" class="tb" title="Channel manager (e)">☰ Channels</button>
     <button id="btn-grids" class="tb" title="Saved grids (p)">▥ Grids</button>
     <button id="btn-share" class="tb" title="Copy share link">⤴ Share</button>
@@ -123,7 +130,7 @@
 <div id="about" class="overlay hidden">
   <div class="modal">
     <div class="modal-head">
-      <h2>▦ SuperGrid <span class="dim about-ver">v0.2</span></h2>
+      <h2>▦ SuperGrid <span class="dim about-ver">v0.3.1</span></h2>
       <button class="tb close-modal" data-close="about">✕</button>
     </div>
     <div class="about-body">
@@ -137,7 +144,8 @@
           channels, filter by <code>#tag</code>, or paste any URL (YouTube, Twitch, Kick,
           Vimeo, a direct video, or a webpage).</li>
         <li><b>Give a tile sound</b> — click it; everything else mutes. Click again to silence.
-          The master-volume slider up top scales whatever's playing.</li>
+          For more than one at once, click a tile's 🔊 icon (in its bar) to unmute it on its own.
+          Each tile has its own volume slider; the slider up top is the global master.</li>
         <li><b>Expand</b> — double-click a tile (or <kbd>Shift</kbd>+number). <kbd>Esc</kbd> restores.</li>
         <li><b>Tile controls</b> (hover a tile): play/pause, loop, speed, 🖱 interact,
           ↻ reload if it freezes, 🔗 copy link, ⌕ swap, expand, close.</li>
@@ -148,6 +156,19 @@
 
       <h3>Changelog</h3>
       <div class="changelog">
+        <p class="cl-ver">v0.3.1 — 26 Jul 2026</p>
+        <ul>
+          <li>Fixed the master-volume slider snapping to mute when you released a drag; mute now lives on the 🔊 icon.</li>
+          <li>Cache-busting: CSS/JS are versioned so a new deploy never leaves you on stale files; added no-store + Expires headers (<code>.htaccess</code> / <code>_headers</code>) for hosting.</li>
+        </ul>
+        <p class="cl-ver">v0.3 — 25 Jul 2026</p>
+        <ul>
+          <li><b>Per-tile volume</b> — each tile has its own volume slider; the top slider is now a global master.</li>
+          <li><b>Multi-audio</b> — click a tile's 🔊 icon to unmute it without silencing the others; clicking the tile body still solos.</li>
+          <li><b>Auto-replay</b> — the loop button now replays YouTube videos at the end too (not just local files).</li>
+          <li><b>Playlists</b> — YouTube playlist tiles get ⏮ / ⏭ next &amp; previous buttons.</li>
+          <li>No fixed tile limit — add as many as you like (number keys address the first 9).</li>
+        </ul>
         <p class="cl-ver">v0.2 — 22 Jul 2026</p>
         <ul>
           <li><b>Saved grids</b>: name &amp; store whole layouts, reload anytime, per-grid share links.</li>
@@ -174,14 +195,14 @@
 <div id="toast" class="hidden"></div>
 <input id="localfile-input" type="file" accept="video/*,audio/*,.mkv" class="hidden" multiple>
 
-<script src="js/util.js"></script>
-<script src="js/default-channels.js"></script>
-<script src="js/channels.js"></script>
-<script src="js/sources.js"></script>
-<script src="js/players.js"></script>
-<script src="js/state.js"></script>
-<script src="js/grid.js"></script>
-<script src="js/ui.js"></script>
-<script src="js/app.js"></script>
+<script>
+/* Load every module with the same ?v= stamp so a version bump refreshes them all
+   together (document.write keeps them in strict order, like plain <script> tags). */
+(function () {
+  var v = '?v=' + window.SG_VERSION;
+  ['util', 'default-channels', 'channels', 'sources', 'players', 'state', 'grid', 'ui', 'app']
+    .forEach(function (m) { document.write('<scr' + 'ipt src="js/' + m + '.js' + v + '"></scr' + 'ipt>'); });
+})();
+</script>
 </body>
 </html>

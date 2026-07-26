@@ -18,7 +18,7 @@ SG.state = {
       presets: SG.presets ? SG.presets.list : [],
       tiles: SG.grid.tiles
         .filter(t => !t.local) // blob URLs don't survive reload
-        .map(t => ({ url: t.url, name: t.name, loop: !!t.loop })),
+        .map(t => ({ url: t.url, name: t.name, loop: !!t.loop, volume: t.volume == null ? 1 : t.volume })),
       focusIdx: SG.grid.tiles.findIndex(t => t.id === SG.grid.audioFocusId),
       bigId: SG.grid.bigId ? SG.grid.tiles.findIndex(t => t.id === SG.grid.bigId) : -1,
     };

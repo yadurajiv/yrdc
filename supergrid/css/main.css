@@ -70,6 +70,7 @@ kbd {
   width: 100%; accent-color: var(--accent);
   cursor: pointer;
 }
+#volume-icon { cursor: pointer; user-select: none; line-height: 1; }
 .big-btn {
   background: var(--accent); color: #fff; border: 0; border-radius: 8px;
   padding: 12px 22px; font-size: 16px; cursor: pointer;
@@ -136,7 +137,7 @@ body.chrome-hidden #chrome-restore:hover { opacity: 1; }
 
 .tile-bar {
   position: absolute; left: 0; right: 0; bottom: 0; z-index: 5;
-  display: flex; align-items: center; gap: 4px;
+  display: flex; align-items: center; gap: 4px; flex-wrap: wrap; justify-content: flex-end;
   padding: 6px;
   background: linear-gradient(transparent, rgba(0,0,0,.75));
   opacity: 0; transition: opacity .18s;
@@ -145,7 +146,7 @@ body.chrome-hidden #chrome-restore:hover { opacity: 1; }
 @media (hover: none) { .tile-bar { opacity: 1; } }
 
 .tile-name {
-  flex: 1; min-width: 0;
+  flex: 1 1 100%; min-width: 0;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
   font-size: 12px; text-shadow: 0 1px 2px #000;
 }
@@ -160,6 +161,16 @@ body.chrome-hidden #chrome-restore:hover { opacity: 1; }
 }
 .tbtn:hover { background: #333; }
 .tbtn.on { background: var(--accent); border-color: var(--accent); }
+
+/* per-tile volume: mute icon + compact slider */
+.tile-vol {
+  display: inline-flex; align-items: center; gap: 5px;
+  height: 26px; padding: 0 7px; box-sizing: border-box;
+  background: rgba(30,30,38,.8); border: 1px solid #444; border-radius: 5px;
+}
+.tvol-icon { cursor: pointer; font-size: 12px; line-height: 1; user-select: none; filter: grayscale(1) opacity(.7); }
+.tvol-icon.on { filter: none; }
+.tile-vol input[type="range"] { width: 56px; height: 14px; margin: 0; accent-color: var(--accent); cursor: pointer; }
 .tile-hint {
   position: absolute; inset: 0; z-index: 1;
   display: flex; align-items: center; justify-content: center;

@@ -1,0 +1,6 @@
+# SuperGrid — no-store headers for Netlify / Cloudflare Pages / Vercel-style hosts
+# (hosts that read a `_headers` file). Keeps browsers from holding older versions.
+/*
+  Cache-Control: no-store, no-cache, must-revalidate, max-age=0
+  Pragma: no-cache
+  Expires: 0

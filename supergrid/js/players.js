@@ -66,6 +66,8 @@ SG.players = {
     let ready = false;
     const queue = [];
     let lastVolume = 1;
+    let loopOn = !!opts.loop;
+    const isPlaylist = !!source.listId;
     const cmd = (func, args = []) => {
       const msg = JSON.stringify({ event: 'command', func, args });
       if (ready) iframe.contentWindow.postMessage(msg, '*');
@@ -76,14 +78,17 @@ SG.players = {
       if (clamped > 0) lastVolume = clamped;
       cmd('setVolume', [Math.round(clamped * 100)]);
     };
-    // Reflect the player's real state (playing / paused / unstarted) back to the UI.
+    // Reflect the player's real state (playing / paused / unstarted) back to the UI,
+    // and auto-replay when a single video ends if loop is on.
     const onMsg = (e) => {
-      if (e.source !== iframe.contentWindow || !opts.onState) return;
+      if (e.source !== iframe.contentWindow) return;
       let d; try { d = JSON.parse(e.data); } catch (_) { return; }
       let st;
       if (d.event === 'onStateChange') st = d.info;
       else if (d.event === 'infoDelivery' && d.info && typeof d.info.playerState === 'number') st = d.info.playerState;
       if (typeof st !== 'number') return;
+      if (st === 0 && loopOn && !isPlaylist) { cmd('seekTo', [0, true]); cmd('playVideo'); } // ended → replay
+      if (!opts.onState) return;
       if (st === 1) opts.onState(true);                       // playing
       else if (st === 2 || st === 0 || st === -1 || st === 5) opts.onState(false); // paused/ended/unstarted/cued
     };
@@ -100,14 +105,16 @@ SG.players = {
 
     return {
       el: iframe,
-      caps: { mute: true, loop: false, rate: true, playPause: true },
+      caps: { mute: true, loop: true, rate: true, playPause: true, playlist: isPlaylist },
       // Real mute/unMute — reliable silence. setVolume only scales the level.
       setMuted: b => { if (b) cmd('mute'); else { cmd('unMute'); cmd('setVolume', [Math.round(lastVolume * 100)]); } },
-      setLoop: () => {},
+      setLoop: b => { loopOn = !!b; if (isPlaylist) cmd('setLoop', [!!b]); },
       setRate: n => cmd('setPlaybackRate', [n]),
       setVolume: v => setVol(v),
       play: () => cmd('playVideo'),
       pause: () => cmd('pauseVideo'),
+      next: () => cmd('nextVideo'),
+      prev: () => cmd('previousVideo'),
       destroy: () => { window.removeEventListener('message', onMsg); iframe.remove(); },
     };
   },
