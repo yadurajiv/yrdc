@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yadu Rajiv, Game &amp; UX Designer, Developer, Educator</title>
+<meta name="description" content="Yadu Rajiv, Game & UX Designer, Developer and Educator. 20 years across game development, UX design, teaching and creative technology. Chief Creative Officer at Second Quest.">
+<meta property="og:title" content="Yadu Rajiv, Resume">
+<meta property="og:description" content="Game & UX Designer, Developer and Educator. 20 years across game development, UX design, teaching and creative technology.">
+<meta property="og:image" content="https://yadurajiv.com/media/website/512-2.png">
+<meta property="og:type" content="profile">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#161616;
+    --ink-2:#3d3d3d;
+    --ink-3:#6f6f6f;
+    --line:#dcdcdc;
+    --line-2:#e9e9e9;
+    --paper:#ffffff;
+    --tint:#f4f4f4;
+    --display:'Fraunces', Georgia, 'Times New Roman', serif;
+    --mono:'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+    --sans:'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --maxw:920px;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;background:var(--tint);color:var(--ink);
+    font-family:var(--sans);font-size:16px;line-height:1.6;letter-spacing:.1px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .sheet{
+    max-width:var(--maxw);margin:32px auto;background:var(--paper);
+    border:1px solid var(--line);padding:56px 64px 48px;position:relative;
+  }
+  a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line);transition:border-color .15s,color .15s;}
+  a:hover{color:#000;border-color:var(--ink);}
+
+  /* ---------- Header ---------- */
+  header{display:flex;gap:32px;align-items:flex-start;justify-content:space-between;}
+  .id .kicker{font-family:var(--mono);font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--ink-3);margin:0 0 12px;}
+  h1{font-family:var(--display);font-optical-sizing:auto;font-weight:600;font-size:52px;line-height:.98;letter-spacing:-.5px;margin:0 0 12px;}
+  .role{font-family:var(--mono);font-size:14px;font-weight:400;color:var(--ink-2);margin:0;letter-spacing:.2px;}
+  .photo{flex:0 0 auto;width:104px;height:104px;border-radius:50%;object-fit:cover;filter:grayscale(1) contrast(1.03);border:1px solid var(--line);}
+  .contact{font-family:var(--mono);font-size:12.5px;line-height:1.9;color:var(--ink-2);margin:22px 0 0;display:flex;flex-wrap:wrap;gap:4px 22px;}
+  .contact span{white-space:nowrap;}
+  .contact a{border-bottom-color:var(--line-2);}
+
+  /* ---------- Intro ---------- */
+  .intro{margin:28px 0 0;font-size:15.5px;line-height:1.7;color:var(--ink);max-width:66ch;}
+
+  /* ---------- Section ---------- */
+  section{margin-top:38px;}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin:0 0 18px;border-bottom:1.5px solid var(--ink);padding-bottom:8px;}
+  .sec-head h2{font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin:0;}
+  .sec-head .num{font-family:var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:1px;}
+
+  /* ---------- Skills (compact) ---------- */
+  .skills{display:grid;gap:9px;}
+  .skill-row{display:grid;grid-template-columns:130px 1fr;gap:16px;align-items:baseline;}
+  .skill-row .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--ink-3);}
+  .skill-row .vals{font-family:var(--mono);font-size:12px;color:var(--ink-2);line-height:1.55;}
+
+  /* ---------- Experience ---------- */
+  .job{display:grid;grid-template-columns:150px 1fr;gap:20px;padding:13px 0;border-bottom:1px solid var(--line-2);}
+  .job:last-child{border-bottom:none;}
+  .job .when{font-family:var(--mono);font-size:11.5px;color:var(--ink-3);letter-spacing:.3px;padding-top:2px;}
+  .job .what .title{font-family:var(--mono);font-weight:600;font-size:14.5px;margin:0 0 2px;}
+  .job .what .org{font-size:13.5px;color:var(--ink-2);margin:0;}
+  .job .what .org .dur{color:var(--ink-3);font-family:var(--mono);font-size:11.5px;}
+  .job .what .desc{font-size:12.5px;color:var(--ink-3);line-height:1.45;margin:5px 0 0;max-width:62ch;}
+
+  /* ---------- Lists ---------- */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:6px 40px;}
+  .item{padding:7px 0;border-bottom:1px solid var(--line-2);font-size:13.5px;line-height:1.5;}
+  .item .meta{font-family:var(--mono);font-size:11px;color:var(--ink-3);display:block;margin-top:1px;}
+  ul.clean{list-style:none;margin:0;padding:0;}
+  ul.clean li{padding:8px 0;border-bottom:1px solid var(--line-2);font-size:13.5px;line-height:1.55;}
+  ul.clean li:last-child{border-bottom:none;}
+  ul.clean li .yr{font-family:var(--mono);font-size:11px;color:var(--ink-3);}
+  ul.clean li .note{color:var(--ink-3);font-size:12.5px;}
+  .lead{font-weight:600;}
+
+  details{border-bottom:1px solid var(--line-2);}
+  details > summary{cursor:pointer;list-style:none;padding:10px 0;font-family:var(--mono);font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--ink-2);display:flex;align-items:center;gap:8px;}
+  details > summary::-webkit-details-marker{display:none;}
+  details > summary::before{content:"+";font-weight:600;color:var(--ink-3);}
+  details[open] > summary::before{content:"\2013";}
+  details .body{padding:2px 0 14px;}
+  .two-col{columns:2;column-gap:40px;}
+  .two-col .item{break-inside:avoid;}
+
+  /* ---------- Footer ---------- */
+  footer{margin-top:42px;padding-top:20px;border-top:1.5px solid var(--ink);font-family:var(--mono);font-size:11.5px;color:var(--ink-3);display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;}
+  footer a{border-bottom:none;color:var(--ink-2);}
+
+  /* ---------- Print controls ---------- */
+  .controls{position:fixed;top:20px;right:20px;z-index:20;font-family:var(--mono);}
+  .control-row{display:flex;gap:8px;justify-content:flex-end;}
+  .btn{font-family:var(--mono);font-size:11px;letter-spacing:1px;text-transform:uppercase;background:var(--ink);color:#fff;border:none;padding:9px 13px;border-radius:2px;cursor:pointer;}
+  .btn:hover{background:#000;}
+  .btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--ink);}
+  .btn.ghost:hover{background:var(--ink);color:#fff;}
+  .panel{margin-top:8px;background:#fff;border:1px solid var(--ink);border-radius:3px;padding:14px 16px;width:236px;box-shadow:0 8px 24px rgba(0,0,0,.12);}
+  .panel h3{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-3);margin:0 0 10px;}
+  .panel label{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink-2);padding:4px 0;cursor:pointer;}
+  .panel label input{accent-color:var(--ink);width:14px;height:14px;}
+  .panel .mini{display:flex;gap:6px;margin-bottom:10px;}
+  .panel .mini button{flex:1;font-family:var(--mono);font-size:9.5px;letter-spacing:.5px;text-transform:uppercase;background:#f0f0f0;border:1px solid var(--line);border-radius:2px;padding:5px 0;cursor:pointer;color:var(--ink-2);}
+  .panel .mini button:hover{background:var(--ink);color:#fff;}
+  .panel .go{width:100%;margin-top:12px;}
+  [hidden]{display:none !important;}
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:720px){
+    .sheet{margin:0;padding:32px 22px 36px;border:none;}
+    body{background:var(--paper);}
+    header{flex-direction:column-reverse;align-items:flex-start;gap:18px;}
+    .photo{width:76px;height:76px;}
+    h1{font-size:40px;}
+    .contact{gap:2px 16px;}
+    .skill-row{grid-template-columns:1fr;gap:3px;}
+    .job{grid-template-columns:1fr;gap:4px;}
+    .grid2{grid-template-columns:1fr;}
+    .two-col{columns:1;}
+    .controls{top:auto;bottom:14px;right:14px;left:14px;}
+    .control-row{justify-content:stretch;}
+    .control-row .btn{flex:1;}
+    .panel{width:auto;}
+  }
+
+  /* ---------- Print ---------- */
+  @media print{
+    @page{margin:13mm;}
+    body{background:#fff;font-size:10pt;line-height:1.38;}
+    .sheet{margin:0;padding:0;border:none;max-width:none;}
+    .controls{display:none;}
+    a{border-bottom:none;color:#000;}
+    h1{font-size:26pt;}
+    section{margin-top:18px;page-break-inside:avoid;}
+    .sec-head{border-bottom:1pt solid #000;margin-bottom:12px;}
+    .job{padding:8px 0;}
+    .job,.item,ul.clean li{page-break-inside:avoid;}
+    details{border-bottom:none;}
+    details > summary{display:none;}
+    details .body{padding:0;display:block !important;}
+    .two-col{columns:2;}
+    footer{page-break-inside:avoid;}
+    .print-hide{display:none !important;}
+    .mode-short .job .desc{display:none;}
+    .mode-short .intro{margin-top:20px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- Print controls -->
+<div class="controls">
+  <div class="control-row">
+    <button class="btn ghost" onclick="printMode('short')">Short</button>
+    <button class="btn ghost" onclick="printMode('full')">Full</button>
+    <button class="btn" id="customBtn" onclick="togglePanel()">Custom ▾</button>
+  </div>
+  <div class="panel" id="panel" hidden>
+    <h3>Sections to print</h3>
+    <div class="mini">
+      <button onclick="selectPreset('all')">All</button>
+      <button onclick="selectPreset('short')">Short</button>
+      <button onclick="selectPreset('none')">None</button>
+    </div>
+    <label><input type="checkbox" class="psel" value="sec-skills" checked> Skills &amp; Tools</label>
+    <label><input type="checkbox" class="psel" value="sec-experience" checked> Experience</label>
+    <label><input type="checkbox" class="psel" value="sec-gameography" checked> Gameography</label>
+    <label><input type="checkbox" class="psel" value="sec-projects" checked> Tools &amp; Side Projects</label>
+    <label><input type="checkbox" class="psel" value="sec-publications" checked> Publications</label>
+    <label><input type="checkbox" class="psel" value="sec-speaking" checked> Speaking &amp; Awards</label>
+    <label><input type="checkbox" class="psel" value="sec-community" checked> Community</label>
+    <label><input type="checkbox" class="psel" value="sec-education" checked> Education</label>
+    <button class="btn go" onclick="printMode('custom')">Print selection</button>
+  </div>
+</div>
+
+<main class="sheet">
+
+  <header>
+    <div class="id">
+      <p class="kicker">Curriculum Vitae</p>
+      <h1>Yadu Rajiv</h1>
+      <p class="role">Game &amp; UX Designer · Developer · Educator</p>
+    </div>
+    <img class="photo" src="https://yadurajiv.com/media/posts/344/010A2360-1024x683.jpg" alt="Yadu Rajiv" loading="lazy">
+  </header>
+
+  <div class="contact">
+    <span><a href="mailto:yadurajiv@gmail.com">yadurajiv@gmail.com</a></span>
+    <span><a href="https://yadurajiv.com">yadurajiv.com</a></span>
+    <span>+91 77609 00569</span>
+    <span>Bengaluru, India</span>
+  </div>
+
+  <p class="intro">
+    I design interactions and experiences for entertainment and education. My practice is
+    driven by a need to experiment and push the boundaries of my medium, and to create new
+    and interesting experiences. I'm an instinct-driven designer who applies artistry and
+    skill to solve problems, and uses data to measure, correct and iterate. I love to tell
+    stories through play; games are my medium of choice. Over 20 years I've worked across
+    game development, UX design, teaching and creative technology.
+  </p>
+
+  <!-- SKILLS -->
+  <section id="sec-skills">
+    <div class="sec-head"><span class="num">01</span><h2>Skills &amp; Tools</h2></div>
+    <div class="skills">
+      <div class="skill-row">
+        <div class="lbl">Practice</div>
+        <div class="vals">Game Design &amp; Development · UX Design · UI &amp; Interaction Design · UX Research · Visual Storytelling · Programming · Graphic &amp; Web Design</div>
+      </div>
+      <div class="skill-row">
+        <div class="lbl">Engines &amp; Tools</div>
+        <div class="vals">Unity · Godot · GameMaker Studio · Construct · Cocos2d-x · SFML · SDL · Flixel / Starling · Figma · Adobe CC (Photoshop, Illustrator, InDesign)</div>
+      </div>
+      <div class="skill-row">
+        <div class="lbl">Languages</div>
+        <div class="vals">C# · GDScript · GML · JavaScript · C++ · ActionScript</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="sec-experience">
+    <div class="sec-head"><span class="num">02</span><h2>Experience</h2></div>
+
+    <div class="job">
+      <div class="when">Oct 2024 – Present</div>
+      <div class="what">
+        <p class="title">Chief Creative Officer</p>
+        <p class="org">Second Quest</p>
+        <p class="desc">Lead creative vision, narrative and design direction across the studio's projects, from concept and brand identity through to release.</p>
+      </div>
+    </div>
+    <div class="job">
+      <div class="when">Sep 2021 – Sep 2024</div>
+      <div class="what">
+        <p class="title">Lead Game Designer</p>
+        <p class="org">PlaySimple Games Pvt Ltd <span class="dur">· 3 yrs 1 mo</span></p>
+        <p class="desc">Led design in the New Games Group: prototyping, product-market fit and scaling. Lead on Tile Match; previously Jigsaw and Destination Solitaire.</p>
+      </div>
+    </div>
+    <div class="job">
+      <div class="when">Feb 2020 – Sep 2021</div>
+      <div class="what">
+        <p class="title">Lead Game Designer</p>
+        <p class="org">BYJU'S, Think and Learn Pvt Ltd (Osmo) <span class="dur">· 1 yr 8 mos</span></p>
+        <p class="desc">Designed phygital learning games on the Osmo platform for children under 10, balancing fun with curriculum and common-core learning goals.</p>
+      </div>
+    </div>
+    <div class="job">
+      <div class="when">Feb 2015 – Feb 2020</div>
+      <div class="what">
+        <p class="title">Faculty</p>
+        <p class="org">Srishti Institute of Art, Design and Technology <span class="dur">· 5 yrs 1 mo</span></p>
+        <p class="desc">Taught game design, development and UX / information design; mentored students and ran India's first indie games festival, Indie Game Shindig.</p>
+      </div>
+    </div>
+    <div class="job">
+      <div class="when">Apr 2014 – Feb 2015</div>
+      <div class="what">
+        <p class="title">Senior User Experience Designer</p>
+        <p class="org">redBus.in <span class="dur">· 11 mos</span></p>
+        <p class="desc">Led UX for the redBus.in web experience and the redBus Plus B2B analytics platform, including a reusable component system for developers.</p>
+      </div>
+    </div>
+    <div class="job">
+      <div class="when">Jun 2011 – Dec 2013</div>
+      <div class="what">
+        <p class="title">UX &amp; Technology Lead · Co-founder</p>
+        <p class="org">Hashstash Studios <span class="dur">· 2 yrs 7 mos</span></p>
+        <p class="desc">Co-founded the studio; designed and built the award-winning game Circulets and redeveloped Zap the Knight.</p>
+      </div>
+    </div>
+    <div class="job">
+      <div class="when">Apr 2009 – Jul 2010</div>
+      <div class="what">
+        <p class="title">Creative Engineer, UX &amp; UI Designer</p>
+        <p class="org">OSSCube <span class="dur">· 1 yr 4 mos</span></p>
+        <p class="desc">Led a design team on web UI / UX and Drupal theming for clients; drove open-source community building and events.</p>
+      </div>
+    </div>
+    <div class="job">
+      <div class="when">Oct 2007 – Apr 2009</div>
+      <div class="what">
+        <p class="title">Faculty</p>
+        <p class="org">Arena Animation Academy <span class="dur">· 1 yr 7 mos</span></p>
+        <p class="desc">Taught graphic design, web design and animation across the Adobe suite, ActionScript and front-end web.</p>
+      </div>
+    </div>
+    <div class="job">
+      <div class="when">May 2006 – Mar 2007</div>
+      <div class="what">
+        <p class="title">Faculty</p>
+        <p class="org">Aptech Global Learning Solutions <span class="dur">· 11 mos</span></p>
+        <p class="desc">Taught web design and animation to international students under the ITEC / SCAAP program (Ministry of External Affairs).</p>
+      </div>
+    </div>
+    <p style="font-family:var(--mono);font-size:11.5px;color:var(--ink-3);margin:16px 0 0;">
+      Full detail on <a href="https://linkedin.com/in/yadurajiv/details/experience/">LinkedIn</a>.
+    </p>
+  </section>
+
+  <!-- GAMEOGRAPHY -->
+  <section id="sec-gameography">
+    <div class="sec-head"><span class="num">03</span><h2>Selected Gameography</h2></div>
+    <ul class="clean">
+      <li><span class="lead"><a href="https://playmodeltrains.com/">Model Trains</a></span>, Second Quest <span class="yr">· 2024–present</span></li>
+      <li><span class="lead"><a href="https://play.google.com/store/apps/details?id=in.playsimple.triple.tile.matchgame.pair.three.puzzle.object.royale">Tile Match: Triple Puzzle</a></span>, PlaySimple Games <span class="yr">· 2022–2024</span></li>
+      <li><span class="lead"><a href="https://play.google.com/store/apps/details?id=in.playsimple.triple.mahjong.tile&amp;hl=en_IN">Tile Empire: Mahjong Match</a></span>, PlaySimple Games <span class="yr">· 2024</span></li>
+      <li><span class="lead"><a href="https://play.google.com/store/apps/details?id=in.playsimple.jigsaw_puzzle">Jigsaw</a></span>, PlaySimple Games <span class="yr">· 2022–2023</span></li>
+      <li><span class="lead"><a href="https://play.google.com/store/apps/details?id=in.tripeaks.solitaire">Destination Solitaire</a></span>, PlaySimple Games <span class="yr">· 2021–2022</span></li>
+      <li><span class="lead"><a href="https://yadurajiv.com/2020/10/02/wyverndel-express/">Math Wizard / Wyverndell Express</a></span>, BYJU'S / Osmo <span class="yr">· 2020</span></li>
+      <li><span class="lead"><a href="https://yadu.itch.io/lost-and-found">Lost and Found at the Mall</a></span>, GGJ 2021 <span class="yr">· 2021</span></li>
+      <li><span class="lead"><a href="https://yadu.itch.io/somema">Social Media Massacre</a></span> <span class="yr">· 2020</span></li>
+      <li><span class="lead"><a href="https://yadu.itch.io/gone-to-pieces">Gone to Pieces</a></span>, GMTK Jam <span class="yr">· 2017</span></li>
+      <li><span class="lead"><a href="https://yadu.itch.io/badass">Badass</a></span> <span class="yr">· 2017</span></li>
+      <li><span class="lead"><a href="https://www.yadurajiv.com/2017/06/05/my-local-multiplayer-bug-the-rhizome/">The Rhizome</a></span>, interactive installation at the Serendipity Arts Festival, Goa <span class="yr">· 2016</span></li>
+      <li><span class="lead"><a href="https://yadurajiv.com/2016/01/31/wayfarer/">Wayfarer</a></span>, GGJ 2016 <span class="yr">· 2016</span></li>
+      <li><span class="lead"><a href="https://web.archive.org/web/20131021090557/http://circulets.com/">Circulets</a></span>, Hashstash <span class="note">· Most Innovative Game, Casual Connect Asia 2013</span> <span class="yr">· 2013</span></li>
+      <li><span class="lead">Zap the Knight</span>, Hashstash <span class="yr">· 2011</span></li>
+    </ul>
+    <p style="font-family:var(--mono);font-size:11.5px;color:var(--ink-3);margin:14px 0 0;">
+      More games on <a href="https://yadu.itch.io">itch.io</a> · Portfolio video (2011–2018): <a href="http://bit.ly/yadu-2011-2018">bit.ly/yadu-2011-2018</a>
+    </p>
+  </section>
+
+  <!-- TOOLS & SIDE PROJECTS -->
+  <section id="sec-projects">
+    <div class="sec-head"><span class="num">04</span><h2>Tools, Toys &amp; Side Projects</h2></div>
+    <ul class="clean">
+      <li><span class="lead"><a href="https://yadu.itch.io/notesforever">NotesForever</a></span>, a Git-backed journaling workspace with Markdown support</li>
+      <li><span class="lead"><a href="https://yadu.itch.io/custom-permalinks">Custom Permalinks for Publii</a></span>, WordPress-style generated post URLs for Publii</li>
+      <li><span class="lead"><a href="https://yadu.itch.io/parallax">ParallaxMaker</a></span>, a maker and viewer for parallax image vignettes</li>
+      <li><span class="lead"><a href="https://yadu.itch.io/mini-loops">Mini Loops</a></span>, a pack of short, loopable music tracks made for games</li>
+      <li><span class="lead"><a href="https://yadu.itch.io/letter">letter</a></span>, a small browser toy of warm, positive messages from the world</li>
+      <li><span class="lead"><a href="https://gamedev.in">Gamedev.in</a></span>, India's largest and oldest game-developer community (co-founder)</li>
+    </ul>
+    <p style="font-family:var(--mono);font-size:11.5px;color:var(--ink-3);margin:14px 0 0;">
+      More tools, toys and experiments on <a href="https://yadu.itch.io">itch.io</a>.
+    </p>
+  </section>
+
+  <!-- PUBLICATIONS -->
+  <section id="sec-publications">
+    <div class="sec-head"><span class="num">05</span><h2>Publications &amp; Writing</h2></div>
+    <ul class="clean">
+      <li><span class="lead">Developing Turn-Based Multiplayer Games with GameMaker Studio 2 and NodeJS</span>, <a href="https://www.apress.com/gp/book/9781484238608">Apress</a> (book) <span class="yr">· 2018</span></li>
+      <li><a href="https://gamedevelopment.tutsplus.com/articles/how-to-learn-flixel--gamedev-5843">How to Learn Flixel</a>, Envato Tuts+ <span class="yr">· 2013</span></li>
+      <li><a href="https://archive.org/details/Linux-For-You-Issue-85/page/n97/mode/2up">5 Tools to Develop AAA Games</a>, Linux For You <span class="yr">· 2010</span></li>
+      <li><a href="https://archive.org/details/Linux-For-You-Issue-83/page/n79/mode/2up">Getting Started with Game Development</a>, Linux For You <span class="yr">· 2009</span></li>
+      <li>Literary translations from Malayalam: <a href="https://www.poetryinternational.com/en/poets-poems/poems/poem/103-27283_MOONRISE">Poetry International</a> (2010), <a href="https://www.jstor.org/stable/23341656">Indian Literature / JSTOR</a> (2003)</li>
+    </ul>
+    <details>
+      <summary>Interviews &amp; features about Yadu</summary>
+      <div class="body">
+        <ul class="clean">
+          <li><a href="https://eximiusecho.substack.com/p/exploring-the-rise-of-hybrid-casual">Exploring the Rise of Hybrid-Casual Games</a>, Eximius Echo <span class="yr">· 2024</span></li>
+          <li><a href="https://www.theswaddle.com/online-gaming-is-pretend-but-the-harassment-in-game-isn-t">Online Gaming Is Pretend, But the Harassment In-Game Isn't</a>, The Swaddle <span class="yr">· 2023</span></li>
+          <li><a href="https://www.youtube.com/watch?v=Rrl8PIyl56g">First Person Encounters #9</a>, DiGRA India Podcast <span class="yr">· 2021</span></li>
+          <li><a href="https://etao.blog/2021/05/18/podcast-109/">Making Space to Make Games</a>, Everybody's Talking At Once, Ep. 109 <span class="yr">· 2021</span></li>
+          <li><a href="https://www.stirworld.com/think-opinions-gamescapes-art-in-the-world-of-video-game-design">Gamescapes: Art in the World of Video Game Design</a>, STIR <span class="yr">· 2020</span></li>
+          <li><a href="https://www.youtube.com/watch?v=nR21nuhztMQ">Co-founders, Hashstash Studios</a>, NGDC <span class="yr">· 2013</span></li>
+        </ul>
+      </div>
+    </details>
+  </section>
+
+  <!-- SPEAKING & AWARDS -->
+  <section id="sec-speaking">
+    <div class="sec-head"><span class="num">06</span><h2>Speaking, Recognition &amp; Awards</h2></div>
+    <ul class="clean">
+      <li><span class="lead">GamesIndustry.biz Top 100 Game Changers</span> <span class="yr">· 2020</span></li>
+      <li><span class="lead">IGDA Foundation Next Gen Leaders</span>, GDC <span class="yr">· 2020</span></li>
+      <li><span class="lead">POC in Play #SAHMGames100</span>, South Asian Heritage Month <span class="yr">· 2021</span></li>
+      <li><span class="lead">Keynote Speaker</span>, Jam Jam Festival, Finnish Game Jam, Helsinki <span class="yr">· 2019</span></li>
+    </ul>
+    <details>
+      <summary>More talks, panels &amp; workshops</summary>
+      <div class="body two-col">
+        <div class="item">Mastering People Strategy &amp; Engineering Play, NIT Trichy Pragyan, Speaker <span class="meta">GDAI · 2026</span></div>
+        <div class="item">DEI in the Indian Games Industry, Moderator <span class="meta">IGDC · 2024</span></div>
+        <div class="item">WTF Masterclasses: On Game Jams, Speaker <span class="meta">WTFxIGDC · 2024</span></div>
+        <div class="item">WTF Masterclasses: Code to Make a Game, Host <span class="meta">WTFxIGDC · 2024</span></div>
+        <div class="item">The Garden of Forking Paths, Speaker <span class="meta">IGDC Dev Days · 2024</span></div>
+        <div class="item">Brewing in Kerala for the World, Moderator <span class="meta">IGDC Dev Days · 2024</span></div>
+        <div class="item">#HumansOfGaming, Feature <span class="meta">Outscal · 2023</span></div>
+        <div class="item">Learn by Doing, Speaker <span class="meta">IGDC · 2022</span></div>
+        <div class="item">Xbox Discovery Day, Speaker <span class="meta">Bangalore · 2022</span></div>
+        <div class="item">Putting India on the Global Map, Moderator <span class="meta">IGX Creators Summit · 2021</span></div>
+        <div class="item">Hand-made Game Scenes, Speaker <span class="meta">GAIA Symposium · 2021</span></div>
+        <div class="item">Entanglement, Art &amp; Science installation <span class="meta">Serendipity Arts Festival · 2016</span></div>
+        <div class="item">Game Design Education, Panel <span class="meta">NGDC · 2017</span></div>
+        <div class="item">Tales from Game Designers, Moderator <span class="meta">NGDC · 2017</span></div>
+        <div class="item">Evil Game Design Challenge, Speaker <span class="meta">NGDC · 2016</span></div>
+        <div class="item">Caveman Game Design Challenge, Workshop <span class="meta">NGDC · 2016</span></div>
+        <div class="item">Reality Check: Being Indie, Panel <span class="meta">NGDC · 2013</span></div>
+        <div class="item">Using Open Source for Game Development, Speaker <span class="meta">India Game Developer Summit · 2010</span></div>
+      </div>
+    </details>
+  </section>
+
+  <!-- COMMUNITY -->
+  <section id="sec-community">
+    <div class="sec-head"><span class="num">07</span><h2>Community &amp; Associations</h2></div>
+    <div class="grid2">
+      <div class="item"><a href="https://gamedev.in">Gamedev.in</a>, Co-founder &amp; Volunteer <span class="meta">2009 – present</span></div>
+      <div class="item"><a href="https://byog.in/">Build Your Own Game (BYOG)</a>, Founder &amp; Organiser <span class="meta">2010 – present</span></div>
+      <div class="item">Global Game Jam, Board of Directors <span class="meta">2025 – present</span></div>
+      <div class="item">GGJ Next, Advisory Committee <span class="meta">2025 – present</span></div>
+      <div class="item">GDAI, Governing Council (Talent &amp; Skilling, Indie &amp; Community) <span class="meta">2022 – present</span></div>
+      <div class="item">NID R&amp;D Campus Bangalore, Visiting Faculty, Mentor &amp; Jury <span class="meta">2016 – present</span></div>
+      <div class="item">Srishti Manipal Institute, Visiting Faculty &amp; Jury <span class="meta">2020 – present</span></div>
+      <div class="item">Global Game Jam, Executive Committee <span class="meta">2021 – 2025</span></div>
+    </div>
+    <details>
+      <summary>Past roles &amp; volunteering</summary>
+      <div class="body grid2">
+        <div class="item">WAVES Game Jam, Jury &amp; Mentor <span class="meta">2025</span></div>
+        <div class="item">WTFxIGDC Game Jam, Host <span class="meta">2024</span></div>
+        <div class="item">Media Game Jam (Goethe-Institut Kolkata), Coordinator <span class="meta">2023</span></div>
+        <div class="item">Global Game Jam Bangalore, Organiser <span class="meta">2013 – 2022</span></div>
+        <div class="item">NASSCOM / IGDC, Volunteer <span class="meta">2011 – 2022</span></div>
+        <div class="item">IGDC Student Game of the Year, Jury <span class="meta">2022</span></div>
+        <div class="item">Design Championship, Jury <span class="meta">2016, 2019</span></div>
+        <div class="item">Indie Game Shindig, Organiser (India's first indie games festival) <span class="meta">2015</span></div>
+        <div class="item">IGDA Bangalore Chapter, Founder &amp; Volunteer <span class="meta">2011 – 2018</span></div>
+        <div class="item">Author at Tuts+ (Envato) <span class="meta">2013</span></div>
+      </div>
+    </details>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="sec-education">
+    <div class="sec-head"><span class="num">08</span><h2>Education</h2></div>
+    <ul class="clean">
+      <li><span class="lead">Master of Design (M.Des), Design for Digital Experience</span><br>National Institute of Design (NID)</li>
+      <li><span class="lead">BA, English Language &amp; Literature</span><br>St Alberts College, Kochi, Kerala</li>
+    </ul>
+  </section>
+
+  <footer>
+    <span>Yadu Rajiv · yadurajiv@gmail.com · +91 77609 00569</span>
+    <span>
+      <a href="https://yadu.itch.io">itch.io</a> ·
+      <a href="https://dribbble.com/yadu">Dribbble</a> ·
+      <a href="https://github.com/yadurajiv">GitHub</a> ·
+      <a href="https://twitter.com/yadurajiv">@yadurajiv</a>
+    </span>
+  </footer>
+
+</main>
+
+<script>
+  var PRESETS = {
+    all:   ['sec-skills','sec-experience','sec-gameography','sec-projects','sec-publications','sec-speaking','sec-community','sec-education'],
+    short: ['sec-skills','sec-experience','sec-education'],
+    none:  []
+  };
+
+  function applyHidden(includeIds){
+    document.querySelectorAll('main section').forEach(function(s){
+      if(includeIds.indexOf(s.id) === -1) s.classList.add('print-hide');
+      else s.classList.remove('print-hide');
+    });
+  }
+  function restore(){ applyHidden(PRESETS.all); document.body.classList.remove('mode-short'); }
+
+  function printMode(mode){
+    document.body.classList.remove('mode-short');
+    var ids;
+    if(mode === 'custom'){
+      ids = Array.prototype.slice.call(document.querySelectorAll('.psel:checked')).map(function(c){return c.value;});
+    } else if(mode === 'short'){
+      ids = PRESETS.short;
+      document.body.classList.add('mode-short');
+    } else {
+      ids = PRESETS.all;
+    }
+    applyHidden(ids);
+    window.print();
+  }
+
+  function togglePanel(){
+    var p = document.getElementById('panel');
+    p.hidden = !p.hidden;
+    document.getElementById('customBtn').textContent = p.hidden ? 'Custom ▾' : 'Custom ▴';
+  }
+
+  function selectPreset(kind){
+    var set = PRESETS[kind] || PRESETS.all;
+    document.querySelectorAll('.psel').forEach(function(c){
+      c.checked = (kind === 'all') ? true : (kind === 'none') ? false : set.indexOf(c.value) !== -1;
+    });
+  }
+
+  window.addEventListener('afterprint', restore);
+</script>
+</body>
+</html>
