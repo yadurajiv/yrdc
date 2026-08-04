@@ -1,0 +1,5 @@
+# Always serve the latest resume page (Netlify / Cloudflare Pages hosts)
+/
+  Cache-Control: no-store, no-cache, must-revalidate, max-age=0
+/*.html
+  Cache-Control: no-store, no-cache, must-revalidate, max-age=0
