@@ -476,26 +476,34 @@
     none:  []
   };
 
+  // override holds the id list a Short/Full/Custom button asked for.
+  // When null (e.g. a native Ctrl+P), we fall back to the checkbox selection.
+  var override = null;
+
+  function checkedIds(){
+    return Array.prototype.slice.call(document.querySelectorAll('.psel:checked'))
+      .map(function(c){ return c.value; });
+  }
+
   function applyHidden(includeIds){
     document.querySelectorAll('main section').forEach(function(s){
       if(includeIds.indexOf(s.id) === -1) s.classList.add('print-hide');
       else s.classList.remove('print-hide');
     });
   }
-  function restore(){ applyHidden(PRESETS.all); document.body.classList.remove('mode-short'); }
 
   function printMode(mode){
-    document.body.classList.remove('mode-short');
-    var ids;
-    if(mode === 'custom'){
-      ids = Array.prototype.slice.call(document.querySelectorAll('.psel:checked')).map(function(c){return c.value;});
-    } else if(mode === 'short'){
-      ids = PRESETS.short;
+    if(mode === 'short'){
+      override = PRESETS.short;
       document.body.classList.add('mode-short');
-    } else {
-      ids = PRESETS.all;
+    } else if(mode === 'full'){
+      override = PRESETS.all;
+      document.body.classList.remove('mode-short');
+    } else { // custom: use whatever is currently ticked
+      override = checkedIds();
+      document.body.classList.remove('mode-short');
     }
-    applyHidden(ids);
+    applyHidden(override);
     window.print();
   }
 
@@ -512,7 +520,18 @@
     });
   }
 
-  window.addEventListener('afterprint', restore);
+  // Sync the DOM to the intended selection right before the print snapshot is taken.
+  // This runs for both the in-page buttons and a native Ctrl+P / Cmd+P.
+  window.addEventListener('beforeprint', function(){
+    applyHidden(override !== null ? override : checkedIds());
+  });
+
+  // After printing, reset everything so the on-screen page shows all sections again.
+  window.addEventListener('afterprint', function(){
+    override = null;
+    applyHidden(PRESETS.all);
+    document.body.classList.remove('mode-short');
+  });
 </script>
 </body>
 </html>
