@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>And Now - Interactive Image Comparison</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>And Now - Image Comparison</title>
     <style>
         @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Fraunces:opsz,wght@9,400;9,600;9,700&family=Inter:wght@400;600&display=swap");
 
@@ -26,44 +25,189 @@
             --vellum-card-hover: rgba(0, 0, 0, 0.2);
             --vellum-danger: #ff6b6b;
             --vellum-success: #166534;
-            --vellum-warning: #92400e;
             --vellum-shadow-paper: 0 10px 25px -5px rgba(0, 0, 0, 0.02);
-            --vellum-shadow-remove: 0 2px 4px rgba(0, 0, 0, 0.1);
             --vellum-font-ui: "Inter", sans-serif;
             --vellum-font-mono: "IBM Plex Mono", monospace;
             --vellum-font-serif: "Fraunces", serif;
         }
 
-        .vellum {
+        body {
             background-color: var(--vellum-bg);
             color: var(--vellum-text);
             font-family: var(--vellum-font-ui);
             margin: 0;
             min-height: 100vh;
+            padding-bottom: 5rem;
             transition: background-color 0.3s ease;
+            overflow-x: hidden;
         }
 
-        .vellum * { box-sizing: border-box; }
-        .vellum :where(a) { color: inherit; text-decoration: none; }
-        .vellum :where(button, input, textarea, select) { font: inherit; }
-        .vellum :where(button) { appearance: none; background: transparent; border: 0; border-radius: 0; color: inherit; cursor: pointer; padding: 0; }
-        .vellum :where(input, textarea, select, button) { outline-color: transparent; }
+        /* Prevent scroll in Zen mode */
+        body.zen-active {
+            padding-bottom: 0;
+            overflow: hidden;
+        }
 
-        .vellum-mono { font-family: var(--vellum-font-mono); }
-        .vellum-serif { font-family: var(--vellum-font-serif); }
+        .vellum-container {
+            margin: 0 auto;
+            max-width: 64rem;
+            padding: 2rem 1rem;
+        }
 
-        .vellum :where(h1, h2, h3, h4, h5, h6) {
-            color: var(--vellum-ink);
+        .vellum-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .vellum-title {
             font-family: var(--vellum-font-serif);
-            line-height: 1.15;
-            margin: 0 0 1rem;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--vellum-ink);
+            margin: 0;
+            line-height: 1;
         }
-        
-        .vellum :where(label) {
-            color: #6b7280;
-            display: block;
-            font-size: 0.875rem;
-            margin-bottom: 0.375rem;
+
+        .vellum-subtitle {
+            font-family: var(--vellum-font-mono);
+            font-size: 0.6875rem;
+            letter-spacing: 0.15em;
+            color: var(--vellum-faint);
+            text-transform: uppercase;
+            margin-top: 0.5rem;
+        }
+
+        .comparison-window {
+            position: relative;
+            width: 100%;
+            height: 65vh;
+            background: #ebebe5;
+            border: 1px solid var(--vellum-hairline);
+            border-radius: 0.5rem;
+            box-shadow: var(--vellum-shadow-paper);
+            overflow: hidden;
+            user-select: none;
+            transition: all 0.3s ease;
+        }
+
+        /* Zen Mode Styles */
+        .comparison-window.zen-mode {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            border-radius: 0;
+            border: none;
+            z-index: 9999;
+            background: #050505; /* Deep black background for Zen */
+        }
+
+        .comp-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Using contain ensures the entire image fits within the bounds without being cropped, perfect for strict alignment */
+            object-fit: contain; 
+            object-position: center;
+            pointer-events: none;
+        }
+
+        .comp-before {
+            z-index: 2;
+            /* inset(top right bottom left) - flawless responsive clipping */
+            clip-path: inset(0 50% 0 0); 
+        }
+
+        .slider-handle {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 2px;
+            background: var(--vellum-ink);
+            z-index: 3;
+            cursor: ew-resize;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .comparison-window.zen-mode .slider-handle {
+            background: rgba(255, 255, 255, 0.5); /* Lighter handle in Zen mode */
+        }
+
+        .slider-button {
+            width: 32px;
+            height: 32px;
+            background: var(--vellum-bg);
+            border: 2px solid var(--vellum-ink);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .comparison-window.zen-mode .slider-button {
+            background: #222;
+            border-color: rgba(255,255,255,0.5);
+            color: white;
+        }
+
+        .controls-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .controls-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .vellum-card {
+            background: #ffffff;
+            border: 1px solid var(--vellum-hairline);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .vellum-card.dragover {
+            border-color: var(--vellum-ink);
+            background: var(--vellum-accent);
+            border-style: dashed;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--vellum-rule);
+            padding-bottom: 0.5rem;
+        }
+
+        .card-title {
+            font-family: var(--vellum-font-serif);
+            font-weight: 600;
+            font-size: 1.25rem;
+        }
+
+        .card-label {
+            font-family: var(--vellum-font-mono);
+            font-size: 0.625rem;
+            letter-spacing: 0.1em;
+            color: var(--vellum-faint);
+            text-transform: uppercase;
         }
 
         .vellum-input-minimal {
@@ -72,722 +216,517 @@
             border-bottom: 1px solid var(--vellum-hairline);
             color: inherit;
             outline: none;
-            transition: opacity 0.2s ease, border-color 0.2s ease;
-            width: 100%;
             padding: 0.5rem 0;
-            font-family: var(--vellum-font-mono);
-            font-size: 0.75rem;
-        }
-
-        .vellum-input-minimal:hover { border-bottom-color: var(--vellum-hover-line); }
-        .vellum-input-minimal:focus { border-bottom-color: var(--vellum-focus-line); opacity: 1; }
-        .vellum-input-minimal::placeholder { color: #d1d5db; }
-
-        .vellum-button-pastel {
-            align-items: center;
-            background-color: var(--vellum-accent);
-            border: 0;
-            border-radius: 6px;
-            color: var(--vellum-accent-text);
-            display: inline-flex;
-            font-size: 0.75rem;
-            font-weight: 600;
-            gap: 0.5rem;
-            line-height: 1rem;
-            padding: 0.5rem 1rem;
-            transition: all 0.2s ease;
-            justify-content: center;
-        }
-        
-        .vellum-button-pastel:hover {
-            filter: brightness(0.95);
-        }
-
-        .vellum-container {
-            margin: 0 auto;
-            max-width: 64rem;
-            padding: 0 1rem;
-        }
-
-        .vellum-card {
-            background: #ffffff;
-            border: 1px solid var(--vellum-hairline);
-            border-radius: 0.5rem;
-            display: flex;
-            flex-direction: column;
-            padding: 1.5rem;
-            transition: all 0.2s ease;
-            box-shadow: var(--vellum-shadow-paper);
-        }
-
-        .vellum-card:hover {
-            border-color: var(--vellum-card-hover);
-        }
-
-        .vellum-archive-header {
-            display: flex;
-            flex-direction: column;
-            gap: 1.25rem;
-            margin-bottom: 2rem;
-            padding-top: 2rem;
-        }
-
-        .vellum-archive-heading-row {
-            align-items: center;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            justify-content: space-between;
-        }
-
-        .vellum-archive-title {
-            font-family: var(--vellum-font-serif);
-            font-size: 2rem;
-            font-weight: 600;
-            line-height: 2rem;
-            margin: 0;
-        }
-
-        .vellum-archive-summary {
-            color: #9ca3af;
-            font-family: var(--vellum-font-mono);
-            font-size: 0.625rem;
-            letter-spacing: 0.28em;
-            line-height: 1rem;
-            margin: 0.5rem 0 0;
-            text-transform: uppercase;
-        }
-
-        .vellum-group-header {
-            align-items: center;
-            display: flex;
-            justify-content: space-between;
+            width: 100%;
+            font-size: 0.875rem;
+            transition: border-color 0.2s;
             margin-bottom: 1rem;
         }
 
-        .vellum-status-warning {
+        .vellum-input-minimal:focus {
+            border-bottom-color: var(--vellum-ink);
+        }
+
+        .vellum-button {
+            background: transparent;
+            border: 1px solid var(--vellum-hairline);
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: var(--vellum-font-ui);
+            font-weight: 500;
+        }
+
+        .vellum-button:hover {
+            border-color: var(--vellum-ink);
+        }
+
+        .vellum-button-solid {
+            background: var(--vellum-ink);
+            color: var(--vellum-bg);
+            border: none;
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .vellum-button-solid:hover {
+            background: #000;
+            opacity: 0.9;
+        }
+
+        .vellum-button-solid:disabled {
+            background: var(--vellum-faint);
+            cursor: not-allowed;
+        }
+
+        .file-upload-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .file-name-display {
+            font-family: var(--vellum-font-mono);
+            font-size: 0.75rem;
+            color: var(--vellum-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 120px;
+        }
+
+        .info-box {
             background: #fffbeb;
             border: 1px solid #fef3c7;
             color: #b45309;
-            font-family: var(--vellum-font-mono);
-            font-size: 0.625rem;
-            padding: 0.5rem;
+            padding: 0.75rem;
+            font-size: 0.75rem;
             border-radius: 0.25rem;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .drive-note {
+            color: var(--vellum-faint);
+            font-size: 0.7rem;
+            margin-top: -0.5rem;
+            margin-bottom: 1rem;
+            display: block;
             line-height: 1.4;
         }
 
-        .vellum-footer-note {
-            border-top: 1px solid var(--vellum-hairline);
-            color: #9ca3af;
-            font-family: var(--vellum-font-serif);
-            font-size: 1rem;
-            padding: 2rem 0;
-            margin-top: 4rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .comparison-container {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 16/9;
-            overflow: hidden;
-            background-color: var(--vellum-rule);
-            padding: 0 !important;
-            display: flex; 
-            align-items: center;
-            justify-content: center;
-        }
-
-        .comparison-container img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center; 
-            user-select: none;
-            -webkit-user-drag: none;
-        }
-
-        #img-after { z-index: 1; }
-
-        .img-before-wrapper {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 50%;
-            height: 100%;
-            z-index: 2;
-            overflow: hidden;
-            border-right: 2px solid var(--vellum-ink);
-        }
-        
-        .img-before-fixed {
-            width: var(--container-width, 100vw);
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-            max-width: none;
-        }
-
-        .slider-handle {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 50%;
-            width: 0px; 
-            z-index: 3;
-            cursor: ew-resize;
-            transform: translateX(-50%);
-        }
-
-        .slider-button {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 40px;
-            height: 40px;
-            background-color: var(--vellum-bg);
-            border: 2px solid var(--vellum-ink);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.1s ease, background-color 0.2s ease;
-            box-shadow: var(--vellum-shadow-paper);
-        }
-
-        .slider-button:hover, .slider-handle:active .slider-button {
-            transform: translate(-50%, -50%) scale(1.05);
-            background-color: #ffffff;
-        }
-
-        /* Arrows inside slider */
-        .slider-button::before, .slider-button::after {
-            content: '';
-            display: block;
-            width: 0;
-            height: 0;
-            border-style: solid;
-        }
-
-        .slider-button::before {
-            border-width: 5px 6px 5px 0;
-            border-color: transparent var(--vellum-ink) transparent transparent;
-            margin-right: 4px;
-        }
-
-        .slider-button::after {
-            border-width: 5px 0 5px 6px;
-            border-color: transparent transparent transparent var(--vellum-ink);
-            margin-left: 4px;
-        }
-
-        .dropzone {
-            transition: all 0.2s ease;
-            position: relative;
-        }
-        
-        .dropzone.dragover {
-            background-color: var(--vellum-bg);
-            border-color: var(--vellum-ink);
-            border-style: dashed;
-        }
-        
-        .dropzone.dragover::after {
-            content: 'Drop Image Here';
-            position: absolute;
-            inset: 0;
-            background: rgba(253, 250, 246, 0.9);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: var(--vellum-font-mono);
-            font-size: 0.75rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--vellum-ink);
-            z-index: 10;
-            border-radius: 0.5rem;
-        }
-
-        /* Zen Mode Enhancements */
-        body.zen-mode .hide-in-zen {
-            display: none !important;
-        }
-
-        body.zen-mode {
-            background-color: #000;
-            overflow: hidden !important;
-            padding-bottom: 0 !important;
-        }
-
-        body.zen-mode .vellum-container {
-            max-width: 100vw;
-            padding: 0;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0;
-        }
-
-        body.zen-mode .comparison-container {
-            border: none;
-            border-radius: 0;
-            height: 100vh;
-            width: 100vw;
-            max-width: 100vw;
-            aspect-ratio: auto;
-        }
-
+        /* Subtle Zen Exit Button */
         #exit-zen-btn {
             position: fixed;
             top: 1.5rem;
             right: 1.5rem;
-            z-index: 50;
-            display: none;
+            z-index: 10000;
             background: transparent;
-            color: rgba(255, 255, 255, 0.4);
             border: none;
-            box-shadow: none;
+            color: rgba(255, 255, 255, 0.4);
             font-family: var(--vellum-font-mono);
-            font-size: 0.6875rem;
+            font-size: 0.75rem;
             letter-spacing: 0.1em;
             text-transform: uppercase;
-            transition: color 0.3s ease;
-            padding: 0.5rem;
             cursor: pointer;
+            transition: color 0.3s ease;
+            display: none;
         }
-
+        
         #exit-zen-btn:hover {
             color: rgba(255, 255, 255, 1);
         }
-
-        body.zen-mode:not(.embed-mode) #exit-zen-btn {
-            display: inline-flex;
-        }
     </style>
 </head>
-<body class="vellum flex flex-col min-h-screen">
+<body>
 
-    <button id="exit-zen-btn">Exit Zen Mode</button>
-
-    <div class="vellum-container flex-grow flex flex-col">
-        
-        <header class="hide-in-zen vellum-archive-header">
-            <div class="vellum-archive-heading-row">
-                <div>
-                    <h1 class="vellum-archive-title uppercase">And Now</h1>
-                    <p class="vellum-archive-summary">Interactive image comparison tool</p>
-                </div>
-                <div class="flex gap-2">
-                    <button id="zen-mode-btn" class="vellum-button-pastel bg-white border border-gray-200">
-                        Zen Mode
-                    </button>
-                </div>
+    <div class="vellum-container" id="main-ui">
+        <header class="vellum-header">
+            <div>
+                <h1 class="vellum-title">AND NOW</h1>
+                <div class="vellum-subtitle">Interactive Image Comparison Tool</div>
             </div>
+            <button id="zen-btn" class="vellum-button">Zen Mode</button>
         </header>
 
-        <main class="w-full flex-grow flex flex-col gap-8 pb-8">
+        <!-- The Comparison Slider Area -->
+        <div class="comparison-window" id="comparison-window">
+            <!-- Base Image (After) -->
+            <img id="img-after" class="comp-img" src="https://placehold.co/1200x800/e8f0e9/4a5d4c?text=After+Image\n(Paste+URL+or+Upload)" alt="After Image">
             
-            <div class="comparison-container vellum-card" id="comparison-container">
-                <img src="https://placehold.co/1200x675/e5e7eb/6b7280?text=After+Image" alt="After Image" id="img-after">
-                
-                <div class="img-before-wrapper" id="img-before-wrapper">
-                    <img src="https://placehold.co/1200x675/fdfaf6/9ca3af?text=Before+Image" alt="Before Image" id="img-before" class="img-before-fixed">
+            <!-- Overlay Image (Before) -->
+            <img id="img-before" class="comp-img comp-before" src="https://placehold.co/1200x800/fdfaf6/1a1a1a?text=Before+Image\n(Paste+URL+or+Upload)" alt="Before Image">
+            
+            <!-- Slider Handle -->
+            <div class="slider-handle" id="slider-handle">
+                <div class="slider-button">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
                 </div>
+            </div>
+        </div>
+
+        <div class="controls-grid" id="controls-grid">
+            
+            <!-- Before Panel -->
+            <div class="vellum-card" id="drop-before">
+                <div class="card-header">
+                    <div class="card-title">Before</div>
+                    <div class="card-label">Left Panel</div>
+                </div>
+                <label class="card-label">Image URL</label>
+                <input type="text" id="url-before" class="vellum-input-minimal" placeholder="Paste link and press Enter...">
+                <small class="drive-note">Using Google Drive? Ensure the file is set to "Anyone with the link".</small>
                 
-                <div class="slider-handle" id="slider-handle">
-                    <div class="slider-button"></div>
+                <label class="card-label" style="margin-top: 1rem; display:block;">Or upload local file</label>
+                <div class="file-upload-wrapper">
+                    <button class="vellum-button" onclick="document.getElementById('file-before').click()">Choose file</button>
+                    <input type="file" id="file-before" accept="image/*">
+                    <span class="file-name-display" id="filename-before">No file chosen</span>
                 </div>
             </div>
 
-            <div class="hide-in-zen grid grid-cols-1 lg:grid-cols-3 gap-6">
-                
-                <!-- Left (Before) -->
-                <div id="dropzone-before" class="vellum-card dropzone flex flex-col gap-4">
-                    <div class="vellum-group-header border-b border-gray-100 pb-3 mb-1">
-                        <h2 class="vellum-archive-title" style="font-size: 1.125rem;">Before</h2>
-                        <span class="vellum-archive-summary">Left Panel</span>
-                    </div>
-                    
-                    <div>
-                        <label class="vellum-mono text-xs uppercase tracking-widest mb-2">Image URL</label>
-                        <input type="url" id="url-before" placeholder="Paste link and press Enter..." class="vellum-input-minimal">
-                        <span class="text-[10px] text-gray-400 mt-1 block">Drive links must be set to "Anyone with the link".</span>
-                    </div>
-                    
-                    <div class="mt-4 border-t border-gray-100 pt-3">
-                        <input type="file" id="file-before" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200 cursor-pointer">
-                    </div>
+            <!-- After Panel -->
+            <div class="vellum-card" id="drop-after">
+                <div class="card-header">
+                    <div class="card-title">After</div>
+                    <div class="card-label">Right Panel</div>
                 </div>
+                <label class="card-label">Image URL</label>
+                <input type="text" id="url-after" class="vellum-input-minimal" placeholder="Paste link and press Enter...">
+                <small class="drive-note">Using Google Drive? Ensure the file is set to "Anyone with the link".</small>
 
-                <!-- Right (After) -->
-                <div id="dropzone-after" class="vellum-card dropzone flex flex-col gap-4">
-                    <div class="vellum-group-header border-b border-gray-100 pb-3 mb-1">
-                        <h2 class="vellum-archive-title" style="font-size: 1.125rem;">After</h2>
-                        <span class="vellum-archive-summary">Right Panel</span>
-                    </div>
-                    
-                    <div>
-                        <label class="vellum-mono text-xs uppercase tracking-widest mb-2">Image URL</label>
-                        <input type="url" id="url-after" placeholder="Paste link and press Enter..." class="vellum-input-minimal">
-                        <span class="text-[10px] text-gray-400 mt-1 block">Drive links must be set to "Anyone with the link".</span>
-                    </div>
-                    
-                    <div class="mt-4 border-t border-gray-100 pt-3">
-                        <input type="file" id="file-after" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200 cursor-pointer">
-                    </div>
+                <label class="card-label" style="margin-top: 1rem; display:block;">Or upload local file</label>
+                <div class="file-upload-wrapper">
+                    <button class="vellum-button" onclick="document.getElementById('file-after').click()">Choose file</button>
+                    <input type="file" id="file-after" accept="image/*">
+                    <span class="file-name-display" id="filename-after">No file chosen</span>
                 </div>
-
-                <!-- Share & Actions -->
-                <div class="vellum-card flex flex-col gap-4 bg-white">
-                    <div class="vellum-group-header border-b border-gray-100 pb-3 mb-1">
-                        <h2 class="vellum-archive-title" style="font-size: 1.125rem;">Share</h2>
-                        <span class="vellum-archive-summary">Export</span>
-                    </div>
-                    
-                    <div id="local-file-warning" class="vellum-status-warning hidden mb-2">
-                        <strong>Local files detected:</strong> Standard Link sharing is disabled. You can still use 'Copy Embed' for widgets. Use public URLs for standard sharing.
-                    </div>
-
-                    <div id="share-actions" class="flex flex-col gap-3 mt-auto">
-                        <button id="copy-url-btn" class="vellum-button-pastel w-full py-3" style="background: var(--vellum-ink); color: var(--vellum-bg);">
-                            Copy Shareable Link
-                        </button>
-                        <button id="copy-embed-btn" class="vellum-button-pastel w-full py-3 bg-white border border-gray-200 text-black">
-                            Copy Embed Code
-                        </button>
-                    </div>
-
-                    <div id="copy-feedback" class="text-xs text-green-700 font-bold opacity-0 transition-opacity text-center mt-2 vellum-mono tracking-widest">
-                        COPIED!
-                    </div>
-                </div>
-
             </div>
-        </main>
-        
-        <footer class="hide-in-zen vellum-footer-note mt-auto">
-            <span>And Now &mdash; Image Comparison</span>
-            <span>&copy; 2026 <a href="https://yadurajiv.com" target="_blank" class="hover:text-black hover:underline" style="color: var(--vellum-ink); font-weight: 600;">Yadu Rajiv</a></span>
-        </footer>
+
+            <!-- Share Panel -->
+            <div class="vellum-card">
+                <div class="card-header">
+                    <div class="card-title">Share</div>
+                    <div class="card-label">Export</div>
+                </div>
+                
+                <div id="local-warning" class="info-box">
+                    <strong>Local files detected:</strong> Standard link sharing is disabled. You can still use "Copy Embed" for widgets. Use public URLs for standard sharing.
+                </div>
+
+                <button id="btn-share" class="vellum-button vellum-button-solid">Copy Shareable Link</button>
+                <button id="btn-embed" class="vellum-button vellum-button-solid" style="background: transparent; border: 1px solid var(--vellum-hairline); color: var(--vellum-ink);">Copy Embed Code</button>
+                
+                <div style="margin-top: 1rem; text-align: center; color: var(--vellum-muted); font-size: 0.75rem;">
+                    &copy; 2026 <a href="https://yadurajiv.com" target="_blank" style="text-decoration: underline;">Yadu Rajiv</a>
+                </div>
+            </div>
+        </div>
     </div>
 
+    <button id="exit-zen-btn">[ ESC to Exit ]</button>
+
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // DOM Elements
-            const container = document.getElementById('comparison-container');
-            const slider = document.getElementById('slider-handle');
-            const beforeWrapper = document.getElementById('img-before-wrapper');
-            const beforeImg = document.getElementById('img-before');
-            const afterImg = document.getElementById('img-after');
+        // DOM Elements
+        const compWindow = document.getElementById('comparison-window');
+        const imgBefore = document.getElementById('img-before');
+        const imgAfter = document.getElementById('img-after');
+        const sliderHandle = document.getElementById('slider-handle');
+        
+        const urlBeforeInput = document.getElementById('url-before');
+        const urlAfterInput = document.getElementById('url-after');
+        const fileBefore = document.getElementById('file-before');
+        const fileAfter = document.getElementById('file-after');
+        
+        const btnShare = document.getElementById('btn-share');
+        const btnEmbed = document.getElementById('btn-embed');
+        const localWarning = document.getElementById('local-warning');
+        
+        const zenBtn = document.getElementById('zen-btn');
+        const exitZenBtn = document.getElementById('exit-zen-btn');
+
+        let isSliding = false;
+        let hasLocalFile = false; // Tracks if base64 is in use
+
+        // --- Slider Logic ---
+        function slide(e) {
+            const rect = compWindow.getBoundingClientRect();
+            // Get X coordinate (support both mouse and touch)
+            let x = (e.type.includes('mouse')) ? e.pageX : e.touches[0].clientX;
+            x -= rect.left; // Adjust for container position
+
+            // Constrain bounds
+            x = Math.max(0, Math.min(x, rect.width));
+
+            // Calculate percentage
+            const percent = (x / rect.width) * 100;
             
-            const urlBeforeInput = document.getElementById('url-before');
-            const urlAfterInput = document.getElementById('url-after');
-            const fileBeforeInput = document.getElementById('file-before');
-            const fileAfterInput = document.getElementById('file-after');
+            // Move Handle
+            sliderHandle.style.left = percent + '%';
             
-            const localFileWarning = document.getElementById('local-file-warning');
-            const copyUrlBtn = document.getElementById('copy-url-btn');
-            const copyEmbedBtn = document.getElementById('copy-embed-btn');
-            const copyFeedback = document.getElementById('copy-feedback');
+            // Update Clip Path: inset(top right bottom left)
+            // We want to crop the right side. So right inset is (100 - percent)%
+            imgBefore.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
+        }
 
-            const zenModeBtn = document.getElementById('zen-mode-btn');
-            const exitZenBtn = document.getElementById('exit-zen-btn');
-
-            const dropzoneBefore = document.getElementById('dropzone-before');
-            const dropzoneAfter = document.getElementById('dropzone-after');
-
-            let isSliding = false;
-
-            function slide(e) {
-                if (!isSliding) return;
-                const rect = container.getBoundingClientRect();
-                
-                let x = 0;
-                if (e.type.startsWith('touch')) {
-                    x = e.touches[0].clientX - rect.left;
-                } else {
-                    x = e.clientX - rect.left;
-                }
-                
-                x = Math.max(0, Math.min(x, rect.width));
-                const percentage = (x / rect.width) * 100;
-
-                beforeWrapper.style.width = `${percentage}%`;
-                slider.style.left = `${percentage}%`;
-            }
-
-            slider.addEventListener('mousedown', (e) => { isSliding = true; e.preventDefault(); });
-            window.addEventListener('mouseup', () => isSliding = false);
-            window.addEventListener('mousemove', slide);
-
-            slider.addEventListener('touchstart', () => isSliding = true);
-            window.addEventListener('touchend', () => isSliding = false);
-            window.addEventListener('touchmove', (e) => {
-                if(isSliding) { e.preventDefault(); slide(e); }
-            }, { passive: false });
-
-
-            function parseCloudUrl(url) {
-                const gDriveRegex = /drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/;
-                const gDriveMatch = url.match(gDriveRegex);
-                if (gDriveMatch) {
-                    return `https://drive.google.com/uc?export=view&id=${gDriveMatch[1]}`;
-                }
-                if (url.includes('dropbox.com') && url.includes('?dl=0')) {
-                    return url.replace('?dl=0', '?raw=1');
-                }
-                return url;
-            }
-
-            function compressImage(file, callback) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    const img = new Image();
-                    img.onload = function() {
-                        const canvas = document.createElement('canvas');
-                        const MAX_SIZE = 1200;
-                        let width = img.width;
-                        let height = img.height;
-
-                        if (width > height && width > MAX_SIZE) {
-                            height *= MAX_SIZE / width;
-                            width = MAX_SIZE;
-                        } else if (height > MAX_SIZE) {
-                            width *= MAX_SIZE / height;
-                            height = MAX_SIZE;
-                        }
-
-                        canvas.width = width;
-                        canvas.height = height;
-                        const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, width, height);
-
-                        const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
-                        callback(dataUrl);
-                    }
-                    img.src = event.target.result;
-                }
-                reader.readAsDataURL(file);
-            }
-
-            function updateShareUI() {
-                const isLocalBefore = beforeImg.src.startsWith('data:');
-                const isLocalAfter = afterImg.src.startsWith('data:');
-                
-                if (isLocalBefore || isLocalAfter) {
-                    copyUrlBtn.classList.add('opacity-50', 'pointer-events-none');
-                    localFileWarning.classList.remove('hidden');
-                } else {
-                    copyUrlBtn.classList.remove('opacity-50', 'pointer-events-none');
-                    localFileWarning.classList.add('hidden');
-                }
-            }
-
-            function loadLocalFile(file, imgElement, urlInput) {
-                if (file && file.type.startsWith('image/')) {
-                    compressImage(file, (compressedDataUrl) => {
-                        imgElement.src = compressedDataUrl;
-                        urlInput.value = ''; 
-                        updateUrlState('', ''); 
-                        updateShareUI(); 
-                    });
-                }
-            }
-
-            fileBeforeInput.addEventListener('change', (e) => loadLocalFile(e.target.files[0], beforeImg, urlBeforeInput));
-            fileAfterInput.addEventListener('change', (e) => loadLocalFile(e.target.files[0], afterImg, urlAfterInput));
-
-            function setupDropzone(dropzone, imgElement, urlInput) {
-                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                    dropzone.addEventListener(eventName, preventDefaults, false);
-                });
-
-                function preventDefaults(e) { e.preventDefault(); e.stopPropagation(); }
-
-                ['dragenter', 'dragover'].forEach(eventName => {
-                    dropzone.addEventListener(eventName, () => dropzone.classList.add('dragover'), false);
-                });
-
-                ['dragleave', 'drop'].forEach(eventName => {
-                    dropzone.addEventListener(eventName, () => dropzone.classList.remove('dragover'), false);
-                });
-
-                dropzone.addEventListener('drop', (e) => {
-                    const dt = e.dataTransfer;
-                    const files = dt.files;
-                    if(files.length > 0) {
-                        loadLocalFile(files[0], imgElement, urlInput);
-                    } else if (dt.items) {
-                        dt.items[0].getAsString(str => {
-                            if (str.startsWith('http')) {
-                                urlInput.value = str;
-                                urlInput.dispatchEvent(new Event('change')); 
-                            }
-                        });
-                    }
-                }, false);
-            }
-
-            setupDropzone(dropzoneBefore, beforeImg, urlBeforeInput);
-            setupDropzone(dropzoneAfter, afterImg, urlAfterInput);
-
-
-            function applyUrl(inputEl, imgEl, paramName) {
-                let url = inputEl.value.trim();
-                if (url) {
-                    url = parseCloudUrl(url);
-                    imgEl.src = url;
-                    
-                    const currentUrl = new URL(window.location);
-                    currentUrl.searchParams.set(paramName, url);
-                    
-                    if (document.body.classList.contains('embed-mode')) {
-                        currentUrl.searchParams.set('embed', 'true');
-                    }
-                    try {
-                        window.history.replaceState({}, '', currentUrl);
-                    } catch (e) {
-                        console.warn("History API restricted in this environment.");
-                    }
-                } else {
-                    const currentUrl = new URL(window.location);
-                    currentUrl.searchParams.delete(paramName);
-                    try {
-                        window.history.replaceState({}, '', currentUrl);
-                    } catch (e) {
-                        console.warn("History API restricted in this environment.");
-                    }
-                }
-                updateShareUI();
-            }
-
-            urlBeforeInput.addEventListener('change', () => applyUrl(urlBeforeInput, beforeImg, 'before'));
-            urlAfterInput.addEventListener('change', () => applyUrl(urlAfterInput, afterImg, 'after'));
-            // Trigger apply on Enter key
-            urlBeforeInput.addEventListener('keydown', (e) => { if(e.key === 'Enter') applyUrl(urlBeforeInput, beforeImg, 'before'); });
-            urlAfterInput.addEventListener('keydown', (e) => { if(e.key === 'Enter') applyUrl(urlAfterInput, afterImg, 'after'); });
-
-            function loadFromUrlParams() {
-                const urlParams = new URLSearchParams(window.location.search);
-                const beforeUrl = urlParams.get('before');
-                const afterUrl = urlParams.get('after');
-                const isEmbed = urlParams.get('embed') === 'true';
-
-                if (beforeUrl) { beforeImg.src = beforeUrl; urlBeforeInput.value = beforeUrl; }
-                if (afterUrl) { afterImg.src = afterUrl; urlAfterInput.value = afterUrl; }
-                if (isEmbed) {
-                    document.body.classList.add('zen-mode', 'embed-mode');
-                }
-                
-                beforeImg.style.width = container.getBoundingClientRect().width + 'px';
-                setTimeout(updateShareUI, 50); 
-            }
-
-            function updateUrlState(beforeStr, afterStr) {
-                const url = new URL(window.location);
-                beforeStr ? url.searchParams.set('before', beforeStr) : url.searchParams.delete('before');
-                afterStr ? url.searchParams.set('after', afterStr) : url.searchParams.delete('after');
-                
-                if (document.body.classList.contains('embed-mode')) {
-                    url.searchParams.set('embed', 'true');
-                }
-                try {
-                    window.history.replaceState({}, '', url);
-                } catch(e) {
-                    console.warn("History API restricted in this environment.");
-                }
-            }
-
-            function copyToClipboard(text, successMessage) {
-                if (navigator.clipboard && window.isSecureContext) {
-                    navigator.clipboard.writeText(text).then(showCopyFeedback).catch(fallbackCopy);
-                } else {
-                    fallbackCopy();
-                }
-
-                function fallbackCopy() {
-                    const tempInput = document.createElement("textarea");
-                    tempInput.value = text;
-                    document.body.appendChild(tempInput);
-                    tempInput.select();
-                    try { document.execCommand("copy"); showCopyFeedback(); } 
-                    catch (err) { alert("Failed to copy. Please copy from the address bar."); }
-                    document.body.removeChild(tempInput);
-                }
-
-                function showCopyFeedback() {
-                    copyFeedback.innerText = successMessage || "COPIED!";
-                    copyFeedback.style.opacity = '1';
-                    setTimeout(() => copyFeedback.style.opacity = '0', 2500);
-                }
-            }
-
-            copyUrlBtn.addEventListener('click', () => {
-                if (beforeImg.src.startsWith('data:') || afterImg.src.startsWith('data:')) return;
-                
-                const url = new URL(window.location.origin + window.location.pathname);
-                if(urlBeforeInput.value) url.searchParams.set('before', parseCloudUrl(urlBeforeInput.value));
-                if(urlAfterInput.value) url.searchParams.set('after', parseCloudUrl(urlAfterInput.value));
-                copyToClipboard(url.toString(), "LINK COPIED!");
-            });
-
-            copyEmbedBtn.addEventListener('click', () => {
-                const url = new URL(window.location.origin + window.location.pathname);
-                
-                if(urlBeforeInput.value) url.searchParams.set('before', parseCloudUrl(urlBeforeInput.value));
-                if(urlAfterInput.value) url.searchParams.set('after', parseCloudUrl(urlAfterInput.value));
-                
-                if(beforeImg.src.startsWith('data:')) url.searchParams.set('before', beforeImg.src);
-                if(afterImg.src.startsWith('data:')) url.searchParams.set('after', afterImg.src);
-                
-                url.searchParams.set('embed', 'true');
-                
-                const iframeCode = `<iframe src="${url.toString()}" width="100%" height="500" frameborder="0" style="border: 1px solid #1a1a1a; border-radius: 0.5rem; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);"></iframe>`;
-                copyToClipboard(iframeCode, "EMBED COPIED!");
-            });
-
-            zenModeBtn.addEventListener('click', () => {
-                document.body.classList.add('zen-mode');
-                setTimeout(updateContainerWidthVar, 50); 
-            });
-
-            exitZenBtn.addEventListener('click', () => {
-                document.body.classList.remove('zen-mode');
-                setTimeout(updateContainerWidthVar, 50); 
-            });
-
-            function handleImageError(imgEl) {
-                imgEl.onerror = function() {
-                    this.src = `https://placehold.co/1200x675/fffbeb/b45309?text=Image+Load+Error`;
-                };
-            }
-            handleImageError(beforeImg);
-            handleImageError(afterImg);
-
-            // Use CSS variables to handle the responsive width of the underlying before image
-            function updateContainerWidthVar() {
-                requestAnimationFrame(() => {
-                    const rect = container.getBoundingClientRect();
-                    container.style.setProperty('--container-width', `${rect.width}px`);
-                });
-            }
-            
-            window.addEventListener('resize', updateContainerWidthVar);
-
-            // Init
-            loadFromUrlParams();
-            updateContainerWidthVar();
-            beforeWrapper.style.width = '50%';
-            slider.style.left = '50%';
+        // Mouse Events
+        sliderHandle.addEventListener('mousedown', () => isSliding = true);
+        window.addEventListener('mouseup', () => isSliding = false);
+        window.addEventListener('mousemove', (e) => {
+            if (isSliding) slide(e);
         });
+
+        // Touch Events
+        sliderHandle.addEventListener('touchstart', () => isSliding = true);
+        window.addEventListener('touchend', () => isSliding = false);
+        window.addEventListener('touchmove', (e) => {
+            if (isSliding) { 
+                e.preventDefault(); 
+                slide(e); 
+            }
+        }, { passive: false });
+
+        // --- URL & Image Parsing Logic ---
+        function parseCloudUrl(url) {
+            // Google Drive Link Parser (2024+ Workaround via Thumbnail API)
+            const gDriveRegex = /drive\.google\.com\/(?:file\/d\/|open\?id=)([a-zA-Z0-9_-]+)/;
+            const gDriveMatch = url.match(gDriveRegex);
+            if (gDriveMatch) {
+                // Must be "Anyone with the link" in GDrive settings
+                return `https://drive.google.com/thumbnail?id=${gDriveMatch[1]}&sz=s4000`;
+            }
+            
+            // Dropbox Parser
+            if (url.includes('dropbox.com') && url.includes('?dl=0')) {
+                return url.replace('?dl=0', '?raw=1');
+            }
+            
+            return url;
+        }
+
+        function updateImagesFromUrls() {
+            if (urlBeforeInput.value) imgBefore.src = parseCloudUrl(urlBeforeInput.value);
+            if (urlAfterInput.value) imgAfter.src = parseCloudUrl(urlAfterInput.value);
+            updateUrlState();
+        }
+
+        urlBeforeInput.addEventListener('change', updateImagesFromUrls);
+        urlAfterInput.addEventListener('change', updateImagesFromUrls);
+
+        function updateUrlState() {
+            if (hasLocalFile) return; // Cannot put base64 in URL bar
+            
+            const url = new URL(window.location);
+            if (urlBeforeInput.value) url.searchParams.set('before', urlBeforeInput.value);
+            if (urlAfterInput.value) url.searchParams.set('after', urlAfterInput.value);
+            
+            try {
+                // Wrap in try...catch to handle sandboxed iframe errors (like when previewing here)
+                window.history.replaceState({}, '', url);
+            } catch (e) {
+                console.warn("URL update blocked (expected if inside iframe sandbox).");
+            }
+        }
+
+        // --- Local File Logic & Compression ---
+        function compressImage(file, callback) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    
+                    // Max dimension 1200px
+                    const MAX_WIDTH = 1200;
+                    const MAX_HEIGHT = 1200;
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > height && width > MAX_WIDTH) {
+                        height *= MAX_WIDTH / width;
+                        width = MAX_WIDTH;
+                    } else if (height > MAX_HEIGHT) {
+                        width *= MAX_HEIGHT / height;
+                        height = MAX_HEIGHT;
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    ctx.drawImage(img, 0, 0, width, height);
+                    
+                    // Compress as 80% JPEG
+                    const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+                    callback(dataUrl);
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function handleLocalFile(file, isBefore) {
+            if (!file) return;
+            hasLocalFile = true;
+            btnShare.disabled = true;
+            localWarning.style.display = 'block';
+
+            if (isBefore) {
+                document.getElementById('filename-before').textContent = file.name;
+                urlBeforeInput.value = ''; // clear url
+            } else {
+                document.getElementById('filename-after').textContent = file.name;
+                urlAfterInput.value = ''; // clear url
+            }
+
+            compressImage(file, (dataUrl) => {
+                if (isBefore) imgBefore.src = dataUrl;
+                else imgAfter.src = dataUrl;
+            });
+        }
+
+        fileBefore.addEventListener('change', (e) => handleLocalFile(e.target.files[0], true));
+        fileAfter.addEventListener('change', (e) => handleLocalFile(e.target.files[0], false));
+
+        // --- Drag and Drop Logic ---
+        function setupDropZone(elementId, isBefore) {
+            const dropZone = document.getElementById(elementId);
+            
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropZone.classList.add('dragover');
+            });
+            
+            dropZone.addEventListener('dragleave', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('dragover');
+            });
+            
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('dragover');
+                if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                    handleLocalFile(e.dataTransfer.files[0], isBefore);
+                }
+            });
+        }
+
+        setupDropZone('drop-before', true);
+        setupDropZone('drop-after', false);
+
+        // --- Export & Share Logic ---
+        btnShare.addEventListener('click', () => {
+            const textToCopy = window.location.href;
+            copyToClipboard(textToCopy, btnShare, 'Link Copied!');
+        });
+
+        btnEmbed.addEventListener('click', () => {
+            let embedUrl = window.location.href;
+            if (embedUrl.includes('?')) {
+                embedUrl += '&embed=true';
+            } else {
+                embedUrl += '?embed=true';
+            }
+
+            // If using local files, we embed the base64 directly into the iframe code
+            let embedCode = '';
+            if (hasLocalFile) {
+                // Construct a self-contained iframe payload (can be quite large)
+                const iframeHTML = `
+                    <html style="margin:0;padding:0;overflow:hidden;">
+                    <body style="margin:0;padding:0;">
+                        <iframe src="${embedUrl.split('?')[0]}?embed=true" width="100%" height="100%" style="border:none;" id="and-now-frame"></iframe>
+                        <script>
+                            window.onload = function() {
+                                document.getElementById('and-now-frame').contentWindow.postMessage({
+                                    before: '${imgBefore.src}',
+                                    after: '${imgAfter.src}'
+                                }, '*');
+                            }
+                        <\/script>
+                    </body>
+                    </html>
+                `;
+                const encodedHTML = btoa(unescape(encodeURIComponent(iframeHTML)));
+                embedCode = `<iframe src="data:text/html;base64,${encodedHTML}" width="100%" height="500" style="border:none; border-radius: 8px;"></iframe>`;
+            } else {
+                // Standard URL Embed
+                embedCode = `<iframe src="${embedUrl}" width="100%" height="500" style="border:none; border-radius: 8px;"></iframe>`;
+            }
+
+            copyToClipboard(embedCode, btnEmbed, 'Code Copied!');
+        });
+
+        function copyToClipboard(text, btnElement, successText) {
+            // Fallback for iframe sandboxes
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                const originalText = btnElement.innerText;
+                btnElement.innerText = successText;
+                setTimeout(() => btnElement.innerText = originalText, 2000);
+            } catch (err) {
+                console.error('Failed to copy', err);
+            }
+            document.body.removeChild(textArea);
+        }
+
+        // Handle Base64 via postMessage for Embeds
+        window.addEventListener('message', (event) => {
+            if (event.data && event.data.before && event.data.after) {
+                imgBefore.src = event.data.before;
+                imgAfter.src = event.data.after;
+                hasLocalFile = true;
+            }
+        });
+
+        // --- Zen / Embed Mode Logic ---
+        function toggleZenMode() {
+            const isZen = document.body.classList.contains('zen-active');
+            if (isZen) {
+                // Exit Zen
+                document.body.classList.remove('zen-active');
+                compWindow.classList.remove('zen-mode');
+                exitZenBtn.style.display = 'none';
+            } else {
+                // Enter Zen
+                document.body.classList.add('zen-active');
+                compWindow.classList.add('zen-mode');
+                exitZenBtn.style.display = 'block';
+            }
+        }
+
+        zenBtn.addEventListener('click', toggleZenMode);
+        exitZenBtn.addEventListener('click', toggleZenMode);
+
+        // ESC key to exit Zen mode
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && document.body.classList.contains('zen-active')) {
+                toggleZenMode();
+            }
+        });
+
+        // Init Check
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const beforeParam = urlParams.get('before');
+            const afterParam = urlParams.get('after');
+            const embedParam = urlParams.get('embed');
+
+            if (beforeParam) {
+                urlBeforeInput.value = beforeParam;
+                imgBefore.src = parseCloudUrl(beforeParam);
+            }
+            if (afterParam) {
+                urlAfterInput.value = afterParam;
+                imgAfter.src = parseCloudUrl(afterParam);
+            }
+
+            if (embedParam === 'true') {
+                document.getElementById('main-ui').style.display = 'none';
+                document.body.style.background = 'transparent';
+                document.body.style.padding = '0';
+                compWindow.style.height = '100vh';
+                compWindow.style.border = 'none';
+                compWindow.style.borderRadius = '0';
+            }
+        };
+
     </script>
 </body>
 </html>
