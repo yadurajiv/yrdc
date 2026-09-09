@@ -407,6 +407,11 @@
                     <strong>Local files detected:</strong> Standard link sharing is disabled. You can still use "Copy Embed" for widgets. Use public URLs for standard sharing.
                 </div>
 
+                <div style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <input type="checkbox" id="check-zen-share" style="accent-color: var(--vellum-ink); width: 16px; height: 16px; cursor: pointer;">
+                    <label for="check-zen-share" style="font-size: 0.875rem; cursor: pointer;">Open in Zen Mode by default</label>
+                </div>
+
                 <button id="btn-share" class="vellum-button vellum-button-solid">Copy Shareable Link</button>
                 <button id="btn-embed" class="vellum-button vellum-button-solid" style="background: transparent; border: 1px solid var(--vellum-hairline); color: var(--vellum-ink);">Copy Embed Code</button>
                 
@@ -434,6 +439,7 @@
         const btnShare = document.getElementById('btn-share');
         const btnEmbed = document.getElementById('btn-embed');
         const localWarning = document.getElementById('local-warning');
+        const checkZenShare = document.getElementById('check-zen-share');
         
         const zenBtn = document.getElementById('zen-btn');
         const exitZenBtn = document.getElementById('exit-zen-btn');
@@ -608,17 +614,24 @@
 
         // --- Export & Share Logic ---
         btnShare.addEventListener('click', () => {
-            const textToCopy = window.location.href;
-            copyToClipboard(textToCopy, btnShare, 'Link Copied!');
+            const url = new URL(window.location.href);
+            if (checkZenShare.checked) {
+                url.searchParams.set('zen', 'true');
+            } else {
+                url.searchParams.delete('zen');
+            }
+            copyToClipboard(url.toString(), btnShare, 'Link Copied!');
         });
 
         btnEmbed.addEventListener('click', () => {
-            let embedUrl = window.location.href;
-            if (embedUrl.includes('?')) {
-                embedUrl += '&embed=true';
+            const url = new URL(window.location.href);
+            url.searchParams.set('embed', 'true');
+            if (checkZenShare.checked) {
+                url.searchParams.set('zen', 'true');
             } else {
-                embedUrl += '?embed=true';
+                url.searchParams.delete('zen');
             }
+            const embedUrl = url.toString();
 
             // If using local files, we embed the base64 directly into the iframe code
             let embedCode = '';
@@ -627,7 +640,7 @@
                 const iframeHTML = `
                     <html style="margin:0;padding:0;overflow:hidden;">
                     <body style="margin:0;padding:0;">
-                        <iframe src="${embedUrl.split('?')[0]}?embed=true" width="100%" height="100%" style="border:none;" id="and-now-frame"></iframe>
+                        <iframe src="${embedUrl.split('?')[0]}?embed=true${checkZenShare.checked ? '&zen=true' : ''}" width="100%" height="100%" style="border:none;" id="and-now-frame"></iframe>
                         <script>
                             window.onload = function() {
                                 document.getElementById('and-now-frame').contentWindow.postMessage({
@@ -707,6 +720,7 @@
             const beforeParam = urlParams.get('before');
             const afterParam = urlParams.get('after');
             const embedParam = urlParams.get('embed');
+            const zenParam = urlParams.get('zen');
 
             if (beforeParam) {
                 urlBeforeInput.value = beforeParam;
@@ -724,6 +738,10 @@
                 compWindow.style.height = '100vh';
                 compWindow.style.border = 'none';
                 compWindow.style.borderRadius = '0';
+            }
+
+            if (zenParam === 'true') {
+                toggleZenMode();
             }
         };
 
