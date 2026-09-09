@@ -223,8 +223,23 @@
         }
         
         .img-before-fixed {
+            width: 100vw; /* Use viewport width instead of 100% to ensure it covers the container width in zen mode */
+            max-width: none;
+            height: 100%;
+            object-fit: cover;
+            object-position: left center;
+        }
+
+        /* In normal mode, restrict the width to the container's width */
+        .comparison-container .img-before-fixed {
             width: 100%;
             height: 100%;
+            object-fit: cover;
+        }
+        
+        /* But specifically override the width calculation when the before image needs to stay fixed relative to the container, not the wrapper */
+        .comparison-container .img-before-fixed {
+            width: var(--container-width, 100%);
             object-fit: cover;
             object-position: left center;
         }
@@ -737,12 +752,12 @@
 
             zenModeBtn.addEventListener('click', () => {
                 document.body.classList.add('zen-mode');
-                resizeFixedImage(); 
+                updateContainerWidthVar(); 
             });
 
             exitZenBtn.addEventListener('click', () => {
                 document.body.classList.remove('zen-mode');
-                resizeFixedImage(); 
+                updateContainerWidthVar(); 
             });
 
             function handleImageError(imgEl) {
@@ -753,17 +768,17 @@
             handleImageError(beforeImg);
             handleImageError(afterImg);
 
-            function resizeFixedImage() {
+            // Use CSS variables to handle the responsive width of the underlying before image
+            function updateContainerWidthVar() {
                 const rect = container.getBoundingClientRect();
-                beforeImg.style.width = rect.width + 'px';
-                beforeImg.style.maxWidth = 'none';
+                container.style.setProperty('--container-width', `${rect.width}px`);
             }
             
-            window.addEventListener('resize', resizeFixedImage);
+            window.addEventListener('resize', updateContainerWidthVar);
 
             // Init
             loadFromUrlParams();
-            resizeFixedImage();
+            updateContainerWidthVar();
             beforeWrapper.style.width = '50%';
             slider.style.left = '50%';
         });
