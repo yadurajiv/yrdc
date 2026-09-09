@@ -194,7 +194,10 @@
             aspect-ratio: 16/9;
             overflow: hidden;
             background-color: var(--vellum-rule);
-            padding: 0 !important; /* Override vellum-card padding */
+            padding: 0 !important;
+            display: flex; 
+            align-items: center;
+            justify-content: center;
         }
 
         .comparison-container img {
@@ -204,7 +207,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: center;
+            object-position: center; 
             user-select: none;
             -webkit-user-drag: none;
         }
@@ -223,25 +226,11 @@
         }
         
         .img-before-fixed {
-            width: 100vw; /* Use viewport width instead of 100% to ensure it covers the container width in zen mode */
+            width: var(--container-width, 100vw);
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
             max-width: none;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-        }
-
-        /* In normal mode, restrict the width to the container's width */
-        .comparison-container .img-before-fixed {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        /* But specifically override the width calculation when the before image needs to stay fixed relative to the container, not the wrapper */
-        .comparison-container .img-before-fixed {
-            width: var(--container-width, 100%);
-            object-fit: cover;
-            object-position: center;
         }
 
         .slider-handle {
@@ -430,10 +419,10 @@
                     <div>
                         <label class="vellum-mono text-xs uppercase tracking-widest mb-2">Image URL</label>
                         <input type="url" id="url-before" placeholder="Paste link and press Enter..." class="vellum-input-minimal">
+                        <span class="text-[10px] text-gray-400 mt-1 block">Drive links must be set to "Anyone with the link".</span>
                     </div>
                     
-                    <div class="mt-2">
-                        <label class="vellum-mono text-xs uppercase tracking-widest mb-2">Or Upload Local File</label>
+                    <div class="mt-4 border-t border-gray-100 pt-3">
                         <input type="file" id="file-before" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200 cursor-pointer">
                     </div>
                 </div>
@@ -448,10 +437,10 @@
                     <div>
                         <label class="vellum-mono text-xs uppercase tracking-widest mb-2">Image URL</label>
                         <input type="url" id="url-after" placeholder="Paste link and press Enter..." class="vellum-input-minimal">
+                        <span class="text-[10px] text-gray-400 mt-1 block">Drive links must be set to "Anyone with the link".</span>
                     </div>
                     
-                    <div class="mt-2">
-                        <label class="vellum-mono text-xs uppercase tracking-widest mb-2">Or Upload Local File</label>
+                    <div class="mt-4 border-t border-gray-100 pt-3">
                         <input type="file" id="file-after" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200 cursor-pointer">
                     </div>
                 </div>
@@ -663,11 +652,19 @@
                     if (document.body.classList.contains('embed-mode')) {
                         currentUrl.searchParams.set('embed', 'true');
                     }
-                    window.history.replaceState({}, '', currentUrl);
+                    try {
+                        window.history.replaceState({}, '', currentUrl);
+                    } catch (e) {
+                        console.warn("History API restricted in this environment.");
+                    }
                 } else {
                     const currentUrl = new URL(window.location);
                     currentUrl.searchParams.delete(paramName);
-                    window.history.replaceState({}, '', currentUrl);
+                    try {
+                        window.history.replaceState({}, '', currentUrl);
+                    } catch (e) {
+                        console.warn("History API restricted in this environment.");
+                    }
                 }
                 updateShareUI();
             }
@@ -702,7 +699,11 @@
                 if (document.body.classList.contains('embed-mode')) {
                     url.searchParams.set('embed', 'true');
                 }
-                window.history.replaceState({}, '', url);
+                try {
+                    window.history.replaceState({}, '', url);
+                } catch(e) {
+                    console.warn("History API restricted in this environment.");
+                }
             }
 
             function copyToClipboard(text, successMessage) {
@@ -755,14 +756,12 @@
 
             zenModeBtn.addEventListener('click', () => {
                 document.body.classList.add('zen-mode');
-                // Wait for layout to update before recalculating width
-                setTimeout(updateContainerWidthVar, 10); 
+                setTimeout(updateContainerWidthVar, 50); 
             });
 
             exitZenBtn.addEventListener('click', () => {
                 document.body.classList.remove('zen-mode');
-                // Wait for layout to update before recalculating width
-                setTimeout(updateContainerWidthVar, 10); 
+                setTimeout(updateContainerWidthVar, 50); 
             });
 
             function handleImageError(imgEl) {
