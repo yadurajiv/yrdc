@@ -227,7 +227,7 @@
             max-width: none;
             height: 100%;
             object-fit: cover;
-            object-position: left center;
+            object-position: center;
         }
 
         /* In normal mode, restrict the width to the container's width */
@@ -241,7 +241,7 @@
         .comparison-container .img-before-fixed {
             width: var(--container-width, 100%);
             object-fit: cover;
-            object-position: left center;
+            object-position: center;
         }
 
         .slider-handle {
@@ -333,6 +333,8 @@
 
         body.zen-mode {
             background-color: #000;
+            overflow: hidden !important;
+            padding-bottom: 0 !important;
         }
 
         body.zen-mode .vellum-container {
@@ -350,6 +352,7 @@
             border-radius: 0;
             height: 100vh;
             width: 100vw;
+            max-width: 100vw;
             aspect-ratio: auto;
         }
 
@@ -752,12 +755,14 @@
 
             zenModeBtn.addEventListener('click', () => {
                 document.body.classList.add('zen-mode');
-                updateContainerWidthVar(); 
+                // Wait for layout to update before recalculating width
+                setTimeout(updateContainerWidthVar, 10); 
             });
 
             exitZenBtn.addEventListener('click', () => {
                 document.body.classList.remove('zen-mode');
-                updateContainerWidthVar(); 
+                // Wait for layout to update before recalculating width
+                setTimeout(updateContainerWidthVar, 10); 
             });
 
             function handleImageError(imgEl) {
@@ -770,8 +775,10 @@
 
             // Use CSS variables to handle the responsive width of the underlying before image
             function updateContainerWidthVar() {
-                const rect = container.getBoundingClientRect();
-                container.style.setProperty('--container-width', `${rect.width}px`);
+                requestAnimationFrame(() => {
+                    const rect = container.getBoundingClientRect();
+                    container.style.setProperty('--container-width', `${rect.width}px`);
+                });
             }
             
             window.addEventListener('resize', updateContainerWidthVar);
